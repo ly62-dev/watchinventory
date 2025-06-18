@@ -48,7 +48,8 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec', {
             method: 'POST',
             mode: 'cors',
-            headers: { "Content-Type": "application/json" },
+            redirect: "follow",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({ watchID, status, brand, model, movement, qty, boughtPrice, boughtDate, sellingPrice, supplier, notes, images: imagesData })
         })
         .then(response => response.json())
