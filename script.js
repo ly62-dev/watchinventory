@@ -97,7 +97,19 @@ function loadInventoryRecords() {
             link.target = "_blank"; // Opens in a new tab
             link.title = cell; // Shows full URL when hovered
             td.appendChild(link);
-        } else {
+        } 
+        else if (cellIndex === row.length - 2 && cell.includes(",")) {
+            td.textContent = "Multiple"; // ✅ Displays "Multiple" when there's more than one image
+        }
+        else if (cellIndex === row.length - 2 && cell.startsWith("https")) {
+            let imageLink = document.createElement("a");
+            imageLink.href = cell;
+            imageLink.textContent = "[View Image]"; // ✅ Displays shortcut text
+            imageLink.target = "_blank"; // ✅ Opens in a new tab
+            imageLink.title = cell; // ✅ Shows full URL when hovered
+            td.appendChild(imageLink);
+        }
+        else {
             td.textContent = cell;
         }
 
