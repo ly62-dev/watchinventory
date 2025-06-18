@@ -20,7 +20,7 @@ body, html {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
+    max-width: 1500px;
     margin: auto;
 }
 
@@ -88,21 +88,21 @@ body, html {
 /* Page layout */
 .page-container {
     max-width: 1500px;
-    margin: 50px auto auto;
+    margin: 30px auto auto;
     padding: 20px;
 }
 
 /* Grid layout */
 .content-grid {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     width: 100%;
 }
 
 /* Sidebar */
 .sidebar {
-    flex: 0.4; /* ✅ Sidebar takes up 30% */
-    max-width: 40%;
+    flex: 0.35; /* ✅ Sidebar takes up 30% */
+    max-width: 35%;
 }
 
 .profile-card {
@@ -121,8 +121,8 @@ body, html {
 
 /* Inventory Section */
 .inventory-section {
-    flex: 0.6; /* ✅ Inventory summary takes up 70% */
-    max-width: 60%;
+    flex: 0.65; /* ✅ Inventory summary takes up 70% */
+    max-width: 65%;
 }
 
 /* Form container */
