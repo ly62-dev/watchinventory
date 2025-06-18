@@ -9,15 +9,23 @@ body {
     align-items: center;
 }
 
+/* Layout for form & table side by side */
+.layout {
+    display: flex;
+    gap: 20px; /* Creates space between form & summary */
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: auto;
+    width: 100%;
+}
+
 /* Form container */
 .container {
     background: #fff;
     padding: 20px;
-    max-width: 600px;
-    width: 90%;
+    flex: 1; /* Allows both form & table to share space equally */
     border-radius: 12px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin: auto;
 }
 
 /* Grid layout for the form */
@@ -65,16 +73,14 @@ button:active {
     transform: scale(0.98);
 }
 
-/* Table container - Sleeker design */
+/* Table container */
 #tableContainer {
-    max-width: 800px;
-    width: 90%;
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 8px;
+    flex: 1; /* Allows table to take equal space as the form */
+    padding: 20px;
     background: #ffffff;
+    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; /* Enables horizontal scrolling for mobile */
+    overflow-x: auto;
 }
 
 /* Table Styling */
@@ -82,65 +88,4 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-family: 'Poppins', sans-serif;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-/* Table Header */
-th {
-    background: #007bff;
-    color: white;
-    font-weight: 600;
-    padding: 10px;
-    text-align: left;
-    font-size: 14px;
-}
-
-/* Table Body */
-td {
-    padding: 8px 10px;
-    font-size: 13px; /* Reduced font size for a compact look */
-    border-bottom: 1px solid #ddd;
-    white-space: nowrap; /* Prevent excessive wrapping */
-}
-
-/* Alternate row shading */
-tr:nth-child(even) {
-    background: #f8f9fa;
-}
-
-/* Hover effect */
-tr:hover {
-    background: #e9ecef;
-    cursor: pointer;
-}
-
-/* Responsive Mobile View */
-@media screen and (max-width: 768px) {
-    .container {
-        width: 100%;
-    }
-   
-    form {
-        grid-template-columns: 1fr;
-    }
-
-    button {
-        font-size: 14px;
-        padding: 8px;
-    }
-     #tableContainer {
-        width: 100%;
-        padding: 5px;
-    }
-
-    table {
-        min-width: 100%;
-    }
-
-    th, td {
-        padding: 6px;
-        font-size: 12px; /* Adjusts for smaller screens */
-    }
-}
+    background: white
