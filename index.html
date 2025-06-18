@@ -81,11 +81,11 @@
                     imagesData.push(await readFile(file)); // Convert each image to Base64
                 }
                 
-                fetch('https://script.google.com/macros/s/AKfycbxWAB92pZycoc4uo8kkDvSP9bAIzx1TJHc6Y9lRm9IEogyNB8HebRJMzcvkabcRSWpa/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbyjFCDqam3VbF_0wvVIjBY8m8OrCAbBOvLGguZAG40eHoCkdUzMYhbA4uMa8aziA71b/exec', {
                     method: 'POST',
                     mode: 'cors', 
                     redirect: "follow",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify({ watchID, status, brand, model, movement, qty,boughtPrice,boughtDate,sellingPrice,supplier,notes, images: imagesData })
                 })
                 .then(response => response.json())
