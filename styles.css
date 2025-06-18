@@ -163,7 +163,7 @@ button {
     padding: 12px;
     font-size: 16px;
     border-radius: 8px;
-    background-color: #007bff;
+    background-color: #355E3B; /* ✅ Hunter Green */
     color: white;
     border: none;
     cursor: pointer;
@@ -171,7 +171,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #D1E7D1; /* ✅ Light hunter green tint */
 }
 
 button:active {
