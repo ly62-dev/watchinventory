@@ -176,6 +176,11 @@ button:active {
     transform: scale(0.98);
 }
 
+.file-upload {
+    display: flex;
+    flex-direction: column; /* Ensures label appears first */
+}
+
 /* Table container */
 .table-container {
     background: white;
