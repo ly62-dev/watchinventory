@@ -98,6 +98,10 @@ function loadInventoryRecords() {
             link.title = cell; // Shows full URL when hovered
             td.appendChild(link);
         } 
+        // ✅ Check for null or empty values
+        else if ((!cell || cell.trim() === "")&& cellIndex === row.length - 2) {
+            td.textContent = "No Image"; // ✅ Displays "No Image" if null or empty
+        } 
         else if (cellIndex === row.length - 2 && cell.includes(",")) {
             td.textContent = "Multiple Images"; // ✅ Displays "Multiple" when there's more than one image
         }
@@ -110,7 +114,7 @@ function loadInventoryRecords() {
             td.appendChild(imageLink);
         }
         else {
-            td.textContent = "No Image";//cell;
+            td.textContent = cell;
         }
 
         tr.appendChild(td);
