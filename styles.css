@@ -8,8 +8,9 @@ body, html {
 
 /* Navbar */
 .navbar {
-    position: fixed;
-    width: 100%;
+    position: sticky; /* ✅ Moves with page */
+    top: 0;
+    z-index: 1000; /* Ensures it stays above other elements */
     background: #007bff;
     padding: 12px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
