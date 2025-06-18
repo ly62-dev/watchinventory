@@ -50,7 +50,24 @@ button {
     padding: 12px;
     font-size: 16px;
     border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
 }
+
+/* Button hover effect */
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Button active (clicked) effect */
+button:active {
+    background-color: #004494; /* Darker blue when clicked */
+    transform: scale(0.98); /* Slight press effect */
+}
+
 
 /* Table container */
 .table-container {
