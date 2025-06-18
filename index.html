@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Inventory Manager</title>
+    <title>Watch Inventory</title>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Function to generate a unique Watch ID
@@ -54,10 +54,14 @@
                 e.preventDefault();
                 
                 const watchID = document.getElementById('watchID').value; // Auto-generated Watch ID
-                const qty = document.getElementById('qty').value;
-                const movement = document.getElementById('movement').value; // Get movement value
                 const status = document.getElementById('status').value; // Get status value
                 const brand = document.getElementById('brand').value; // Get brand value
+                const model = document.getElementById('model').value;
+                const movement = document.getElementById('movement').value; // Get movement value
+                const qty = document.getElementById('qty').value;
+                
+                
+                
                 const imageFiles = document.getElementById('images').files; // Supports multiple files
 
                 let imagesData = []; // Store multiple images
@@ -79,7 +83,7 @@
                     mode: 'cors', 
                     redirect: "follow",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ watchID, qty, movement, status, brand, images: imagesData })
+                    body: JSON.stringify({ watchID, status, brand, model, movement, qty, images: imagesData })
                 })
                 .then(response => response.json())
                 .then(data => console.log("Success:", data))
@@ -89,26 +93,24 @@
     </script>
 </head>
 <body>
-    <h2>Inventory Manager</h2>
+    <h2>Watch Inventory</h2>
     
     <form id="inventoryForm">
         <input type="text" id="watchID" placeholder="Watch ID" readonly required /> <!-- Auto-generated Watch ID -->
-        <input type="number" id="qty" placeholder="Quantity" required />
-        
-        <!-- ✅ Dynamic Movement Dropdown -->
-        <select id="movement" required>
-            <option value="">Loading movements...</option>
-        </select>
-
         <!-- ✅ Dynamic Status Dropdown -->
         <select id="status" required>
             <option value="">Loading statuses...</option>
         </select>
-
         <!-- ✅ Dynamic Brand Dropdown -->
         <select id="brand" required>
             <option value="">Loading brands...</option>
         </select>
+        <input type="text" id="model" placeholder="Model" required />
+        <!-- ✅ Dynamic Movement Dropdown -->
+        <select id="movement" required>
+            <option value="">Loading movements...</option>
+        </select>
+        <input type="number" id="qty" placeholder="Quantity" required />
 
         <input type="file" id="images" accept="image/*" multiple />
         <button type="submit">Add</button>
