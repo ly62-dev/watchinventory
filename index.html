@@ -6,71 +6,78 @@
 <body>
     <h2>Watch Inventory</h2>
 
-    <form id="inventoryForm">
-        <label for="watchID">Watch ID</label>
-        <input type="text" id="watchID" readonly required />
+    <!-- ✅ Side-by-side layout -->
+    <div class="layout">
+        <!-- Form Section -->
+        <div class="container">
+            <h3>Add a New Watch</h3>
+            <form id="inventoryForm">
+                <label for="watchID">Watch ID</label>
+                <input type="text" id="watchID" readonly required />
 
-        <label for="status">Status</label>
-        <select id="status" required><option value="">Loading statuses...</option></select>
+                <label for="status">Status</label>
+                <select id="status" required><option value="">Loading statuses...</option></select>
 
-        <label for="brand">Brand</label>
-        <select id="brand" required><option value="">Loading brands...</option></select>
+                <label for="brand">Brand</label>
+                <select id="brand" required><option value="">Loading brands...</option></select>
 
-        <label for="model">Model</label>
-        <input type="text" id="model" required />
+                <label for="model">Model</label>
+                <input type="text" id="model" required />
 
-        <label for="movement">Movement</label>
-        <select id="movement" required><option value="">Loading movements...</option></select>
+                <label for="movement">Movement</label>
+                <select id="movement" required><option value="">Loading movements...</option></select>
 
-        <label for="qty">Quantity</label>
-        <input type="number" id="qty" />
+                <label for="qty">Quantity</label>
+                <input type="number" id="qty" />
 
-        <label for="boughtPrice">Bought Price</label>
-        <input type="number" id="boughtPrice" step="0.01" required />
+                <label for="boughtPrice">Bought Price</label>
+                <input type="number" id="boughtPrice" step="0.01" required />
 
-        <label for="boughtDate">Bought Date</label>
-        <input type="date" id="boughtDate" />
+                <label for="boughtDate">Bought Date</label>
+                <input type="date" id="boughtDate" />
 
-        <label for="sellingPrice">Selling Price</label>
-        <input type="number" id="sellingPrice" step="0.01" />
+                <label for="sellingPrice">Selling Price</label>
+                <input type="number" id="sellingPrice" step="0.01" />
 
-        <label for="supplier">Supplier</label>
-        <input type="text" id="supplier" />
+                <label for="supplier">Supplier</label>
+                <input type="text" id="supplier" />
 
-        <label for="notes">Additional Notes</label>
-        <textarea id="notes" rows="4"></textarea>
+                <label for="notes">Additional Notes</label>
+                <textarea id="notes" rows="4"></textarea>
 
-        <label for="images">Upload Images</label>
-        <input type="file" id="images" accept="image/*" multiple />
+                <label for="images">Upload Images</label>
+                <input type="file" id="images" accept="image/*" multiple />
 
-        <button type="submit">Add Watch</button>
-    </form>
-    
-    <script src="script.js"></script> <!-- ✅ References the external script -->
-    
-    <div id="tableContainer" style="display: none;">
-        <h2>📋 Inventory Summary</h2>
-        <table border="1" style="width: 100%; text-align: left;">
-            <thead>
-                <tr>
-                    <th>Watch ID</th>
-                    <th>Status</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Movement</th>
-                    <th>Quantity</th>
-                    <th>Bought Price</th>
-                    <th>Bought Date</th>
-                    <th>Selling Price</th>
-                    <th>Supplier</th>
-                    <th>Notes</th>
-                    <th>Folder Link</th>
-                    <th>Image Link</th>
-                    <th>Date Added</th>
-                </tr>
-            </thead>
-            <tbody id="inventoryTableBody"></tbody>
-        </table>
+                <button type="submit">Add Watch</button>
+            </form>
+        </div>
+
+        <!-- Inventory Table Section -->
+        <div id="tableContainer" class="table-container">
+            <h3>📋 Inventory Summary</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Watch ID</th>
+                        <th>Status</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Movement</th>
+                        <th>Quantity</th>
+                        <th>Bought Price</th>
+                        <th>Bought Date</th>
+                        <th>Selling Price</th>
+                        <th>Supplier</th>
+                        <th>Notes</th>
+                        <th>Folder Link</th>
+                        <th>Image Link</th>
+                        <th>Date Added</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryTableBody"></tbody>
+            </table>
+        </div>
     </div>
 
+    <script src="script.js"></script> <!-- ✅ JavaScript file -->
 </body>
