@@ -83,16 +83,29 @@ function loadInventoryRecords() {
         tableBody.innerHTML = "";
 
         data.forEach((row, index) => {
-            if (index === 0) return;
+    if (index === 0) return; // Skip header row
 
-            let tr = document.createElement("tr");
-            row.forEach(cell => {
-                let td = document.createElement("td");
-                td.textContent = cell;
-                tr.appendChild(td);
-            });
-            tableBody.appendChild(tr);
-        });
+    let tr = document.createElement("tr");
+    row.forEach((cell, cellIndex) => {
+        let td = document.createElement("td");
+
+        // ✅ Check if this cell contains an image URL (assuming it's in the last column)
+        if (cellIndex === row.length - 1 && cell.startsWith("http")) {
+            let link = document.createElement("a");
+            link.href = cell; // Full image URL
+            link.textContent = "[View Image]"; // Display shortcut text
+            link.target = "_blank"; // Opens in a new tab
+            link.title = cell; // Shows full URL when hovered
+            td.appendChild(link);
+        } else {
+            td.textContent = cell;
+        }
+
+        tr.appendChild(td);
+    });
+    tableBody.appendChild(tr);
+});
+
     })
     .catch(error => {
         console.error("Table Fetch Error:", error);
