@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (watchIDField) {
         watchIDField.value = generateWatchID();
     }
-
+    loadDropdowns()
     // Load table data on page load
     loadInventoryRecords();
 
@@ -129,4 +129,43 @@ function loadInventoryRecords() {
         console.error("Table Fetch Error:", error);
         alert("Failed to load inventory records.");
     });
+}
+function loadDropdowns() {
+fetch("watchInventoryDropdown.json")
+.then(response => response.json())
+.then(data => {
+    const movementSelect = document.getElementById("movement");
+    const statusSelect = document.getElementById("status");
+    const brandSelect = document.getElementById("brand");
+
+    // Keep a default empty option for each dropdown
+    movementSelect.innerHTML = `<option value="" selected disabled>Select movement...</option>`;
+    statusSelect.innerHTML = `<option value="" selected disabled>Select status...</option>`;
+    brandSelect.innerHTML = `<option value="" selected disabled>Select brand...</option>`;
+
+    // Populate Movement Dropdown
+    data.movements.forEach(movement => {
+        let option = document.createElement("option");
+        option.value = movement;
+        option.textContent = movement;
+        movementSelect.appendChild(option);
+    });
+
+    // Populate Status Dropdown
+    data.statuses.forEach(status => {
+        let option = document.createElement("option");
+        option.value = status;
+        option.textContent = status;
+        statusSelect.appendChild(option);
+    });
+
+    // Populate Brand Dropdown
+    data.brands.forEach(brand => {
+        let option = document.createElement("option");
+        option.value = brand;
+        option.textContent = brand;
+        brandSelect.appendChild(option);
+    });
+})
+.catch(error => console.error("Dropdown Fetch Error:", error));
 }
