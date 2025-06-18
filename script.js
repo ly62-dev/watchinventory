@@ -1,3 +1,6 @@
+function generateWatchID() {
+    return 'WID-' + Date.now(); // Uses timestamp for uniqueness
+}
 document.addEventListener("DOMContentLoaded", function() {
     console.log("Script Loaded!");  
 
