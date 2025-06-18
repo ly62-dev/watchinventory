@@ -194,7 +194,43 @@ data = [
 </form>
 
 
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Script Loaded!");  // ✅ This should now appear in the console
+            
+            // Function to fetch and display inventory records
+            fetch('https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec')
+            .then(response => response.json())
+            .then(data => {
+                console.log("Fetched Data:", data);  // ✅ Check if data is retrieved
 
+                const tableContainer = document.getElementById("tableContainer");
+                const tableBody = document.getElementById("inventoryTableBody");
+
+                if (!data || data.length === 0) {  
+                    tableContainer.style.display = "none"; 
+                    console.warn("No valid inventory data received.");
+                    return;
+                }
+
+                tableContainer.style.display = "block";  
+                tableBody.innerHTML = ""; 
+
+                data.forEach((row, index) => {
+                    if (index === 0) return; // Skip header row
+
+                    let tr = document.createElement("tr");
+                    row.forEach(cell => {
+                        let td = document.createElement("td");
+                        td.textContent = cell;
+                        tr.appendChild(td);
+                    });
+                    tableBody.appendChild(tr);
+                });
+            })
+            .catch(error => console.error("Table Fetch Error:", error));
+        });
+    </script>
     <div id="tableContainer" style="display: none;">
     <h2>📋 Inventory Summary</h2>
     <table border="1" style="width: 100%; text-align: left;">
