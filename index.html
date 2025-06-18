@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory Manager</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fetch categories and statuses dynamically from JSON file
+            fetch("categories.json")
+            .then(response => response.json())
+            .then(data => {
+                const categorySelect = document.getElementById("category");
+                const statusSelect = document.getElementById("status");
+
+                categorySelect.innerHTML = ""; // Clear placeholder
+                statusSelect.innerHTML = ""; // Clear placeholder
+
+                // Populate Category Dropdown
+                data.categories.forEach(category => {
+                    let option = document.createElement("option");
+                    option.value = category;
+                    option.textContent = category;
+                    categorySelect.appendChild(option);
+                });
+
+                // Populate Status Dropdown
+                data.statuses.forEach(status => {
+                    let option = document.createElement("option");
+                    option.value = status;
+                    option.textContent = status;
+                    statusSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error("Dropdown Fetch Error:", error));
+
+            document.getElementById('inventoryForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const item = document.getElementById('item').value;
+                const qty = document.getElementById('qty').value;
+                const category = document.getElementById('category').value;
+                const status = document.getElementById('status').value; // Get status value
+                const imageFiles = document.getElementById('images').files; // Supports multiple files
+
+                let imagesData = []; // Store multiple images
+
+                const readFile = (file) => {
+                    return new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => resolve(reader.result.split(",")[1]); // Remove metadata
+                    });
+                };
+
+                for (let file of imageFiles) {
+                    imagesData.push(await readFile(file)); // Convert each image to Base64
+                }
+                
+                fetch('https://script.google.com/macros/s/AKfycbxWAB92pZycoc4uo8kkDvSP9bAIzx1TJHc6Y9lRm9IEogyNB8HebRJMzcvkabcRSWpa/exec', {
+                    method: 'POST',
+                    mode: 'cors', 
+                    redirect: "follow",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ item, qty, category, status, images: imagesData }) // ✅ Pass category & status
+                })
+                .then(response => response.json())
+                .then(data => console.log("Success:", data))
+                .catch(error => console.error("Fetch Error:", error));
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>Inventory Manager</h2>
+    
+    <form id="inventoryForm">
+        <input type="text" id="item" placeholder="Item Name" required />
+        <input type="number" id="qty" placeholder="Quantity" required />
+        
+        <!-- ✅ Dynamic Category Dropdown -->
+        <select id="category" required>
+            <option value="">Loading categories...</option>
+        </select>
+
+        <!-- ✅ Dynamic Status Dropdown -->
+        <select id="status" required>
+            <option value="">Loading statuses...</option>
+        </select>
+
+        <input type="file" id="images" accept="image/*" multiple />
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>
