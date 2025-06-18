@@ -1,54 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Script Loaded!");  // ✅ This confirms the script runs
+    console.log("Script Loaded!");  
 
-    // Function to generate a unique Watch ID
-    function generateWatchID() {
-        return 'WID-' + Date.now(); // Uses timestamp for uniqueness
+    // Ensure `watchID` field exists before setting a value
+    const watchIDField = document.getElementById('watchID');
+    if (watchIDField) {
+        watchIDField.value = generateWatchID();
     }
-    
-    document.getElementById('watchID').value = generateWatchID();
 
-    // Fetch categories and statuses dynamically from JSON file
-    fetch("watchInventoryDropdown.json")
-    .then(response => response.json())
-    .then(data => {
-        const movementSelect = document.getElementById("movement");
-        const statusSelect = document.getElementById("status");
-        const brandSelect = document.getElementById("brand");
-
-        movementSelect.innerHTML = `<option value="" selected disabled>Select movement...</option>`;
-        statusSelect.innerHTML = `<option value="" selected disabled>Select status...</option>`;
-        brandSelect.innerHTML = `<option value="" selected disabled>Select brand...</option>`;
-        
-        data.movements.forEach(movement => {
-            let option = document.createElement("option");
-            option.value = movement;
-            option.textContent = movement;
-            movementSelect.appendChild(option);
-        });
-
-        data.statuses.forEach(status => {
-            let option = document.createElement("option");
-            option.value = status;
-            option.textContent = status;
-            statusSelect.appendChild(option);
-        });
-
-        data.brands.forEach(brand => {
-            let option = document.createElement("option");
-            option.value = brand;
-            option.textContent = brand;
-            brandSelect.appendChild(option);
-        });
-    })
-    .catch(error => console.error("Dropdown Fetch Error:", error));
-
-   // Load table data on page load
+    // Load table data on page load
     loadInventoryRecords();
 
     document.getElementById('inventoryForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        
+
+        // Collect form values
         const watchID = document.getElementById('watchID').value;
         const status = document.getElementById('status').value;
         const brand = document.getElementById('brand').value;
@@ -60,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const sellingPrice = document.getElementById('sellingPrice').value;
         const supplier = document.getElementById('supplier').value;
         const notes = document.getElementById('notes').value;
-
+        
         const imageFiles = document.getElementById('images').files;
         let imagesData = [];
 
@@ -75,23 +40,27 @@ document.addEventListener("DOMContentLoaded", function() {
         for (let file of imageFiles) {
             imagesData.push(await readFile(file));
         }
-        
+
+        // Send data to Google Apps Script
         fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec', {
             method: 'POST',
             mode: 'cors',
-            redirect: "follow",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ watchID, status, brand, model, movement, qty, boughtPrice, boughtDate, sellingPrice, supplier, notes, images: imagesData })
         })
         .then(response => response.json())
         .then(data => {
             console.log("Watch added successfully!", data);
-            loadInventoryRecords(); // ✅ Refresh table after adding new record
+            return loadInventoryRecords(); // ✅ Ensure new records load immediately after adding
         })
-        .catch(error => console.error("Fetch Error:", error));
+        .catch(error => {
+            console.error("Fetch Error:", error);
+            alert("Failed to add watch. Please try again.");
+        });
     });
 });
-// ✅ Function to Load Inventory Records
+
+// ✅ Load Inventory Records Function
 function loadInventoryRecords() {
     fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
     .then(response => response.json())
@@ -100,7 +69,13 @@ function loadInventoryRecords() {
         const tableContainer = document.getElementById("tableContainer");
         const tableBody = document.getElementById("inventoryTableBody");
 
-        if (!data || data.length === 0) { tableContainer.style.display = "none"; console.warn("No valid inventory data received."); return; // 🚨 Exit early if no data } else { tableContainer.style.display = "block"; }
+        if (!data || data.length === 0) {  
+            tableContainer.style.display = "none"; 
+            console.warn("No valid inventory data received.");
+            return; // 🚨 Exit early if no data
+        } else {  
+            tableContainer.style.display = "block"; 
+        }
 
         tableBody.innerHTML = "";
 
@@ -116,5 +91,8 @@ function loadInventoryRecords() {
             tableBody.appendChild(tr);
         });
     })
-    .catch(error => console.error("Table Fetch Error:", error));
+    .catch(error => {
+        console.error("Table Fetch Error:", error);
+        alert("Failed to load inventory records.");
+    });
 }
