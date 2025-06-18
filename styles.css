@@ -74,12 +74,14 @@ button:active {
     border-radius: 8px;
     background: #f8f9fa;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-x: auto;
+    overflow-x: auto; /* Enables horizontal scrolling on small screens */
 }
 
-/* Table styling */
+/* Prevent table from being too large */
 table {
     width: 100%;
+    max-width: 100%;
+    min-width: 600px; /* Ensure readability without excessive shrinkage */
     border-collapse: collapse;
     font-family: 'Poppins', sans-serif;
     background: white;
@@ -87,20 +89,14 @@ table {
     overflow: hidden;
 }
 
-/* Table Header */
-th {
-    background: #007bff;
-    color: white;
-    font-weight: 600;
-    padding: 14px;
-    text-align: left;
+
+th, td {
+    padding: 10px;
+    font-size: 14px; /* Reduce font slightly for compact layout */
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap; /* Prevent excessive wrapping */
 }
 
-/* Table Body */
-td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-}
 
 /* Alternate row shading */
 tr:nth-child(even) {
@@ -116,16 +112,18 @@ tr:hover {
 /* Responsive Mobile View */
 @media screen and (max-width: 768px) {
     .container {
-        width: 95%;
+        width: 100%;
     }
-
+    table {
+        min-width: 100%;
+    }
     form {
         grid-template-columns: 1fr;
     }
 
-    th, td {
+     th, td {
         padding: 8px;
-        font-size: 13px;
+        font-size: 12px; /* Slightly smaller font for compact view */
     }
 
     button {
