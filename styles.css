@@ -11,7 +11,7 @@ body, html {
     position: sticky; /* ✅ Moves with page */
     top: 0;
     z-index: 1000; /* Ensures it stays above other elements */
-    background: #355E3B; /* ✅ Hunter Green */
+    background:#355E3B; /* ✅ Hunter Green */
     padding: 12px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -20,7 +20,7 @@ body, html {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1500px;
+    max-width: 1200px;
     margin: auto;
 }
 
@@ -87,8 +87,8 @@ body, html {
 
 /* Page layout */
 .page-container {
-    max-width: 1500px;
-    margin: 30px auto auto;
+    max-width: 1200px;
+    margin: 80px auto 20px;
     padding: 20px;
 }
 
@@ -115,6 +115,12 @@ body, html {
     text-align: center;
 }
 
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
 /* Inventory Section */
 .inventory-section {
     flex: 0.7; /* ✅ Inventory stays 70% */
@@ -129,7 +135,59 @@ body, html {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Table Styling */
+/* Form grid */
+form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Button */
+button {
+    grid-column: span 2;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* Table container */
+.table-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+/* Table styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -138,7 +196,6 @@ table {
     border-radius: 8px;
 }
 
-/* Table Header */
 th {
     background: #355E3B; /* ✅ Hunter Green */
     color: white;
@@ -148,6 +205,18 @@ th {
     font-size: 14px;
 }
 
+td {
+    padding: 8px 10px;
+    font-size: 13px;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+}
+
+/* Alternate row shading */
+tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
 /* Hover effect */
 tr:hover {
     background: #D1E7D1; /* ✅ Light hunter green tint */
@@ -155,7 +224,7 @@ tr:hover {
 }
 
 /* Responsive Mobile View */
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
     .content-grid {
         flex-direction: column;
     }
