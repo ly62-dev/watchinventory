@@ -5,21 +5,23 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Fetch categories and statuses dynamically from JSON file
-            fetch("categories.json")
+            fetch("watchInventoryDropdown.json")
             .then(response => response.json())
             .then(data => {
-                const categorySelect = document.getElementById("category");
+                const movmentSelect = document.getElementById("movement");
                 const statusSelect = document.getElementById("status");
+                const brandSelect = document.getElementById("brand");
 
-                categorySelect.innerHTML = ""; // Clear placeholder
+                movementSelect.innerHTML = ""; // Clear placeholder
                 statusSelect.innerHTML = ""; // Clear placeholder
-
-                // Populate Category Dropdown
-                data.categories.forEach(category => {
+                brandSelect.innerHTML = ""; // Clear placeholder
+                
+                // Populate Movement Dropdown
+                data.movements.forEach(movement => {
                     let option = document.createElement("option");
-                    option.value = category;
-                    option.textContent = category;
-                    categorySelect.appendChild(option);
+                    option.value = movement;
+                    option.textContent = movement;
+                    movementSelect.appendChild(option);
                 });
 
                 // Populate Status Dropdown
@@ -29,6 +31,14 @@
                     option.textContent = status;
                     statusSelect.appendChild(option);
                 });
+
+                // Populate Brand Dropdown
+                data.brands.forEach(brand => {
+                    let option = document.createElement("option");
+                    option.value = brand;
+                    option.textContent = brand;
+                    brandSelect.appendChild(option);
+                });
             })
             .catch(error => console.error("Dropdown Fetch Error:", error));
 
@@ -37,8 +47,9 @@
                 
                 const item = document.getElementById('item').value;
                 const qty = document.getElementById('qty').value;
-                const category = document.getElementById('category').value;
+                const mvoement = document.getElementById('movement').value; // Get movement value
                 const status = document.getElementById('status').value; // Get status value
+                const brand = document.getElementById('brand').value; // Get brand value
                 const imageFiles = document.getElementById('images').files; // Supports multiple files
 
                 let imagesData = []; // Store multiple images
@@ -60,7 +71,7 @@
                     mode: 'cors', 
                     redirect: "follow",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ item, qty, category, status, images: imagesData }) // ✅ Pass category & status
+                    body: JSON.stringify({ item, qty, movement, status, brand, images: imagesData })
                 })
                 .then(response => response.json())
                 .then(data => console.log("Success:", data))
@@ -76,13 +87,18 @@
         <input type="text" id="item" placeholder="Item Name" required />
         <input type="number" id="qty" placeholder="Quantity" required />
         
-        <!-- ✅ Dynamic Category Dropdown -->
-        <select id="category" required>
+        <!-- ✅ Dynamic Movement Dropdown -->
+        <select id="movement" required>
             <option value="">Loading categories...</option>
         </select>
 
         <!-- ✅ Dynamic Status Dropdown -->
         <select id="status" required>
+            <option value="">Loading statuses...</option>
+        </select>
+
+        <!-- ✅ Dynamic Brand Dropdown -->
+        <select id="brand" required>
             <option value="">Loading statuses...</option>
         </select>
 
