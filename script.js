@@ -43,6 +43,37 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .catch(error => console.error("Dropdown Fetch Error:", error));
 
+    // Fetch and display inventory records
+        fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
+        .then(response => response.json())
+        .then(data => {
+            console.log("Fetched Data:", data);
+            const tableContainer = document.getElementById("tableContainer");
+            const tableBody = document.getElementById("inventoryTableBody");
+
+            if (!data || data.length === 0) {  
+                tableContainer.style.display = "none"; 
+                console.warn("No valid inventory data received.");
+                return;
+            }
+
+            tableContainer.style.display = "block";  
+            tableBody.innerHTML = ""; 
+
+            data.forEach((row, index) => {
+                if (index === 0) return;
+
+                let tr = document.createElement("tr");
+                row.forEach(cell => {
+                    let td = document.createElement("td");
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error("Table Fetch Error:", error));
+
     document.getElementById('inventoryForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
