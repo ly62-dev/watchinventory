@@ -1,257 +1,72 @@
-<!DOCTYPE html>
-<html>
 <head>
     <title>Watch Inventory</title>
     <link rel="stylesheet" href="https://ly62-dev.github.io/watchinventory/styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Function to generate a unique Watch ID
-            function generateWatchID() {
-                return 'WID-' + Date.now(); // Uses timestamp for uniqueness
-            }
-            // Set watch ID on page load
-            document.getElementById('watchID').value = generateWatchID();
-            
-            // Fetch categories and statuses dynamically from JSON file
-            fetch("watchInventoryDropdown.json")
-            .then(response => response.json())
-            .then(data => {
-                const movementSelect = document.getElementById("movement");
-                const statusSelect = document.getElementById("status");
-                const brandSelect = document.getElementById("brand");
-
-                // Keep a default empty option for each dropdown
-                movementSelect.innerHTML = `<option value="" selected disabled>Select movement...</option>`;
-                statusSelect.innerHTML = `<option value="" selected disabled>Select status...</option>`;
-                brandSelect.innerHTML = `<option value="" selected disabled>Select brand...</option>`;
-                
-                // Populate Movement Dropdown
-                data.movements.forEach(movement => {
-                    let option = document.createElement("option");
-                    option.value = movement;
-                    option.textContent = movement;
-                    movementSelect.appendChild(option);
-                });
-
-                // Populate Status Dropdown
-                data.statuses.forEach(status => {
-                    let option = document.createElement("option");
-                    option.value = status;
-                    option.textContent = status;
-                    statusSelect.appendChild(option);
-                });
-
-                // Populate Brand Dropdown
-                data.brands.forEach(brand => {
-                    let option = document.createElement("option");
-                    option.value = brand;
-                    option.textContent = brand;
-                    brandSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error("Dropdown Fetch Error:", error));
-
-            document.getElementById('inventoryForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const watchID = document.getElementById('watchID').value; // Auto-generated Watch ID
-                const status = document.getElementById('status').value; // Get status value
-                const brand = document.getElementById('brand').value; // Get brand value
-                const model = document.getElementById('model').value;
-                const movement = document.getElementById('movement').value; // Get movement value
-                const qty = document.getElementById('qty').value;
-                const boughtPrice = document.getElementById('boughtPrice').value; // New Selling Price Field
-                const boughtDate = document.getElementById('boughtDate').value; // New Bought Date Field
-                const sellingPrice = document.getElementById('sellingPrice').value; // New Selling Price Field
-                const supplier = document.getElementById('supplier').value; // New supplier Field
-                const notes = document.getElementById('notes').value; // New Notes Field
-                
-                const imageFiles = document.getElementById('images').files; // Supports multiple files
-
-                let imagesData = []; // Store multiple images
-
-                const readFile = (file) => {
-                    return new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.onload = () => resolve(reader.result.split(",")[1]); // Remove metadata
-                    });
-                };
-
-                for (let file of imageFiles) {
-                    imagesData.push(await readFile(file)); // Convert each image to Base64
-                }
-                
-               fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
-.then(response => response.json())
-.then(data => {
-    console.log("Fetched Data:", data);  // ✅ Check the response format
-data = [
-    ["Watch ID", "Status", "Brand", "Model", "Movement", "Quantity", "Bought Price", "Bought Date", "Selling Price", "Supplier", "Notes"],
-    ["WID-123456", "Available", "Seiko", "Presage", "Automatic", "2", "300", "2023-06-01", "450", "Supplier A", "Limited edition"]
-];
-
-    const tableContainer = document.getElementById("tableContainer");
-    const tableBody = document.getElementById("inventoryTableBody");
-
-    // ✅ Show table only if data exists
-    if (!data || data.length === 0) {  
-        tableContainer.style.display = "none"; 
-        console.warn("No valid inventory data received.");
-        return;  // 🚨 Exit early if no data
-    } else {
-        tableContainer.style.display = "block"; 
-    }
-
-    tableBody.innerHTML = ""; // Clear previous rows
-
-    // ✅ Ensure row structure is correct
-    data.forEach((row, index) => {
-        if (index === 0) return; // Skip header row
-
-        let tr = document.createElement("tr");
-        row.forEach(cell => {
-            let td = document.createElement("td");
-            td.textContent = cell;
-            tr.appendChild(td);
-        });
-        tableBody.appendChild(tr);
-    });
-})
-.catch(error => console.error("Table Fetch Error:", error));
-
-
-            });
-        });
-    </script>
 </head>
 <body>
     <h2>Watch Inventory</h2>
-    
+
     <form id="inventoryForm">
-    <div>
         <label for="watchID">Watch ID</label>
         <input type="text" id="watchID" readonly required />
-    </div>
-    
-    <div>
+
         <label for="status">Status</label>
         <select id="status" required><option value="">Loading statuses...</option></select>
-    </div>
 
-    <div>
         <label for="brand">Brand</label>
         <select id="brand" required><option value="">Loading brands...</option></select>
-    </div>
 
-    <div>
         <label for="model">Model</label>
         <input type="text" id="model" required />
-    </div>
 
-    <div>
         <label for="movement">Movement</label>
         <select id="movement" required><option value="">Loading movements...</option></select>
-    </div>
 
-    <div>
         <label for="qty">Quantity</label>
         <input type="number" id="qty" />
-    </div>
 
-    <div>
         <label for="boughtPrice">Bought Price</label>
         <input type="number" id="boughtPrice" step="0.01" required />
-    </div>
 
-    <div>
         <label for="boughtDate">Bought Date</label>
         <input type="date" id="boughtDate" />
-    </div>
 
-    <div>
         <label for="sellingPrice">Selling Price</label>
         <input type="number" id="sellingPrice" step="0.01" />
-    </div>
 
-    <div>
         <label for="supplier">Supplier</label>
         <input type="text" id="supplier" />
-    </div>
 
-    <div>
         <label for="notes">Additional Notes</label>
         <textarea id="notes" rows="4"></textarea>
-    </div>
 
-    <div>
         <label for="images">Upload Images</label>
         <input type="file" id="images" accept="image/*" multiple />
+
+        <button type="submit">Add Watch</button>
+    </form>
+
+    <div id="tableContainer" style="display: none;">
+        <h2>📋 Inventory Summary</h2>
+        <table border="1" style="width: 100%; text-align: left;">
+            <thead>
+                <tr>
+                    <th>Watch ID</th>
+                    <th>Status</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Movement</th>
+                    <th>Quantity</th>
+                    <th>Bought Price</th>
+                    <th>Bought Date</th>
+                    <th>Selling Price</th>
+                    <th>Supplier</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryTableBody"></tbody>
+        </table>
     </div>
 
-    <button type="submit">Add Watch</button>
-</form>
-
-
-<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("Script Loaded!");  // ✅ This should now appear in the console
-            
-            // Function to fetch and display inventory records
-            fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
-            .then(response => response.json())
-            .then(data => {
-                console.log("Fetched Data:", data);  // ✅ Check if data is retrieved
-
-                const tableContainer = document.getElementById("tableContainer");
-                const tableBody = document.getElementById("inventoryTableBody");
-
-                if (!data || data.length === 0) {  
-                    tableContainer.style.display = "none"; 
-                    console.warn("No valid inventory data received.");
-                    return;
-                }
-
-                tableContainer.style.display = "block";  
-                tableBody.innerHTML = ""; 
-
-                data.forEach((row, index) => {
-                    if (index === 0) return; // Skip header row
-
-                    let tr = document.createElement("tr");
-                    row.forEach(cell => {
-                        let td = document.createElement("td");
-                        td.textContent = cell;
-                        tr.appendChild(td);
-                    });
-                    tableBody.appendChild(tr);
-                });
-            })
-            .catch(error => console.error("Table Fetch Error:", error));
-        });
-    </script>
-    <div id="tableContainer" style="display: none;">
-    <h2>📋 Inventory Summary</h2>
-    <table border="1" style="width: 100%; text-align: left;">
-        <thead>
-            <tr>
-                <th>Watch ID</th>
-                <th>Status</th>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Movement</th>
-                <th>Quantity</th>
-                <th>Bought Price</th>
-                <th>Bought Date</th>
-                <th>Selling Price</th>
-                <th>Supplier</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody id="inventoryTableBody"></tbody>
-    </table>
-</div>
-
+    <script src="script.js"></script> <!-- ✅ References the external script -->
 </body>
-</html>
