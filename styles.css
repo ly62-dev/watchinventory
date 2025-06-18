@@ -13,7 +13,7 @@ body {
 .container {
     background: #fff;
     padding: 20px;
-    max-width: 600px; /* Increased slightly */
+    max-width: 600px;
     width: 90%;
     border-radius: 12px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -23,18 +23,17 @@ body {
 /* Grid layout for the form */
 form {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
 }
 
-/* Ensure dropdowns match text fields */
 input, select, textarea {
     width: 100%;
     padding: 10px;
     font-size: 14px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    box-sizing: border-box; /* Prevent overflow */
+    box-sizing: border-box;
 }
 
 /* Labels */
@@ -46,7 +45,7 @@ label {
 
 /* Button styling */
 button {
-    grid-column: span 2; /* Span full width */
+    grid-column: span 2;
     padding: 12px;
     font-size: 16px;
     border-radius: 8px;
@@ -57,38 +56,61 @@ button {
     transition: background-color 0.3s, transform 0.1s;
 }
 
-/* Button hover effect */
 button:hover {
     background-color: #0056b3;
 }
 
-/* Button active (clicked) effect */
 button:active {
-    background-color: #004494; /* Darker blue when clicked */
-    transform: scale(0.98); /* Slight press effect */
+    background-color: #004494;
+    transform: scale(0.98);
 }
 
-
-/* Table container */
+/* Table container - Sleeker design */
 .table-container {
-    max-width: 800px;
+    max-width: 900px;
     width: 95%;
     margin-top: 20px;
-    overflow-x: auto; /* Enable scrolling on mobile */
+    padding: 10px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
 }
 
 /* Table styling */
 table {
     width: 100%;
     border-collapse: collapse;
+    font-family: 'Poppins', sans-serif;
     background: white;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
+/* Table Header */
+th {
+    background: #007bff;
+    color: white;
+    font-weight: 600;
+    padding: 14px;
     text-align: left;
+}
+
+/* Table Body */
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Alternate row shading */
+tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+/* Hover effect */
+tr:hover {
+    background: #e9ecef;
+    cursor: pointer;
 }
 
 /* Responsive Mobile View */
@@ -98,12 +120,12 @@ th, td {
     }
 
     form {
-        grid-template-columns: 1fr; /* Change to single column */
+        grid-template-columns: 1fr;
     }
 
     th, td {
         padding: 8px;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     button {
