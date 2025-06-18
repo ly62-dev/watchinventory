@@ -101,8 +101,8 @@ body, html {
 
 /* Sidebar */
 .sidebar {
-    flex: 0.3; /* ✅ Sidebar takes up 30% */
-    max-width: 30%;
+    flex: 0.4; /* ✅ Sidebar takes up 30% */
+    max-width: 40%;
 }
 
 .profile-card {
@@ -121,8 +121,8 @@ body, html {
 
 /* Inventory Section */
 .inventory-section {
-    flex: 0.7; /* ✅ Inventory summary takes up 70% */
-    max-width: 70%;
+    flex: 0.6; /* ✅ Inventory summary takes up 70% */
+    max-width: 60%;
 }
 
 /* Form container */
@@ -176,11 +176,6 @@ button:active {
     transform: scale(0.98);
 }
 
-.file-upload {
-    display: flex;
-    flex-direction: column; /* Ensures label appears first */
-}
-
 /* Table container */
 .table-container {
     background: white;
@@ -227,7 +222,7 @@ tr:hover {
 }
 
 /* Responsive Mobile View */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 700px) {
     .content-grid {
         flex-direction: column;
     }
