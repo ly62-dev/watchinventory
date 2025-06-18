@@ -99,7 +99,7 @@ function loadInventoryRecords() {
             td.appendChild(link);
         } 
         else if (cellIndex === row.length - 2 && cell.includes(",")) {
-            td.textContent = "Multiple"; // ✅ Displays "Multiple" when there's more than one image
+            td.textContent = "Multiple Images"; // ✅ Displays "Multiple" when there's more than one image
         }
         else if (cellIndex === row.length - 2 && cell.startsWith("https")) {
             let imageLink = document.createElement("a");
@@ -110,7 +110,7 @@ function loadInventoryRecords() {
             td.appendChild(imageLink);
         }
         else {
-            td.textContent = cell;
+            td.textContent = "No Image";//cell;
         }
 
         tr.appendChild(td);
