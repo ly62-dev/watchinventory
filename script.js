@@ -89,7 +89,7 @@ function loadInventoryRecords() {
     row.forEach((cell, cellIndex) => {
         let td = document.createElement("td");
 
-        if (cellIndex === row.length - 6 && cell) {
+        if (cellIndex === row.length - 7 && cell) {
             td.textContent = new Date(cell).toISOString().split("T")[0]; // ✅ Formats YYYY-MM-DD
         }
         // ✅ Check if this cell contains an image URL (assuming it's in the last column)
@@ -111,6 +111,9 @@ function loadInventoryRecords() {
             imageLink.target = "_blank"; // ✅ Opens in a new tab
             imageLink.title = cell; // ✅ Shows full URL when hovered
             td.appendChild(imageLink);
+        }
+        else if (cellIndex === row.length && cell) {
+            td.textContent = new Date(cell).toISOString().split("T")[0]; // ✅ Formats YYYY-MM-DD
         }
         else {
             td.textContent = cell;
