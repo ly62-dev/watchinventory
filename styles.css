@@ -96,12 +96,13 @@ body, html {
 .content-grid {
     display: flex;
     gap: 20px;
+    width: 100%;
 }
 
 /* Sidebar */
 .sidebar {
-    flex: 1.3; /* ✅ Increased width */
-    max-width: 350px; /* ✅ Slightly wider */
+    flex: 0.3; /* ✅ Sidebar takes up 30% */
+    max-width: 30%;
 }
 
 .profile-card {
@@ -120,7 +121,8 @@ body, html {
 
 /* Inventory Section */
 .inventory-section {
-    flex: 2;
+    flex: 0.7; /* ✅ Inventory summary takes up 70% */
+    max-width: 70%;
 }
 
 /* Form container */
