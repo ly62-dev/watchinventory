@@ -33,7 +33,7 @@ body {
 /* Grid layout for form */
 form {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: 1fr;
     gap: 12px;
 }
 
