@@ -8,7 +8,7 @@
             fetch("watchInventoryDropdown.json")
             .then(response => response.json())
             .then(data => {
-                const movmentSelect = document.getElementById("movement");
+                const movementSelect = document.getElementById("movement");
                 const statusSelect = document.getElementById("status");
                 const brandSelect = document.getElementById("brand");
 
@@ -89,7 +89,7 @@
         
         <!-- ✅ Dynamic Movement Dropdown -->
         <select id="movement" required>
-            <option value="">Loading categories...</option>
+            <option value="">Loading movements...</option>
         </select>
 
         <!-- ✅ Dynamic Status Dropdown -->
@@ -99,7 +99,7 @@
 
         <!-- ✅ Dynamic Brand Dropdown -->
         <select id="brand" required>
-            <option value="">Loading statuses...</option>
+            <option value="">Loading brands...</option>
         </select>
 
         <input type="file" id="images" accept="image/*" multiple />
