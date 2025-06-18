@@ -100,8 +100,8 @@ body, html {
 
 /* Sidebar */
 .sidebar {
-    flex: 1;
-    max-width: 330px;
+    flex: 1.3; /* ✅ Increased width */
+    max-width: 350px; /* ✅ Slightly wider */
 }
 
 .profile-card {
