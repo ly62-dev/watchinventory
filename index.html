@@ -83,26 +83,19 @@
                     imagesData.push(await readFile(file)); // Convert each image to Base64
                 }
                 
-                fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec', {
-                    method: 'POST',
-                    mode: 'cors', 
-                    redirect: "follow",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify({ watchID, status, brand, model, movement, qty,boughtPrice,boughtDate,sellingPrice,supplier,notes, images: imagesData })
-                })
-                .then(response => response.json())
-                .then(data => console.log("Success:", data))
-                .catch(error => console.error("Fetch Error:", error));
+               fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
+.then(response => response.json())
+.then(data => {
+    console.log("Fetched Data:", data);  // ✅ Check the response format
+data = [
+    ["Watch ID", "Status", "Brand", "Model", "Movement", "Quantity", "Bought Price", "Bought Date", "Selling Price", "Supplier", "Notes"],
+    ["WID-123456", "Available", "Seiko", "Presage", "Automatic", "2", "300", "2023-06-01", "450", "Supplier A", "Limited edition"]
+];
 
-                //get watch inventory records
-                fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
-                .then(response => response.json())
-                .then(data => {
-                console.log("Fetched Data:", data);  // ✅ Add this line to check the response
-                const tableContainer = document.getElementById("tableContainer");
-                const tableBody = document.getElementById("inventoryTableBody");
+    const tableContainer = document.getElementById("tableContainer");
+    const tableBody = document.getElementById("inventoryTableBody");
 
-                 // ✅ Toggle table visibility based on received data
+    // ✅ Show table only if data exists
     if (!data || data.length === 0) {  
         tableContainer.style.display = "none"; 
         console.warn("No valid inventory data received.");
@@ -111,9 +104,9 @@
         tableContainer.style.display = "block"; 
     }
 
-    tableBody.innerHTML = ""; // Clear old data before appending new rows
+    tableBody.innerHTML = ""; // Clear previous rows
 
-    // ✅ Render table rows dynamically
+    // ✅ Ensure row structure is correct
     data.forEach((row, index) => {
         if (index === 0) return; // Skip header row
 
@@ -124,9 +117,10 @@
             tr.appendChild(td);
         });
         tableBody.appendChild(tr);
-                });
-            })
-                .catch(error => console.error("Table Fetch Error:", error));
+    });
+})
+.catch(error => console.error("Table Fetch Error:", error));
+
 
             });
         });
