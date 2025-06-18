@@ -99,8 +99,8 @@ function loadInventoryRecords() {
             td.appendChild(link);
         } 
         // ✅ Check for null or empty values
-        else if ((!cell || cell.trim() === "")&& cellIndex === row.length - 2) {
-            td.textContent = "No Image"; // ✅ Displays "No Image" if null or empty
+        else if (!cell || cell.trim() === "") {
+            td.textContent = "NA";
         } 
         else if (cellIndex === row.length - 2 && cell.includes(",")) {
             td.textContent = "Multiple Images"; // ✅ Displays "Multiple" when there's more than one image
