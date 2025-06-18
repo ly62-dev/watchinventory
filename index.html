@@ -98,8 +98,14 @@
                 fetch('https://script.google.com/macros/s/AKfycbwk3xP_xCPYOGFg1oX0dC5Dv0wDzLGmyVoONgLLCFYFxNsGeMVMV1RfGlViffxUY5Fi/exec')
                 .then(response => response.json())
                 .then(data => {
+                const tableContainer = document.getElementById("tableContainer");
                 const tableBody = document.getElementById("inventoryTableBody");
-
+                if (data.length <= 1) { 
+                    // Hide table if there are no records
+                    tableContainer.style.display = "none";
+                    return;
+                }
+                tableContainer.style.display = "block"; // Show table when data exists
                 data.forEach((row, index) => {
                     if (index === 0) return; // Skip header row
 
@@ -145,27 +151,27 @@
         <button type="submit">Add</button>
     </form>
 
+    <div id="tableContainer" style="display: none;">
     <h2>📋 Inventory Summary</h2>
-<table border="1" style="width: 100%; text-align: left;">
-    <thead>
-        <tr>
-            <th>Watch ID</th>
-            <th>Status</th>
-            <th>Brand</th>
-            <th>Model</th>
-            <th>Movement</th>
-            <th>Quantity</th>
-            <th>Bought Price</th>
-            <th>Bought Date</th>
-            <th>Selling Price</th>
-            <th>Supplier</th>
-            <th>Notes</th>
-        </tr>
-    </thead>
-    <tbody id="inventoryTableBody">
-        <!-- Data will be inserted dynamically -->
-    </tbody>
-</table>
+    <table border="1" style="width: 100%; text-align: left;">
+        <thead>
+            <tr>
+                <th>Watch ID</th>
+                <th>Status</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Movement</th>
+                <th>Quantity</th>
+                <th>Bought Price</th>
+                <th>Bought Date</th>
+                <th>Selling Price</th>
+                <th>Supplier</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody id="inventoryTableBody"></tbody>
+    </table>
+</div>
 
 </body>
 </html>
