@@ -89,8 +89,11 @@ function loadInventoryRecords() {
     row.forEach((cell, cellIndex) => {
         let td = document.createElement("td");
 
+        if (cellIndex === row.length - 6 && cell) {
+            td.textContent = new Date(cell).toISOString().split("T")[0]; // ✅ Formats YYYY-MM-DD
+        }
         // ✅ Check if this cell contains an image URL (assuming it's in the last column)
-        if (cellIndex === row.length - 3 && cell.startsWith("https")) {
+        else if (cellIndex === row.length - 3 && cell.startsWith("https")) {
             let link = document.createElement("a");
             link.href = cell; // Full image URL
             link.textContent = "[View Folder]"; // Display shortcut text
