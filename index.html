@@ -59,8 +59,11 @@
                 const model = document.getElementById('model').value;
                 const movement = document.getElementById('movement').value; // Get movement value
                 const qty = document.getElementById('qty').value;
-                
-                
+                const boughtPrice = document.getElementById('boughtPrice').value; // New Selling Price Field
+                const boughtDate = document.getElementById('boughtDate').value; // New Bought Date Field
+                const sellingPrice = document.getElementById('sellingPrice').value; // New Selling Price Field
+                const supplier = document.getElementById('supplier').value; // New supplier Field
+                const notes = document.getElementById('notes').value; // New Notes Field
                 
                 const imageFiles = document.getElementById('images').files; // Supports multiple files
 
@@ -83,7 +86,7 @@
                     mode: 'cors', 
                     redirect: "follow",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ watchID, status, brand, model, movement, qty, images: imagesData })
+                    body: JSON.stringify({ watchID, status, brand, model, movement, qty,boughtPrice,boughtDate,sellingPrice,supplier,notes, images: imagesData })
                 })
                 .then(response => response.json())
                 .then(data => console.log("Success:", data))
@@ -110,8 +113,12 @@
         <select id="movement" required>
             <option value="">Loading movements...</option>
         </select>
-        <input type="number" id="qty" placeholder="Quantity" required />
-
+        <input type="number" id="qty" placeholder="Quantity" />
+        <input type="number" id="boughtPrice" placeholder="Bought Price" step="0.01" required /> <!-- New Bought Price Field -->
+        <input type="date" id="boughtDate" placeholder="Bought Date" /> <!-- New Bought Date Field -->
+        <input type="number" id="sellingPrice" placeholder="Selling Price" step="0.01" /> <!-- New Selling Price Field -->
+        <input type="text" id="supplier" placeholder="Supplier" />
+        <textarea id="notes" placeholder="Additional Notes" rows="4"></textarea> <!-- New Multi-Text Notes Field -->
         <input type="file" id="images" accept="image/*" multiple />
         <button type="submit">Add</button>
     </form>
