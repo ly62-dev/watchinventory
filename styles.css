@@ -66,22 +66,20 @@ button:active {
 }
 
 /* Table container - Sleeker design */
-.table-container {
-    max-width: 900px;
-    width: 95%;
+#tableContainer {
+    max-width: 800px;
+    width: 90%;
     margin-top: 20px;
     padding: 10px;
     border-radius: 8px;
-    background: #f8f9fa;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; /* Enables horizontal scrolling on small screens */
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Enables horizontal scrolling for mobile */
 }
 
-/* Prevent table from being too large */
+/* Table Styling */
 table {
     width: 100%;
-    max-width: 100%;
-    min-width: 600px; /* Ensure readability without excessive shrinkage */
     border-collapse: collapse;
     font-family: 'Poppins', sans-serif;
     background: white;
@@ -89,18 +87,27 @@ table {
     overflow: hidden;
 }
 
-
-th, td {
+/* Table Header */
+th {
+    background: #007bff;
+    color: white;
+    font-weight: 600;
     padding: 10px;
-    font-size: 14px; /* Reduce font slightly for compact layout */
+    text-align: left;
+    font-size: 14px;
+}
+
+/* Table Body */
+td {
+    padding: 8px 10px;
+    font-size: 13px; /* Reduced font size for a compact look */
     border-bottom: 1px solid #ddd;
     white-space: nowrap; /* Prevent excessive wrapping */
 }
 
-
 /* Alternate row shading */
 tr:nth-child(even) {
-    background: #f2f2f2;
+    background: #f8f9fa;
 }
 
 /* Hover effect */
@@ -114,20 +121,26 @@ tr:hover {
     .container {
         width: 100%;
     }
-    table {
-        min-width: 100%;
-    }
+   
     form {
         grid-template-columns: 1fr;
-    }
-
-     th, td {
-        padding: 8px;
-        font-size: 12px; /* Slightly smaller font for compact view */
     }
 
     button {
         font-size: 14px;
         padding: 8px;
+    }
+     #tableContainer {
+        width: 100%;
+        padding: 5px;
+    }
+
+    table {
+        min-width: 100%;
+    }
+
+    th, td {
+        padding: 6px;
+        font-size: 12px; /* Adjusts for smaller screens */
     }
 }
