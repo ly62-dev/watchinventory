@@ -43,36 +43,8 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .catch(error => console.error("Dropdown Fetch Error:", error));
 
-    // Fetch and display inventory records
-        fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
-        .then(response => response.json())
-        .then(data => {
-            console.log("Fetched Data:", data);
-            const tableContainer = document.getElementById("tableContainer");
-            const tableBody = document.getElementById("inventoryTableBody");
-
-            if (!data || data.length === 0) {  
-                tableContainer.style.display = "none"; 
-                console.warn("No valid inventory data received.");
-                return;
-            }
-
-            tableContainer.style.display = "block";  
-            tableBody.innerHTML = ""; 
-
-            data.forEach((row, index) => {
-                if (index === 0) return;
-
-                let tr = document.createElement("tr");
-                row.forEach(cell => {
-                    let td = document.createElement("td");
-                    td.textContent = cell;
-                    tr.appendChild(td);
-                });
-                tableBody.appendChild(tr);
-            });
-        })
-        .catch(error => console.error("Table Fetch Error:", error));
+   // Load table data on page load
+    loadInventoryRecords();
 
     document.getElementById('inventoryForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -112,38 +84,42 @@ document.addEventListener("DOMContentLoaded", function() {
             body: JSON.stringify({ watchID, status, brand, model, movement, qty, boughtPrice, boughtDate, sellingPrice, supplier, notes, images: imagesData })
         })
         .then(response => response.json())
-        .then(data => console.log("Success:", data))
-        .catch(error => console.error("Fetch Error:", error));
-
-        // Fetch and display inventory records
-        fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
-        .then(response => response.json())
         .then(data => {
-            console.log("Fetched Data:", data);
-            const tableContainer = document.getElementById("tableContainer");
-            const tableBody = document.getElementById("inventoryTableBody");
-
-            if (!data || data.length === 0) {  
-                tableContainer.style.display = "none"; 
-                console.warn("No valid inventory data received.");
-                return;
-            }
-
-            tableContainer.style.display = "block";  
-            tableBody.innerHTML = ""; 
-
-            data.forEach((row, index) => {
-                if (index === 0) return;
-
-                let tr = document.createElement("tr");
-                row.forEach(cell => {
-                    let td = document.createElement("td");
-                    td.textContent = cell;
-                    tr.appendChild(td);
-                });
-                tableBody.appendChild(tr);
-            });
+            console.log("Watch added successfully!", data);
+            loadInventoryRecords(); // ✅ Refresh table after adding new record
         })
-        .catch(error => console.error("Table Fetch Error:", error));
+        .catch(error => console.error("Fetch Error:", error));
     });
 });
+// ✅ Function to Load Inventory Records
+function loadInventoryRecords() {
+    fetch('https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec')
+    .then(response => response.json())
+    .then(data => {
+        console.log("Fetched Data:", data);
+        const tableContainer = document.getElementById("tableContainer");
+        const tableBody = document.getElementById("inventoryTableBody");
+
+        if (!data || data.length === 0) {
+            tableContainer.style.display = "none"; 
+            console.warn("No valid inventory data received.");
+            return;
+        }
+
+        tableContainer.style.display = "block";  
+        tableBody.innerHTML = "";
+
+        data.forEach((row, index) => {
+            if (index === 0) return;
+
+            let tr = document.createElement("tr");
+            row.forEach(cell => {
+                let td = document.createElement("td");
+                td.textContent = cell;
+                tr.appendChild(td);
+            });
+            tableBody.appendChild(tr);
+        });
+    })
+    .catch(error => console.error("Table Fetch Error:", error));
+}
