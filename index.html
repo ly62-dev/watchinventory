@@ -127,44 +127,69 @@
     <h2>Watch Inventory</h2>
     
     <form id="inventoryForm">
-    <label for="watchID">Watch ID</label>
-    <input type="text" id="watchID" readonly required />
+    <div>
+        <label for="watchID">Watch ID</label>
+        <input type="text" id="watchID" readonly required />
+    </div>
+    
+    <div>
+        <label for="status">Status</label>
+        <select id="status" required><option value="">Loading statuses...</option></select>
+    </div>
 
-    <label for="status">Status</label>
-    <select id="status" required><option value="">Loading statuses...</option></select>
+    <div>
+        <label for="brand">Brand</label>
+        <select id="brand" required><option value="">Loading brands...</option></select>
+    </div>
 
-    <label for="brand">Brand</label>
-    <select id="brand" required><option value="">Loading brands...</option></select>
+    <div>
+        <label for="model">Model</label>
+        <input type="text" id="model" required />
+    </div>
 
-    <label for="model">Model</label>
-    <input type="text" id="model" required />
+    <div>
+        <label for="movement">Movement</label>
+        <select id="movement" required><option value="">Loading movements...</option></select>
+    </div>
 
-    <label for="movement">Movement</label>
-    <select id="movement" required><option value="">Loading movements...</option></select>
+    <div>
+        <label for="qty">Quantity</label>
+        <input type="number" id="qty" />
+    </div>
 
-    <label for="qty">Quantity</label>
-    <input type="number" id="qty" />
+    <div>
+        <label for="boughtPrice">Bought Price</label>
+        <input type="number" id="boughtPrice" step="0.01" required />
+    </div>
 
-    <label for="boughtPrice">Bought Price</label>
-    <input type="number" id="boughtPrice" step="0.01" required />
+    <div>
+        <label for="boughtDate">Bought Date</label>
+        <input type="date" id="boughtDate" />
+    </div>
 
-    <label for="boughtDate">Bought Date</label>
-    <input type="date" id="boughtDate" />
+    <div>
+        <label for="sellingPrice">Selling Price</label>
+        <input type="number" id="sellingPrice" step="0.01" />
+    </div>
 
-    <label for="sellingPrice">Selling Price</label>
-    <input type="number" id="sellingPrice" step="0.01" />
+    <div>
+        <label for="supplier">Supplier</label>
+        <input type="text" id="supplier" />
+    </div>
 
-    <label for="supplier">Supplier</label>
-    <input type="text" id="supplier" />
+    <div>
+        <label for="notes">Additional Notes</label>
+        <textarea id="notes" rows="4"></textarea>
+    </div>
 
-    <label for="notes">Additional Notes</label>
-    <textarea id="notes" rows="4"></textarea>
-
-    <label for="images">Upload Images</label>
-    <input type="file" id="images" accept="image/*" multiple />
+    <div>
+        <label for="images">Upload Images</label>
+        <input type="file" id="images" accept="image/*" multiple />
+    </div>
 
     <button type="submit">Add Watch</button>
 </form>
+
 
 
     <div id="tableContainer" style="display: none;">
