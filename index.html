@@ -102,24 +102,28 @@
                 const tableContainer = document.getElementById("tableContainer");
                 const tableBody = document.getElementById("inventoryTableBody");
 
-                if (!data || data.length <= 1) {  
-                    tableContainer.style.display = "none"; 
-                    console.warn("No valid inventory data received.");
-                return;
-                }
-                tableContainer.style.display = "block";  
-                tableBody.innerHTML = ""; // Clear previous data
+                 // ✅ Toggle table visibility based on received data
+    if (!data || data.length === 0) {  
+        tableContainer.style.display = "none"; 
+        console.warn("No valid inventory data received.");
+        return;  // 🚨 Exit early if no data
+    } else {
+        tableContainer.style.display = "block"; 
+    }
 
-                data.forEach((row, index) => {
-                if (index === 0) return;  
+    tableBody.innerHTML = ""; // Clear old data before appending new rows
 
-                    let tr = document.createElement("tr");
-                    row.forEach(cell => {
-                        let td = document.createElement("td");
-                        td.textContent = cell;
-                        tr.appendChild(td);
-                    });
-                    tableBody.appendChild(tr);
+    // ✅ Render table rows dynamically
+    data.forEach((row, index) => {
+        if (index === 0) return; // Skip header row
+
+        let tr = document.createElement("tr");
+        row.forEach(cell => {
+            let td = document.createElement("td");
+            td.textContent = cell;
+            tr.appendChild(td);
+        });
+        tableBody.appendChild(tr);
                 });
             })
                 .catch(error => console.error("Table Fetch Error:", error));
