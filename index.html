@@ -83,7 +83,7 @@
                     imagesData.push(await readFile(file)); // Convert each image to Base64
                 }
                 
-                fetch('https://script.google.com/macros/s/AKfycbwhDP3ogxByE3zGm9Nsj4TceQFlUE9Ame24dKeQKQNw9ypa6dLmuJ3PQ7QZebdbItHL/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbzLPzYWc--mtoF5QyIm-dSZIziBZj_FUhIBI1_wgxJp0ivojp7SJiMv8j1iIylOthty/exec', {
                     method: 'POST',
                     mode: 'cors', 
                     redirect: "follow",
@@ -95,7 +95,7 @@
                 .catch(error => console.error("Fetch Error:", error));
 
                 //get watch inventory records
-                fetch('https://script.google.com/macros/s/AKfycbwhDP3ogxByE3zGm9Nsj4TceQFlUE9Ame24dKeQKQNw9ypa6dLmuJ3PQ7QZebdbItHL/exec')
+                fetch('https://script.google.com/macros/s/AKfycbzLPzYWc--mtoF5QyIm-dSZIziBZj_FUhIBI1_wgxJp0ivojp7SJiMv8j1iIylOthty/exec')
                 .then(response => response.json())
                 .then(data => {
                 const tableContainer = document.getElementById("tableContainer");
