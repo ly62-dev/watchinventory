@@ -100,13 +100,8 @@ function loadInventoryRecords() {
         const tableContainer = document.getElementById("tableContainer");
         const tableBody = document.getElementById("inventoryTableBody");
 
-        if (!data || data.length === 0) {
-            tableContainer.style.display = "none"; 
-            console.warn("No valid inventory data received.");
-            return;
-        }
+        if (!data || data.length === 0) { tableContainer.style.display = "none"; console.warn("No valid inventory data received."); return; // 🚨 Exit early if no data } else { tableContainer.style.display = "block"; }
 
-        tableContainer.style.display = "block";  
         tableBody.innerHTML = "";
 
         data.forEach((row, index) => {
