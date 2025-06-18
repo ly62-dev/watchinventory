@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 // ✅ Function to Load Inventory Records
 function loadInventoryRecords() {
-    fetch('https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec')
+    fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
     .then(response => response.json())
     .then(data => {
         console.log("Fetched Data:", data);
