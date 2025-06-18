@@ -55,11 +55,11 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             console.log("Watch added successfully!", data);
-            return loadInventoryRecords(); // ✅ Ensure new records load immediately after adding
+            //return loadInventoryRecords(); // ✅ Ensure new records load immediately after adding
         })
         .catch(error => {
             console.error("Fetch Error:", error);
-            alert("Failed to add watch. Please try again.");
+            alert("Failed to add watch. Please try again." + body);
         });
     });
 });
