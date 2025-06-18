@@ -82,7 +82,7 @@
                     imagesData.push(await readFile(file)); // Convert each image to Base64
                 }
                 
-                fetch('https://script.google.com/macros/s/AKfycbyjFCDqam3VbF_0wvVIjBY8m8OrCAbBOvLGguZAG40eHoCkdUzMYhbA4uMa8aziA71b/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbwk3xP_xCPYOGFg1oX0dC5Dv0wDzLGmyVoONgLLCFYFxNsGeMVMV1RfGlViffxUY5Fi/exec', {
                     method: 'POST',
                     mode: 'cors', 
                     redirect: "follow",
@@ -92,12 +92,32 @@
                 .then(response => response.json())
                 .then(data => console.log("Success:", data))
                 .catch(error => console.error("Fetch Error:", error));
+
+                //get watch inventory records
+                fetch('https://script.google.com/macros/s/AKfycbwk3xP_xCPYOGFg1oX0dC5Dv0wDzLGmyVoONgLLCFYFxNsGeMVMV1RfGlViffxUY5Fi/exec')
+                .then(response => response.json())
+                .then(data => {
+                const tableBody = document.getElementById("inventoryTableBody");
+
+                data.forEach((row, index) => {
+                    if (index === 0) return; // Skip header row
+
+                    let tr = document.createElement("tr");
+                    row.forEach(cell => {
+                        let td = document.createElement("td");
+                        td.textContent = cell;
+                        tr.appendChild(td);
+                        });
+                    tableBody.appendChild(tr);
+                    });
+                })
+                .catch(error => console.error("Table Fetch Error:", error));
             });
         });
     </script>
 </head>
 <body>
-    <h2 style="color: red;>Watch Inventory</h2>
+    <h2>Watch Inventory</h2>
     
     <form id="inventoryForm">
         <input type="text" id="watchID" placeholder="Watch ID" readonly required /> <!-- Auto-generated Watch ID -->
@@ -123,5 +143,29 @@
         <input type="file" id="images" accept="image/*" multiple />
         <button type="submit">Add</button>
     </form>
+
+    //display table
+    <h2>📋 Inventory Summary</h2>
+<table border="1" style="width: 100%; text-align: left;">
+    <thead>
+        <tr>
+            <th>Watch ID</th>
+            <th>Status</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Movement</th>
+            <th>Quantity</th>
+            <th>Bought Price</th>
+            <th>Bought Date</th>
+            <th>Selling Price</th>
+            <th>Supplier</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody id="inventoryTableBody">
+        <!-- Data will be inserted dynamically -->
+    </tbody>
+</table>
+
 </body>
 </html>
