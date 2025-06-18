@@ -98,27 +98,32 @@
                 fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
                 .then(response => response.json())
                 .then(data => {
+                console.log("Fetched Data:", data);  // ✅ Add this line to check the response
                 const tableContainer = document.getElementById("tableContainer");
                 const tableBody = document.getElementById("inventoryTableBody");
-                if (data.length <= 1) { 
-                    // Hide table if there are no records
-                    tableContainer.style.display = "none";
-                    return;
+
+                if (!data || data.length <= 1) {  
+                    tableContainer.style.display = "none"; 
+                    console.warn("No valid inventory data received.");
+                return;
                 }
-                tableContainer.style.display = "block"; // Show table when data exists
+                tableContainer.style.display = "block";  
+                tableBody.innerHTML = ""; // Clear previous data
+
                 data.forEach((row, index) => {
-                    if (index === 0) return; // Skip header row
+                if (index === 0) return;  
 
                     let tr = document.createElement("tr");
                     row.forEach(cell => {
                         let td = document.createElement("td");
                         td.textContent = cell;
                         tr.appendChild(td);
-                        });
-                    tableBody.appendChild(tr);
                     });
-                })
+                    tableBody.appendChild(tr);
+                });
+            })
                 .catch(error => console.error("Table Fetch Error:", error));
+
             });
         });
     </script>
