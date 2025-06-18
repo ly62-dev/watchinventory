@@ -4,6 +4,13 @@
     <title>Inventory Manager</title>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Function to generate a unique Watch ID
+            function generateWatchID() {
+                return 'WID-' + Date.now(); // Uses timestamp for uniqueness
+            }
+            // Set watch ID on page load
+            document.getElementById('watchID').value = generateWatchID();
+            
             // Fetch categories and statuses dynamically from JSON file
             fetch("watchInventoryDropdown.json")
             .then(response => response.json())
@@ -46,9 +53,9 @@
             document.getElementById('inventoryForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                const item = document.getElementById('item').value;
+                const watchID = document.getElementById('watchID').value; // Auto-generated Watch ID
                 const qty = document.getElementById('qty').value;
-                const mvoement = document.getElementById('movement').value; // Get movement value
+                const movement = document.getElementById('movement').value; // Get movement value
                 const status = document.getElementById('status').value; // Get status value
                 const brand = document.getElementById('brand').value; // Get brand value
                 const imageFiles = document.getElementById('images').files; // Supports multiple files
@@ -72,7 +79,7 @@
                     mode: 'cors', 
                     redirect: "follow",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ item, qty, movement, status, brand, images: imagesData })
+                    body: JSON.stringify({ watchID, qty, movement, status, brand, images: imagesData })
                 })
                 .then(response => response.json())
                 .then(data => console.log("Success:", data))
@@ -85,7 +92,7 @@
     <h2>Inventory Manager</h2>
     
     <form id="inventoryForm">
-        <input type="text" id="item" placeholder="Item Name" required />
+        <input type="text" id="watchID" placeholder="Watch ID" readonly required /> <!-- Auto-generated Watch ID -->
         <input type="number" id="qty" placeholder="Quantity" required />
         
         <!-- ✅ Dynamic Movement Dropdown -->
