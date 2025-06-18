@@ -15,10 +15,18 @@ body {
 .container {
     background: #fff;
     padding: 20px;
-    max-width: 600px; /* Make it more compact */
+    max-width: 500px; /* Make it more compact */
     width: 90%;
     border-radius: 12px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+}
+
+/* Improve alignment */
+form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
 }
 
 /* Form inputs */
@@ -30,13 +38,19 @@ input, select, textarea {
     border-radius: 8px;
     font-size: 14px;
 }
+/* Form labels */
+label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
 
 /* Button styling */
 button {
     width: 100%;
     background-color: #007bff;
     color: white;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
