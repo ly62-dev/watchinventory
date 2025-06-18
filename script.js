@@ -90,10 +90,10 @@ function loadInventoryRecords() {
         let td = document.createElement("td");
 
         // ✅ Check if this cell contains an image URL (assuming it's in the last column)
-        if (cellIndex === row.length - 1 && cell.startsWith("http")) {
+        if (cellIndex === row.length - 3 && cell.startsWith("https")) {
             let link = document.createElement("a");
             link.href = cell; // Full image URL
-            link.textContent = "[View Image]"; // Display shortcut text
+            link.textContent = "[View Folder]"; // Display shortcut text
             link.target = "_blank"; // Opens in a new tab
             link.title = cell; // Shows full URL when hovered
             td.appendChild(link);
