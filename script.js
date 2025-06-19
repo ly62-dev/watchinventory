@@ -40,6 +40,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  const addButton = document.querySelector('#inventoryForm button[type="submit"]');
+  const originalBtnText = addButton.textContent;
+  
   document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -89,7 +92,11 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch(error => {
         console.error("Fetch Error:", error);
         alert("Failed to add watch. Please try again.");
-      });
+      })
+      .finally(() => {
+    addButton.disabled = false;
+    addButton.textContent = originalBtnText;
+  });
   });
 });
 
