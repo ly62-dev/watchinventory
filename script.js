@@ -1,25 +1,36 @@
-function generateWatchID() {
-  return 'WID-' + Date.now();
+function generateWatchID(status, brand) {
+  const statusCode = status ? status.substring(0, 3).toUpperCase() : "XXX";
+  const brandCode = brand ? brand.substring(0, 3).toUpperCase() : "XXX";
+  return `${statusCode}-${brandCode}-${Date.now()}`;
 }
 
-// ✅ Render Dashboard Controller
 function renderDashboard() {
   loadInventoryRecords();
 }
 
-// ✅ DOM Ready
 document.addEventListener("DOMContentLoaded", function () {
   console.log("Script Loaded!");
 
   const watchIDField = document.getElementById('watchID');
-  if (watchIDField) {
-    watchIDField.value = generateWatchID();
-  }
+  const brandSelect = document.getElementById('brand');
+  const statusSelect = document.getElementById('status');
 
   loadDropdowns();
   renderDashboard();
 
-  // 🔄 Refresh Button Handler
+  const updateWatchID = () => {
+    const status = statusSelect.value;
+    const brand = brandSelect.value;
+    if (status && brand) {
+      watchIDField.value = generateWatchID(status, brand);
+    } else {
+      watchIDField.value = "";
+    }
+  };
+
+  brandSelect.addEventListener('change', updateWatchID);
+  statusSelect.addEventListener('change', updateWatchID);
+
   const refreshBtn = document.getElementById('refreshBtn');
   if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
@@ -29,13 +40,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ✅ Form Submission Handler
   document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const watchID = document.getElementById('watchID').value;
-    const status = document.getElementById('status').value;
-    const brand = document.getElementById('brand').value;
+    const status = statusSelect.value;
+    const brand = brandSelect.value;
     const model = document.getElementById('model').value;
     const movement = document.getElementById('movement').value;
     const qty = document.getElementById('qty').value;
@@ -71,7 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(response => response.json())
       .then(data => {
         console.log("Watch added successfully!", data);
-        renderDashboard(); // Reload table
+        document.getElementById('inventoryForm').reset();
+        watchIDField.value = "";
+        updateWatchID(); // Regenerate new ID based on current brand+status
+        renderDashboard();
       })
       .catch(error => {
         console.error("Fetch Error:", error);
@@ -101,13 +114,12 @@ function loadInventoryRecords() {
       tableBody.textContent = "";
 
       data.forEach((row, index) => {
-        if (index === 0) return; // Skip header
+        if (index === 0) return;
         const tr = createTableRow(row);
         tableBody.appendChild(tr);
       });
 
       updateDashboardStats(data);
-
       document.getElementById("loader").style.display = "none";
       document.getElementById("content").style.display = "block";
     })
@@ -156,13 +168,13 @@ function createTableRow(row) {
 }
 
 function updateDashboardStats(dataRows) {
-  const records = dataRows.slice(1); // skip header
+  const records = dataRows.slice(1);
   const uniqueBrands = new Set();
   let lowStock = 0;
 
   records.forEach(row => {
-    const brand = row[2];         // Assuming brand is column index 2
-    const quantity = parseInt(row[5]) || 0; // Assuming quantity is index 5
+    const brand = row[2];
+    const quantity = parseInt(row[5]) || 0;
 
     if (brand) uniqueBrands.add(brand);
     if (quantity === 0) lowStock++;
@@ -172,7 +184,6 @@ function updateDashboardStats(dataRows) {
   document.getElementById('brandCount').textContent = `🧮 Total Brands: ${uniqueBrands.size}`;
   document.getElementById('lowStockCount').textContent = `🚨 Out of Stock: ${lowStock}`;
 }
-
 
 function loadDropdowns() {
   fetch("watchInventoryDropdown.json")
