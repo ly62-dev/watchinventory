@@ -111,6 +111,13 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('statusFilter').value = '';
     applyTableFilters();
   });
+
+  document.querySelectorAll("th.sortable").forEach(th => {
+  th.addEventListener("click", () => {
+    const colIndex = parseInt(th.dataset.index);
+    sortState.asc = sortState.index === colIndex ? !sortState.asc : true;
+    sortTableByColumn(colIndex);
+  });
 });
 
 function loadInventoryRecords() {
@@ -189,11 +196,46 @@ function createTableRow(row) {
   return tr;
 }
 
+// ⬆️ Sorting State
+let sortState = { index: null, asc: true };
+
+function sortTableByColumn(index) {
+  const tableBody = document.getElementById("inventoryTableBody");
+  const rowsArray = Array.from(tableBody.querySelectorAll("tr"));
+
+  rowsArray.sort((a, b) => {
+    const valA = a.children[index].textContent.trim();
+    const valB = b.children[index].textContent.trim();
+
+    const numA = parseFloat(valA.replace(/[^\d.-]/g, ""));
+    const numB = parseFloat(valB.replace(/[^\d.-]/g, ""));
+
+    const isNumeric = !isNaN(numA) && !isNaN(numB);
+    const compare = isNumeric
+      ? numA - numB
+      : valA.localeCompare(valB, undefined, { sensitivity: "base" });
+
+    return sortState.asc ? compare : -compare;
+  });
+
+  tableBody.innerHTML = "";
+  rowsArray.forEach(row => tableBody.appendChild(row));
+  sortState.index = index;
+
+  document.querySelectorAll("th.sortable").forEach(th => {
+    const i = parseInt(th.dataset.index);
+    th.textContent = th.textContent.replace(/[\u25B2\u25BC]/g, "");
+    th.textContent += i === index ? (sortState.asc ? " 🔼" : " 🔽") : " 🔽";
+  });
+}
+
 function applyTableFilters() {
   const searchTerm = document.getElementById('searchInput').value.toLowerCase();
   const statusFilter = document.getElementById('statusFilter').value;
 
   const rows = document.querySelectorAll('#inventoryTableBody tr');
+  let matchCount = 0;
+
   rows.forEach(row => {
     const cells = row.querySelectorAll('td');
     const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(" ");
@@ -202,8 +244,16 @@ function applyTableFilters() {
     const matchesSearch = rowText.includes(searchTerm);
     const matchesStatus = !statusFilter || rowStatus === statusFilter;
 
-    row.style.display = (matchesSearch && matchesStatus) ? "" : "none";
+    const isVisible = matchesSearch && matchesStatus;
+    row.style.display = isVisible ? "" : "none";
+
+    if (isVisible) matchCount++;
   });
+
+  const counter = document.getElementById('resultCount');
+  if (counter) {
+    counter.textContent = `🔎 ${matchCount} result${matchCount !== 1 ? 's' : ''} found`;
+  }
 }
 
 function updateDashboardStats(dataRows) {
