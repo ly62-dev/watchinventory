@@ -45,7 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
   
   document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
     e.preventDefault();
-
+    addButton.disabled = true;
+    addButton.textContent = "Saving...";
+    
     const watchID = document.getElementById('watchID').value;
     const status = statusSelect.value;
     const brand = brandSelect.value;
