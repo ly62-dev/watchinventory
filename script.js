@@ -84,7 +84,12 @@ document.addEventListener("DOMContentLoaded", function () {
 //------------------------------------------------------------------------------------------------------------------
 function loadInventoryRecords() {
     return fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
         .then(data => {
             console.log("Fetched Data:", data);
             const tableContainer = document.getElementById("tableContainer");
@@ -94,50 +99,46 @@ function loadInventoryRecords() {
                 tableContainer.style.display = "none";
                 console.warn("No valid inventory data received.");
                 return;
-            } else {
-                tableContainer.style.display = "block";
             }
 
+            tableContainer.style.display = "block";
             tableBody.innerHTML = "";
 
             data.forEach((row, index) => {
-                if (index === 0) return; // Skip header row
+                if (index === 0) return; // Skip header
 
-                let tr = document.createElement("tr");
+                const tr = document.createElement("tr");
+
                 row.forEach((cell, cellIndex) => {
-                    let td = document.createElement("td");
+                    const td = document.createElement("td");
 
                     if (cellIndex === row.length - 7 && cell) {
                         td.textContent = new Date(cell).toISOString().split("T")[0];
-                    }
-                    else if (cellIndex === row.length - 3 && cell.startsWith("https")) {
-                        let link = document.createElement("a");
+                    } else if (cellIndex === row.length - 3 && cell.startsWith("https")) {
+                        const link = document.createElement("a");
                         link.href = cell;
                         link.textContent = "[View Folder]";
                         link.target = "_blank";
                         link.title = cell;
                         td.appendChild(link);
-                    }
-                    else if (cellIndex === row.length - 2 && cell.includes(",")) {
+                    } else if (cellIndex === row.length - 2 && cell.includes(",")) {
                         td.textContent = "Multiple Images";
-                    }
-                    else if (cellIndex === row.length - 2 && cell.startsWith("https")) {
-                        let imageLink = document.createElement("a");
+                    } else if (cellIndex === row.length - 2 && cell.startsWith("https")) {
+                        const imageLink = document.createElement("a");
                         imageLink.href = cell;
                         imageLink.textContent = "[View Image]";
                         imageLink.target = "_blank";
                         imageLink.title = cell;
                         td.appendChild(imageLink);
-                    }
-                    else if (cellIndex === row.length - 1 && cell) {
+                    } else if (cellIndex === row.length - 1 && cell) {
                         td.textContent = new Date(cell).toISOString().split("T")[0];
-                    }
-                    else {
+                    } else {
                         td.textContent = cell;
                     }
 
                     tr.appendChild(td);
                 });
+
                 tableBody.appendChild(tr);
             });
         })
