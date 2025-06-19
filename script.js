@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Send data to Google Apps Script
-        fetch('https://script.google.com/macros/s/AKfycbz29Px8bTPCzAIfj-KaQ-PyIXTESlHKuLJu_bBMVloJ9upit0LEtQ9dSKuhepCkFbsI/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbwgo8QgS5CARHAc5Ch23WyA7PEr3cMW07k2EYaS__6OeFpmz9kwdn1NW5Y4jsm9YomA/exec', {
             method: 'POST',
             mode: 'cors',
             redirect: "follow",
@@ -57,12 +57,11 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             console.log("Watch added successfully!", data);
             //return loadInventoryRecords(); // ✅ Ensure new records load immediately after adding
-            console.log("Received Data: " + JSON.stringify(data)+ JSON.stringify(body));
+            console.log("Received Data: " + data);
         })
         .catch(error => {
             console.error("Fetch Error:", error);
-            alert("Failed to add watch. Please try again." + body);
-            console.log("Received Data: " + JSON.stringify(data)+ JSON.stringify(body));
+            alert("Failed to add watch. Please try again.");
         });
         
     });
@@ -70,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // ✅ Load Inventory Records Function//------------------------------------------------------------------------------------------------------------------
 function loadInventoryRecords() {
-    fetch('https://script.google.com/macros/s/AKfycbz29Px8bTPCzAIfj-KaQ-PyIXTESlHKuLJu_bBMVloJ9upit0LEtQ9dSKuhepCkFbsI/exec')
+    fetch('https://script.google.com/macros/s/AKfycbwgo8QgS5CARHAc5Ch23WyA7PEr3cMW07k2EYaS__6OeFpmz9kwdn1NW5Y4jsm9YomA/exec')
     .then(response => response.json())
     .then(data => {
         console.log("Fetched Data:", data);
@@ -117,7 +116,7 @@ function loadInventoryRecords() {
             imageLink.title = cell; // ✅ Shows full URL when hovered
             td.appendChild(imageLink);
         }
-        else if (cellIndex === row.length && cell) {
+        else if (cellIndex === row.length - 1 && cell) {
             td.textContent = new Date(cell).toISOString().split("T")[0]; // ✅ Formats YYYY-MM-DD
         }
         else {
