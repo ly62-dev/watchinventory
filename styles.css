@@ -93,19 +93,19 @@ body, html {
 }
 
 /* Grid layout */
-.content-grid {
-    display: flex;
-    gap: 15px;
-    width: 100%;
-    align-items: flex-start; /* ✅ Ensures both sections align properly */
-}
+/*.content-grid {*/
+    /*display: flex;*/
+    /*gap: 15px;*/
+    /*width: 100%;*/
+    /*align-items: flex-start; ✅ Ensures both sections align properly */
+/*}*/
 
 /* Sidebar */
-.sidebar {
-    flex: 0.3; /* ✅ Sidebar stays 30% width */
-    max-width: 400px; /* ✅ Keeps proper size */
-    min-width: 280px; /* ✅ Prevents shrinking too much */
-}
+    /*.sidebar {*/
+     /*flex: 0.3; ✅ Sidebar stays 30% width */
+    /* max-width: 400px; ✅ Keeps proper size */
+    /*min-width: 280px;  ✅ Prevents shrinking too much */
+/*}*/
 
 .profile-card {
     background: white;
@@ -122,10 +122,10 @@ body, html {
 }
 
 /* Inventory Section */
-.inventory-section {
-    flex: 0.7; /* ✅ Inventory stays 70% */
-    max-width: calc(100% - 420px); /* ✅ Adjusts dynamically */
-}
+/*.inventory-section {*/
+    /*flex: 0.7; /* ✅ Inventory stays 70% */
+    /*max-width: calc(100% - 420px); /* ✅ Adjusts dynamically */
+/*}*/
 
 /* Form container */
 .form-container {
@@ -247,9 +247,10 @@ tr:hover {
         flex-direction: column;
     }
 
-    .sidebar, .inventory-section {
-        max-width: 100%;
-    }
+    /*.sidebar, .inventory-section {*/
+        /*max-width: 100%;*/
+    /*}*/
+    
     .dashboard-top {
         flex-direction: column;
     }
