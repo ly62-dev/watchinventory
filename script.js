@@ -46,29 +46,31 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Send data to Google Apps Script
-        fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbz29Px8bTPCzAIfj-KaQ-PyIXTESlHKuLJu_bBMVloJ9upit0LEtQ9dSKuhepCkFbsI/exec', {
             method: 'POST',
             mode: 'cors',
             redirect: "follow",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ watchID, status, brand, model, movement, qty, boughtPrice, boughtDate, sellingPrice, supplier, notes, images: imagesData })
         })
         .then(response => response.json())
         .then(data => {
             console.log("Watch added successfully!", data);
             //return loadInventoryRecords(); // ✅ Ensure new records load immediately after adding
+            console.log("Received Data: " + JSON.stringify(data)+ JSON.stringify(body));
         })
         .catch(error => {
             console.error("Fetch Error:", error);
             alert("Failed to add watch. Please try again." + body);
+            console.log("Received Data: " + JSON.stringify(data)+ JSON.stringify(body));
         });
-        console.log("Received Data: " + JSON.stringify(data)+ JSON.stringify(body));
+        
     });
 });
 
 // ✅ Load Inventory Records Function//------------------------------------------------------------------------------------------------------------------
 function loadInventoryRecords() {
-    fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
+    fetch('https://script.google.com/macros/s/AKfycbz29Px8bTPCzAIfj-KaQ-PyIXTESlHKuLJu_bBMVloJ9upit0LEtQ9dSKuhepCkFbsI/exec')
     .then(response => response.json())
     .then(data => {
         console.log("Fetched Data:", data);
