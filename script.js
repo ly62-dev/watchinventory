@@ -119,6 +119,11 @@ document.addEventListener("DOMContentLoaded", function () {
       sortTableByColumn(colIndex);
     });
   });
+
+    // 🔃 Default sort: Date Added descending on load (column index 13)
+    sortState.index = 13;
+    sortState.asc = false;
+    sortTableByColumn(13);
 });
 
 function loadInventoryRecords() {
@@ -206,13 +211,20 @@ function sortTableByColumn(index) {
     const valA = a.children[index].textContent.trim();
     const valB = b.children[index].textContent.trim();
 
+    const dateA = new Date(valA);
+    const dateB = new Date(valB);
+    const isDate = !isNaN(dateA) && !isNaN(dateB);
+
     const numA = parseFloat(valA.replace(/[^\d.-]/g, ""));
     const numB = parseFloat(valB.replace(/[^\d.-]/g, ""));
-
     const isNumeric = !isNaN(numA) && !isNaN(numB);
-    const compare = isNumeric
-      ? numA - numB
-      : valA.localeCompare(valB, undefined, { sensitivity: "base" });
+
+    const compare = isDate
+      ? dateA - dateB
+      : isNumeric
+        ? numA - numB
+        : valA.localeCompare(valB, undefined, { sensitivity: "base" });
+
 
     return sortState.asc ? compare : -compare;
   });
