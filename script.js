@@ -46,11 +46,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Send data to Google Apps Script
-        fetch('https://script.google.com/macros/s/AKfycbxeyUGk84p1x4kCnrnhlvwp2-e8KOSYaSY9dZhr4DBsHjEz3NTxyLIZ_pM7GW44WRFx/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec', {
             method: 'POST',
             mode: 'cors',
             redirect: "follow",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "text/plain" },
             body: JSON.stringify({ watchID, status, brand, model, movement, qty, boughtPrice, boughtDate, sellingPrice, supplier, notes, images: imagesData })
         })
         .then(response => response.json())
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // ✅ Load Inventory Records Function//------------------------------------------------------------------------------------------------------------------
 function loadInventoryRecords() {
-    fetch('https://script.google.com/macros/s/AKfycbxeyUGk84p1x4kCnrnhlvwp2-e8KOSYaSY9dZhr4DBsHjEz3NTxyLIZ_pM7GW44WRFx/exec')
+    fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec')
     .then(response => response.json())
     .then(data => {
         console.log("Fetched Data:", data);
