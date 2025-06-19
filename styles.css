@@ -31,11 +31,6 @@ body, html {
     font-size: 16px;
 }
 
-.logo {
-    font-weight: 600;
-    font-size: 18px;
-}
-
 .nav-item:hover {
     background: #2E4D2D; /* ✅ Darker hunter green for hover */
     border-radius: 6px;
@@ -97,21 +92,6 @@ body, html {
   transition: transform 0.2s ease;
 }
 
-/* Grid layout */
-/*.content-grid {*/
-    /*display: flex;*/
-    /*gap: 15px;*/
-    /*width: 100%;*/
-    /*align-items: flex-start; ✅ Ensures both sections align properly */
-/*}*/
-
-/* Sidebar */
-    /*.sidebar {*/
-     /*flex: 0.3; ✅ Sidebar stays 30% width */
-    /* max-width: 400px; ✅ Keeps proper size */
-    /*min-width: 280px;  ✅ Prevents shrinking too much */
-/*}*/
-
 .profile-card {
     background: white;
     padding: 20px;
@@ -125,12 +105,6 @@ body, html {
     height: 100px;
     border-radius: 50%;
 }
-
-/* Inventory Section */
-/*.inventory-section {*/
-    /*flex: 0.7; /* ✅ Inventory stays 70% */
-    /*max-width: calc(100% - 420px); /* ✅ Adjusts dynamically */
-/*}*/
 
 /* Form container */
 .form-container {
@@ -251,10 +225,6 @@ tr:hover {
     .content-grid {
         flex-direction: column;
     }
-
-    /*.sidebar, .inventory-section {*/
-        /*max-width: 100%;*/
-    /*}*/
     
     .dashboard-top {
         flex-direction: column;
