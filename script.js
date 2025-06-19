@@ -1,3 +1,6 @@
+// Global sorting state
+let sortState = { index: null, asc: true };
+
 function generateWatchID(status, brand) {
   const statusCode = status ? status.substring(0, 3).toUpperCase() : "XXX";
   const brandCode = brand ? brand.substring(0, 3).toUpperCase() : "XXX";
@@ -99,26 +102,23 @@ document.addEventListener("DOMContentLoaded", function () {
         addButton.disabled = false;
         addButton.textContent = originalBtnText;
       });
-  });
+  }); //end of form
 
-  // 🔍 Add filters
-  document.getElementById('searchInput').addEventListener('input', applyTableFilters);
-  document.getElementById('statusFilter').addEventListener('change', applyTableFilters);
-
-  // ❌ Clear filters button
-  document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+    document.getElementById('searchInput').addEventListener('input', applyTableFilters);
+    document.getElementById('statusFilter').addEventListener('change', applyTableFilters);
+    document.getElementById('clearFiltersBtn').addEventListener('click', () => {
     document.getElementById('searchInput').value = '';
     document.getElementById('statusFilter').value = '';
     applyTableFilters();
   });
 
   document.querySelectorAll("th.sortable").forEach(th => {
-  th.addEventListener("click", () => {
-    const colIndex = parseInt(th.dataset.index);
-    sortState.asc = sortState.index === colIndex ? !sortState.asc : true;
-    sortTableByColumn(colIndex);
+    th.addEventListener("click", () => {
+      const colIndex = parseInt(th.dataset.index);
+      sortState.asc = sortState.index === colIndex ? !sortState.asc : true;
+      sortTableByColumn(colIndex);
+    });
   });
-	});
 });
 
 function loadInventoryRecords() {
