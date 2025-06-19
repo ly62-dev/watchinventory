@@ -1,20 +1,32 @@
 function generateWatchID() {
     return 'WID-' + Date.now(); // Uses timestamp for uniqueness
 }
+
 //------------------------------------------------------------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("Script Loaded!");  
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Script Loaded!");
+
+    // Show loader on initial page load
+    const loader = document.getElementById("loader");
+    const content = document.getElementById("content");
+    if (loader) loader.style.display = "flex";
+    if (content) content.style.display = "none";
 
     // Ensure `watchID` field exists before setting a value
     const watchIDField = document.getElementById('watchID');
     if (watchIDField) {
         watchIDField.value = generateWatchID();
     }
-    loadDropdowns()
-    // Load table data on page load
-    loadInventoryRecords();
 
-    document.getElementById('inventoryForm').addEventListener('submit', async function(e) {
+    loadDropdowns();
+
+    // Load table data and show content when ready
+    loadInventoryRecords().then(() => {
+        if (loader) loader.style.display = "none";
+        if (content) content.style.display = "block";
+    });
+
+    document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
         e.preventDefault();
 
         // Collect form values
@@ -29,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const sellingPrice = document.getElementById('sellingPrice').value;
         const supplier = document.getElementById('supplier').value;
         const notes = document.getElementById('notes').value;
-        
+
         const imageFiles = document.getElementById('images').files;
         let imagesData = [];
 
@@ -45,132 +57,129 @@ document.addEventListener("DOMContentLoaded", function() {
             imagesData.push(await readFile(file));
         }
 
-        // Send data to Google Apps Script
         fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec', {
             method: 'POST',
             mode: 'cors',
             redirect: "follow",
             headers: { "Content-Type": "text/plain" },
-            body: JSON.stringify({ watchID, status, brand, model, movement, qty, boughtPrice, boughtDate, sellingPrice, supplier, notes, images: imagesData })
+            body: JSON.stringify({
+                watchID, status, brand, model, movement, qty,
+                boughtPrice, boughtDate, sellingPrice, supplier, notes,
+                images: imagesData
+            })
         })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Watch added successfully!", data);
+                return loadInventoryRecords();
+            })
+            .catch(error => {
+                console.error("Fetch Error:", error);
+                alert("Failed to add watch. Please try again.");
+            });
+    });
+});
+
+// ✅ Load Inventory Records Function
+//------------------------------------------------------------------------------------------------------------------
+function loadInventoryRecords() {
+    return fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec')
         .then(response => response.json())
         .then(data => {
-            console.log("Watch added successfully!", data);
-            return loadInventoryRecords(); // ✅ Ensure new records load immediately after adding
-            console.log("Received Data: " + data);
+            console.log("Fetched Data:", data);
+            const tableContainer = document.getElementById("tableContainer");
+            const tableBody = document.getElementById("inventoryTableBody");
+
+            if (!data || data.length === 0) {
+                tableContainer.style.display = "none";
+                console.warn("No valid inventory data received.");
+                return;
+            } else {
+                tableContainer.style.display = "block";
+            }
+
+            tableBody.innerHTML = "";
+
+            data.forEach((row, index) => {
+                if (index === 0) return; // Skip header row
+
+                let tr = document.createElement("tr");
+                row.forEach((cell, cellIndex) => {
+                    let td = document.createElement("td");
+
+                    if (cellIndex === row.length - 7 && cell) {
+                        td.textContent = new Date(cell).toISOString().split("T")[0];
+                    }
+                    else if (cellIndex === row.length - 3 && cell.startsWith("https")) {
+                        let link = document.createElement("a");
+                        link.href = cell;
+                        link.textContent = "[View Folder]";
+                        link.target = "_blank";
+                        link.title = cell;
+                        td.appendChild(link);
+                    }
+                    else if (cellIndex === row.length - 2 && cell.includes(",")) {
+                        td.textContent = "Multiple Images";
+                    }
+                    else if (cellIndex === row.length - 2 && cell.startsWith("https")) {
+                        let imageLink = document.createElement("a");
+                        imageLink.href = cell;
+                        imageLink.textContent = "[View Image]";
+                        imageLink.target = "_blank";
+                        imageLink.title = cell;
+                        td.appendChild(imageLink);
+                    }
+                    else if (cellIndex === row.length - 1 && cell) {
+                        td.textContent = new Date(cell).toISOString().split("T")[0];
+                    }
+                    else {
+                        td.textContent = cell;
+                    }
+
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
         })
         .catch(error => {
-            console.error("Fetch Error:", error);
-            alert("Failed to add watch. Please try again.");
+            console.error("Table Fetch Error:", error);
+            alert("Failed to load inventory records.");
         });
-        
-    });
-});
-
-// ✅ Load Inventory Records Function//------------------------------------------------------------------------------------------------------------------
-function loadInventoryRecords() {
-    fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec')
-    .then(response => response.json())
-    .then(data => {
-        console.log("Fetched Data:", data);
-        const tableContainer = document.getElementById("tableContainer");
-        const tableBody = document.getElementById("inventoryTableBody");
-
-        if (!data || data.length === 0) {  
-            tableContainer.style.display = "none"; 
-            console.warn("No valid inventory data received.");
-            return; // 🚨 Exit early if no data
-        } else {  
-            tableContainer.style.display = "block"; 
-        }
-
-        tableBody.innerHTML = "";
-
-        data.forEach((row, index) => {
-    if (index === 0) return; // Skip header row
-
-    let tr = document.createElement("tr");
-    row.forEach((cell, cellIndex) => {
-        let td = document.createElement("td");
-
-        if (cellIndex === row.length - 7 && cell) {
-            td.textContent = new Date(cell).toISOString().split("T")[0]; // ✅ Formats YYYY-MM-DD
-        }
-        // ✅ Check if this cell contains an image URL (assuming it's in the last column)
-        else if (cellIndex === row.length - 3 && cell.startsWith("https")) {
-            let link = document.createElement("a");
-            link.href = cell; // Full image URL
-            link.textContent = "[View Folder]"; // Display shortcut text
-            link.target = "_blank"; // Opens in a new tab
-            link.title = cell; // Shows full URL when hovered
-            td.appendChild(link);
-        } 
-        else if (cellIndex === row.length - 2 && cell.includes(",")) {
-            td.textContent = "Multiple Images"; // ✅ Displays "Multiple" when there's more than one image
-        }
-        else if (cellIndex === row.length - 2 && cell.startsWith("https")) {
-            let imageLink = document.createElement("a");
-            imageLink.href = cell;
-            imageLink.textContent = "[View Image]"; // ✅ Displays shortcut text
-            imageLink.target = "_blank"; // ✅ Opens in a new tab
-            imageLink.title = cell; // ✅ Shows full URL when hovered
-            td.appendChild(imageLink);
-        }
-        else if (cellIndex === row.length - 1 && cell) {
-            td.textContent = new Date(cell).toISOString().split("T")[0]; // ✅ Formats YYYY-MM-DD
-        }
-        else {
-            td.textContent = cell;
-        }
-
-        tr.appendChild(td);
-    });
-    tableBody.appendChild(tr);
-});
-
-    })
-    .catch(error => {
-        console.error("Table Fetch Error:", error);
-        alert("Failed to load inventory records.");
-    });
 }
+
 //------------------------------------------------------------------------------------------------------------------
 function loadDropdowns() {
-fetch("watchInventoryDropdown.json")
-.then(response => response.json())
-.then(data => {
-    const movementSelect = document.getElementById("movement");
-    const statusSelect = document.getElementById("status");
-    const brandSelect = document.getElementById("brand");
+    fetch("watchInventoryDropdown.json")
+        .then(response => response.json())
+        .then(data => {
+            const movementSelect = document.getElementById("movement");
+            const statusSelect = document.getElementById("status");
+            const brandSelect = document.getElementById("brand");
 
-    // Keep a default empty option for each dropdown
-    movementSelect.innerHTML = `<option value="" selected disabled>Select movement...</option>`;
-    statusSelect.innerHTML = `<option value="" selected disabled>Select status...</option>`;
-    brandSelect.innerHTML = `<option value="" selected disabled>Select brand...</option>`;
+            movementSelect.innerHTML = `<option value="" selected disabled>Select movement...</option>`;
+            statusSelect.innerHTML = `<option value="" selected disabled>Select status...</option>`;
+            brandSelect.innerHTML = `<option value="" selected disabled>Select brand...</option>`;
 
-    // Populate Movement Dropdown
-    data.movements.forEach(movement => {
-        let option = document.createElement("option");
-        option.value = movement;
-        option.textContent = movement;
-        movementSelect.appendChild(option);
-    });
+            data.movements.forEach(movement => {
+                let option = document.createElement("option");
+                option.value = movement;
+                option.textContent = movement;
+                movementSelect.appendChild(option);
+            });
 
-    // Populate Status Dropdown
-    data.statuses.forEach(status => {
-        let option = document.createElement("option");
-        option.value = status;
-        option.textContent = status;
-        statusSelect.appendChild(option);
-    });
+            data.statuses.forEach(status => {
+                let option = document.createElement("option");
+                option.value = status;
+                option.textContent = status;
+                statusSelect.appendChild(option);
+            });
 
-    // Populate Brand Dropdown
-    data.brands.forEach(brand => {
-        let option = document.createElement("option");
-        option.value = brand;
-        option.textContent = brand;
-        brandSelect.appendChild(option);
-    });
-})
-.catch(error => console.error("Dropdown Fetch Error:", error));
+            data.brands.forEach(brand => {
+                let option = document.createElement("option");
+                option.value = brand;
+                option.textContent = brand;
+                brandSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Dropdown Fetch Error:", error));
 }
