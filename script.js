@@ -6,11 +6,7 @@ function generateWatchID() {
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Script Loaded!");
 
-    // Show loader on initial page load
-    const loader = document.getElementById("loader");
-    const content = document.getElementById("content");
-    if (loader) loader.style.display = "flex";
-    if (content) content.style.display = "none";
+
 
     // Ensure `watchID` field exists before setting a value
     const watchIDField = document.getElementById('watchID');
@@ -20,12 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadDropdowns();
 
-    // Load table data and show content when ready
-    loadInventoryRecords().then(() => {
-        if (loader) loader.style.display = "none";
-        if (content) content.style.display = "block";
-    });
-
+    // Load table data
+    loadInventoryRecords()
     document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
         e.preventDefault();
 
@@ -83,70 +75,68 @@ document.addEventListener("DOMContentLoaded", function () {
 // ✅ Load Inventory Records Function
 //------------------------------------------------------------------------------------------------------------------
 function loadInventoryRecords() {
-    return fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Fetched Data:", data);
-            const tableContainer = document.getElementById("tableContainer");
-            const tableBody = document.getElementById("inventoryTableBody");
+  fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec')
+    .then(response => response.json())
+    .then(data => {
+      console.log("Fetched Data:", data);
+      const tableContainer = document.getElementById("tableContainer");
+      const tableBody = document.getElementById("inventoryTableBody");
 
-            if (!data || data.length === 0) {
-                tableContainer.style.display = "none";
-                console.warn("No valid inventory data received.");
-                return;
-            }
+      if (!data || data.length === 0) {
+        tableContainer.style.display = "none";
+        console.warn("No valid inventory data received.");
+        return;
+      } else {
+        tableContainer.style.display = "block";
+      }
 
-            tableContainer.style.display = "block";
-            tableBody.innerHTML = "";
+      tableBody.innerHTML = "";
 
-            data.forEach((row, index) => {
-                if (index === 0) return; // Skip header
+      data.forEach((row, index) => {
+        if (index === 0) return; // Skip header row
 
-                const tr = document.createElement("tr");
+        let tr = document.createElement("tr");
+        row.forEach((cell, cellIndex) => {
+          let td = document.createElement("td");
 
-                row.forEach((cell, cellIndex) => {
-                    const td = document.createElement("td");
+          if (cellIndex === row.length - 7 && cell) {
+            td.textContent = new Date(cell).toISOString().split("T")[0];
+          } else if (cellIndex === row.length - 3 && cell.startsWith("https")) {
+            let link = document.createElement("a");
+            link.href = cell;
+            link.textContent = "[View Folder]";
+            link.target = "_blank";
+            link.title = cell;
+            td.appendChild(link);
+          } else if (cellIndex === row.length - 2 && cell.includes(",")) {
+            td.textContent = "Multiple Images";
+          } else if (cellIndex === row.length - 2 && cell.startsWith("https")) {
+            let imageLink = document.createElement("a");
+            imageLink.href = cell;
+            imageLink.textContent = "[View Image]";
+            imageLink.target = "_blank";
+            imageLink.title = cell;
+            td.appendChild(imageLink);
+          } else if (cellIndex === row.length - 1 && cell) {
+            td.textContent = new Date(cell).toISOString().split("T")[0];
+          } else {
+            td.textContent = cell;
+          }
 
-                    if (cellIndex === row.length - 7 && cell) {
-                        td.textContent = new Date(cell).toISOString().split("T")[0];
-                    } else if (cellIndex === row.length - 3 && cell.startsWith("https")) {
-                        const link = document.createElement("a");
-                        link.href = cell;
-                        link.textContent = "[View Folder]";
-                        link.target = "_blank";
-                        link.title = cell;
-                        td.appendChild(link);
-                    } else if (cellIndex === row.length - 2 && cell.includes(",")) {
-                        td.textContent = "Multiple Images";
-                    } else if (cellIndex === row.length - 2 && cell.startsWith("https")) {
-                        const imageLink = document.createElement("a");
-                        imageLink.href = cell;
-                        imageLink.textContent = "[View Image]";
-                        imageLink.target = "_blank";
-                        imageLink.title = cell;
-                        td.appendChild(imageLink);
-                    } else if (cellIndex === row.length - 1 && cell) {
-                        td.textContent = new Date(cell).toISOString().split("T")[0];
-                    } else {
-                        td.textContent = cell;
-                    }
-
-                    tr.appendChild(td);
-                });
-
-                tableBody.appendChild(tr);
-            });
-        })
-        .catch(error => {
-            console.error("Table Fetch Error:", error);
-            alert("Failed to load inventory records.");
+          tr.appendChild(td);
         });
+        tableBody.appendChild(tr);
+      });
+        // ✅ Show content and hide loader once data is ready
+document.getElementById("loader").style.display = "none";
+document.getElementById("content").style.display = "block";
+    })
+    .catch(error => {
+      console.error("Table Fetch Error:", error);
+      alert("Failed to load inventory records.");
+    });
 }
+
 
 //------------------------------------------------------------------------------------------------------------------
 function loadDropdowns() {
