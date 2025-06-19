@@ -137,6 +137,12 @@ document.getElementById("content").style.display = "block";
       alert("Failed to load inventory records.");
     });
 }
+//------------------------------------------------------------------------------------------------------------------
+
+function updateRecordCount() {
+  const total = document.querySelectorAll('#inventoryTableBody tr').length;
+  document.getElementById('recordCount').textContent = `Total Records: ${total}`;
+}
 
 
 //------------------------------------------------------------------------------------------------------------------
