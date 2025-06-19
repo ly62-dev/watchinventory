@@ -207,7 +207,6 @@ function createTableRow(row) {
   return tr;
 }
 
-
 function sortTableByColumn(index) {
   const tableBody = document.getElementById("inventoryTableBody");
   const rowsArray = Array.from(tableBody.querySelectorAll("tr"));
@@ -276,6 +275,8 @@ function applyTableFilters() {
 }
 
 function exportTableToCSV(filename = "watch-inventory.csv") {
+  console.log("Export button clicked");
+
   const table = document.getElementById("inventoryTable");
   if (!table) return;
 
