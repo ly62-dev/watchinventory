@@ -15,31 +15,56 @@ body, html {
     padding: 12px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
-
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1500px;
-    margin: auto;
+.nav-tabs {
+  display: flex;
+  border-bottom: 2px solid #ccc;
+  gap: 0;
 }
 
-.nav-item {
-    color: white;
-    text-decoration: none;
-    padding: 10px 16px;
-    font-size: 16px;
+.nav-tabs .tablink {
+  background-color: white;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  transition: border-bottom 0.2s, color 0.2s;
 }
 
-.nav-item:hover {
-    background: #2E4D2D; /* ✅ Darker hunter green for hover */
-    border-radius: 6px;
+.nav-tabs .tablink:hover {
+  color: #355E3B; /* Hunter green hover */
 }
+
+.nav-tabs .tablink.active {
+  border-bottom: 3px solid #355E3B;
+  color: #355E3B;
+}
+
+/*.nav-container {*/
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    /*align-items: center;*/
+    /*max-width: 1500px;*/
+    /*margin: auto;*/
+/*}*/
+
+/*.nav-item {*/
+    /*color: white;*/
+    /*text-decoration: none;*/
+    /*padding: 10px 16px;*/
+    /*font-size: 16px;*/
+/*}
+
+/*.nav-item:hover {*/
+    /*background: #2E4D2D; /* ✅ Darker hunter green for hover */
+    /*border-radius: 6px;*/
+/*}*/
 
 /* Dropdown */
-.nav-dropdown {
-    position: relative;
-}
+/*.nav-dropdown {*/
+    /*position: relative;*/
+/*}*/
 
 .dropdown-toggle {
     background: transparent;
@@ -49,13 +74,13 @@ body, html {
     font-size: 16px;
 }
 
-.badge {
-    background: #28a745;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-}
+/*.badge {*/
+    /*background: #28a745;*/
+    /*color: white;*/
+    /*padding: 4px 8px;*/
+    /*border-radius: 12px;*/
+    /*font-size: 12px;*/
+/*}*/
 
 .dropdown-menu {
     display: none;
@@ -83,7 +108,7 @@ body, html {
 /* Page layout */
 .page-container {
     max-width: 1500px;
-    margin: 80px auto 20px;
+    margin: 20px auto 20px;
     padding: 20px;
 }
 .sort-icon {
