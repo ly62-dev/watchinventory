@@ -109,15 +109,28 @@
 
   <!-- 🔍 Search & Filter Controls -->
   <div class="table-controls" style="display: flex; gap: 1rem; margin-bottom: 1rem; align-items: center;">
-  <input type="text" id="searchInput" placeholder="🔍 Search..." style="flex: 1; min-width: 200px; padding: 8px;" />
-  <select id="statusFilter" style="padding: 8px; min-width: 150px;">
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="🔍 Search..."
+    style="flex: 2; min-width: 250px; padding: 8px; height: 38px;"
+  />
+  <select
+    id="statusFilter"
+    style="flex: 0 0 160px; padding: 8px; height: 38px;"
+  >
     <option value="">All Statuses</option>
     <option value="For sale">For sale</option>
     <option value="Sold">Sold</option>
     <option value="Personal">Personal</option>
     <option value="Project">Project</option>
   </select>
-  <button id="clearFiltersBtn" style="padding: 8px 16px; height: 38px; line-height: 1;">❌ Clear</button>
+  <button
+    id="clearFiltersBtn"
+    style="flex: 0 0 100px; padding: 8px 12px; height: 38px; display: flex; align-items: center; justify-content: center;"
+  >
+    ❌ Clear
+  </button>
 </div>
 
   <div id="tableContainer" class="table-container">
