@@ -32,6 +32,10 @@
     <header class="navbar">
       <div class="nav-container">
         <a href="#" class="nav-item">Watch Inventory</a>
+        <button class="nav-item" style="flex: 1; margin: 0;" onclick="openLink(event, 'Flight');"><i class="fa fa-plane w3-margin-right"></i>Flight</button>
+  <button class="nav-item" style="flex: 1; margin: 0;" onclick="openLink(event, 'Hotel');"><i class="fa fa-bed w3-margin-right"></i>Hotel</button>
+  <button class="nav-item" style="flex: 1; margin: 0;" onclick="openLink(event, 'Car');"><i class="fa fa-car w3-margin-right"></i>Rental</button>
+
       </div>
     </header>
 
@@ -40,11 +44,15 @@
   <div class="dashboard-top">
     <div class="form-pane">
       <div class="form-container">
-        <div class="nav-container">
-      <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'Flight');"><i class="fa fa-plane w3-margin-right"></i>Flight</button>
-      <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'Hotel');"><i class="fa fa-bed w3-margin-right"></i>Hotel</button>
-      <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'Car');"><i class="fa fa-car w3-margin-right"></i>Rental</button>
+     <div class="navbar">
+      <div class="nav-tabs">
+        <button class="nav-item" style="flex: 1; margin: 0;" onclick="openLink(event, 'Flight');"><i class="fa fa-plane w3-margin-right"></i>Flight</button>
+  <button class="nav-item" style="flex: 1; margin: 0;" onclick="openLink(event, 'Hotel');"><i class="fa fa-bed w3-margin-right"></i>Hotel</button>
+  <button class="nav-item" style="flex: 1; margin: 0;" onclick="openLink(event, 'Car');"><i class="fa fa-car w3-margin-right"></i>Rental</button>
+
+      </div>
     </div>
+
         <h3>Add a New Watch</h3>
             <form id="inventoryForm">
               <label for="watchID">Watch ID</label>
