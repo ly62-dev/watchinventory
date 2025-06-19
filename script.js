@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Send data to Google Apps Script
-        fetch('https://script.google.com/macros/s/AKfycbwgo8QgS5CARHAc5Ch23WyA7PEr3cMW07k2EYaS__6OeFpmz9kwdn1NW5Y4jsm9YomA/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbxeyUGk84p1x4kCnrnhlvwp2-e8KOSYaSY9dZhr4DBsHjEz3NTxyLIZ_pM7GW44WRFx/exec', {
             method: 'POST',
             mode: 'cors',
             redirect: "follow",
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // ✅ Load Inventory Records Function//------------------------------------------------------------------------------------------------------------------
 function loadInventoryRecords() {
-    fetch('https://script.google.com/macros/s/AKfycbwgo8QgS5CARHAc5Ch23WyA7PEr3cMW07k2EYaS__6OeFpmz9kwdn1NW5Y4jsm9YomA/exec')
+    fetch('https://script.google.com/macros/s/AKfycbxeyUGk84p1x4kCnrnhlvwp2-e8KOSYaSY9dZhr4DBsHjEz3NTxyLIZ_pM7GW44WRFx/exec')
     .then(response => response.json())
     .then(data => {
         console.log("Fetched Data:", data);
