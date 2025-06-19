@@ -179,20 +179,28 @@ function createTableRow(row) {
 function updateDashboardStats(dataRows) {
   const records = dataRows.slice(1);
   const uniqueBrands = new Set();
-  let lowStock = 0;
+  const statusMap = {};
 
   records.forEach(row => {
-    const brand = row[2];
-    const quantity = parseInt(row[5]) || 0;
+    const status = row[1]; // Status column
+    const brand = row[2];  // Brand column
 
     if (brand) uniqueBrands.add(brand);
-    if (quantity === 0) lowStock++;
+    if (status) {
+      statusMap[status] = (statusMap[status] || 0) + 1;
+    }
   });
 
   document.getElementById('recordCount').textContent = `📦 Total Records: ${records.length}`;
   document.getElementById('brandCount').textContent = `🧮 Total Brands: ${uniqueBrands.size}`;
-  document.getElementById('lowStockCount').textContent = `🚨 Out of Stock: ${lowStock}`;
+
+  const statusDisplay = Object.entries(statusMap)
+    .map(([status, count]) => `<div>${status}: ${count}</div>`)
+    .join("");
+
+  document.getElementById('statusCounts').innerHTML = statusDisplay;
 }
+
 
 function loadDropdowns() {
   fetch("watchInventoryDropdown.json")
