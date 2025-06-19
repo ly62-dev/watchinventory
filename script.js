@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // ✅ Load Inventory Records Function
 //------------------------------------------------------------------------------------------------------------------
 function loadInventoryRecords() {
+    console.log("fetching table!");
   fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec')
     .then(response => response.json())
     .then(data => {
