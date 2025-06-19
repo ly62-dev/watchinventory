@@ -237,3 +237,12 @@ function loadDropdowns() {
     .then(data => {
       const movementSelect = document.getElementById("movement");
       const statusSelect = document.getElementById("status");
+      data.brands.forEach(b => {
+        const option = document.createElement("option");
+        option.value = b;
+        option.textContent = b;
+        brandSelect.appendChild(option);
+      });
+    })
+    .catch(error => console.error("Dropdown Fetch Error:", error));
+}
