@@ -290,7 +290,12 @@ function exportTableToCSV(filename = "watch-inventory.csv") {
     .filter(row => row.style.display !== "none") // export only visible rows
     .map(row => {
       return Array.from(row.querySelectorAll("td"))
-        .map(td => `"${td.textContent.trim().replace(/"/g, '""')}"`)
+        .map(td => {
+          const link = td.querySelector("a");
+          const cellContent = link ? link.href : td.textContent;
+          return `"${cellContent.trim().replace(/"/g, '""')}"`;
+        })
+
         .join(",");
     });
 
