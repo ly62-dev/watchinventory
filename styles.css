@@ -91,10 +91,12 @@ body, html {
     margin: 80px auto 20px;
     padding: 20px;
 }
-th .sort-icon {
-  color: #D1E7D1; /* ✅ Light hunter green tint */
+.sort-icon {
+  color:  #D1E7D1; /* ✅ Light hunter green tint */
   font-weight: bold;
+  transition: transform 0.2s ease;
 }
+
 /* Grid layout */
 /*.content-grid {*/
     /*display: flex;*/
