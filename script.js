@@ -100,6 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
     addButton.textContent = originalBtnText;
   });
   });
+  document.getElementById('searchInput').addEventListener('input', applyTableFilters);
+  document.getElementById('statusFilter').addEventListener('change', applyTableFilters);
 });
 
 function loadInventoryRecords() {
@@ -129,6 +131,8 @@ function loadInventoryRecords() {
       });
 
       updateDashboardStats(data);
+      applyTableFilters(); // auto-filter after table loads
+
       document.getElementById("loader").style.display = "none";
       document.getElementById("content").style.display = "block";
     })
@@ -174,6 +178,23 @@ function createTableRow(row) {
   });
 
   return tr;
+}
+
+function applyTableFilters() {
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  const statusFilter = document.getElementById('statusFilter').value;
+
+  const rows = document.querySelectorAll('#inventoryTableBody tr');
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(" ");
+    const rowStatus = cells[1]?.textContent || "";
+
+    const matchesSearch = rowText.includes(searchTerm);
+    const matchesStatus = !statusFilter || rowStatus === statusFilter;
+
+    row.style.display = (matchesSearch && matchesStatus) ? "" : "none";
+  });
 }
 
 function updateDashboardStats(dataRows) {
