@@ -83,4 +83,51 @@
               <input type="number" id="sellingPrice" step="0.01" />
 
               <label for="supplier">Supplier</label>
-              <input type="text" id="
+              <input type="text" id="supplier" />
+
+              <label for="notes">Additional Notes</label>
+              <textarea id="notes" rows="4"></textarea>
+
+              <label for="images">Upload Images</label>
+              <input type="file" id="images" accept="image/*" multiple />
+
+              <button type="submit">Add Watch</button>
+            </form>
+          </div>
+        </aside>
+
+        <!-- Inventory Table -->
+        <section class="inventory-section">
+          <div id="tableContainer" class="table-container">
+            <h3>📋 Inventory Summary</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Watch ID</th>
+                  <th>Status</th>
+                  <th>Brand</th>
+                  <th>Model</th>
+                  <th>Movement</th>
+                  <th>Quantity</th>
+                  <th>Bought Price</th>
+                  <th>Bought Date</th>
+                  <th>Selling Price</th>
+                  <th>Supplier</th>
+                  <th>Notes</th>
+                  <th>Folder Link</th>
+                  <th>Image Link</th>
+                  <th>Date Added</th>
+                </tr>
+              </thead>
+              <tbody id="inventoryTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
