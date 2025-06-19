@@ -1,107 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Watch Inventory</title>
-    <link rel="stylesheet" href="https://ly62-dev.github.io/watchinventory/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+  <meta charset="UTF-8" />
+  <title>Watch Inventory</title>
+  <link rel="stylesheet" href="https://ly62-dev.github.io/watchinventory/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+  <style>
+    #loader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.2rem;
+    }
+    #content {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
+  <!-- ✅ Loading Spinner -->
+  <div id="loader">
+    ⏳ Loading inventory summary...
+  </div>
+
+  <!-- ✅ Main App Content -->
+  <div id="content">
     <!-- Navbar -->
     <header class="navbar">
-        <div class="nav-container">
-            <a href="#" class="nav-item logo"><i class="fa fa-home"></i> Watch Inventory</a>
-            <a href="#" class="nav-item">News</a>
-            <a href="#" class="nav-item">Account</a>
-            <a href="#" class="nav-item">Messages</a>
-            <div class="nav-dropdown">
-                <button class="nav-item dropdown-toggle"><i class="fa fa-bell"></i> <span class="badge">3</span></button>
-                <div class="dropdown-menu">
-                    <a href="#">One new friend request</a>
-                    <a href="#">John Doe posted on your wall</a>
-                    <a href="#">Jane likes your post</a>
-                </div>
-            </div>
+      <div class="nav-container">
+        <a href="#" class="nav-item logo"><i class="fa fa-home"></i> Watch Inventory</a>
+        <a href="#" class="nav-item">News</a>
+        <a href="#" class="nav-item">Account</a>
+        <a href="#" class="nav-item">Messages</a>
+        <div class="nav-dropdown">
+          <button class="nav-item dropdown-toggle"><i class="fa fa-bell"></i> <span class="badge">3</span></button>
+          <div class="dropdown-menu">
+            <a href="#">One new friend request</a>
+            <a href="#">John Doe posted on your wall</a>
+            <a href="#">Jane likes your post</a>
+          </div>
         </div>
+      </div>
     </header>
 
     <!-- Page Container -->
     <main class="page-container">
-        <div class="content-grid">
-            
-            <!-- Inventory Form (Replaces Sidebar) -->
-            <aside class="sidebar">
-                <div class="form-container">
-                    <h3>Add a New Watch</h3>
-                    <form id="inventoryForm">
-                        <label for="watchID">Watch ID</label>
-                        <input type="text" id="watchID" readonly required />
+      <div class="content-grid">
 
-                        <label for="status">Status*</label>
-                        <select id="status" required><option value="">Loading statuses...</option></select>
+        <!-- Inventory Form -->
+        <aside class="sidebar">
+          <div class="form-container">
+            <h3>Add a New Watch</h3>
+            <form id="inventoryForm">
+              <label for="watchID">Watch ID</label>
+              <input type="text" id="watchID" readonly required />
 
-                        <label for="brand">Brand*</label>
-                        <select id="brand" required><option value="">Loading brands...</option></select>
+              <label for="status">Status*</label>
+              <select id="status" required><option value="">Loading statuses...</option></select>
 
-                        <label for="model">Model*</label>
-                        <input type="text" id="model" required />
+              <label for="brand">Brand*</label>
+              <select id="brand" required><option value="">Loading brands...</option></select>
 
-                        <label for="movement">Movement*</label>
-                        <select id="movement" required><option value="">Loading movements...</option></select>
+              <label for="model">Model*</label>
+              <input type="text" id="model" required />
 
-                        <label for="qty">Quantity</label>
-                        <input type="number" id="qty" />
+              <label for="movement">Movement*</label>
+              <select id="movement" required><option value="">Loading movements...</option></select>
 
-                        <label for="boughtPrice">Bought Price*</label>
-                        <input type="number" id="boughtPrice" step="0.01" required />
+              <label for="qty">Quantity</label>
+              <input type="number" id="qty" />
 
-                        <label for="boughtDate">Bought Date</label>
-                        <input type="date" id="boughtDate" />
+              <label for="boughtPrice">Bought Price*</label>
+              <input type="number" id="boughtPrice" step="0.01" required />
 
-                        <label for="sellingPrice">Selling Price</label>
-                        <input type="number" id="sellingPrice" step="0.01" />
+              <label for="boughtDate">Bought Date</label>
+              <input type="date" id="boughtDate" />
 
-                        <label for="supplier">Supplier</label>
-                        <input type="text" id="supplier" />
+              <label for="sellingPrice">Selling Price</label>
+              <input type="number" id="sellingPrice" step="0.01" />
 
-                        <label for="notes">Additional Notes</label>
-                        <textarea id="notes" rows="4"></textarea>
-
-                        <label for="images">Upload Images</label>
-                        <input type="file" id="images" accept="image/*" multiple />
-
-                        <button type="submit">Add Watch</button>
-                    </form>
-                </div>
-            </aside>
-
-            <!-- Inventory Summary -->
-            <section class="inventory-section">
-                <div id="tableContainer" class="table-container">
-                    <h3>📋 Inventory Summary</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Watch ID</th>
-                                <th>Status</th>
-                                <th>Brand</th>
-                                <th>Model</th>
-                                <th>Movement</th>
-                                <th>Quantity</th>
-                                <th>Bought Price</th>
-                                <th>Bought Date</th>
-                                <th>Selling Price</th>
-                                <th>Supplier</th>
-                                <th>Notes</th>
-                                <th>Folder Link</th>
-                                <th>Image Link</th>
-                                <th>Date Added</th>
-                            </tr>
-                        </thead>
-                        <tbody id="inventoryTableBody"></tbody>
-                    </table>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <script src="script.js"></script> <!-- ✅ JavaScript file -->
-</body>
+              <label for="supplier">Supplier</label>
+              <input type="text" id="
