@@ -222,10 +222,11 @@ function sortTableByColumn(index) {
   sortState.index = index;
 
   document.querySelectorAll("th.sortable").forEach(th => {
-    const i = parseInt(th.dataset.index);
-    th.textContent = th.textContent.replace(/[\u25B2\u25BC]/g, "");
-    th.textContent += i === index ? (sortState.asc ? " 🔼" : " 🔽") : " 🔽";
-  });
+  const i = parseInt(th.dataset.index);
+  const baseText = th.getAttribute("data-label") || th.textContent.replace(/[\u25B2\u25BC]/g, "").trim();
+  th.textContent = baseText + (i === index ? (sortState.asc ? " 🔼" : " 🔽") : "");
+});
+
 
 }
 
