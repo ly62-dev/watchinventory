@@ -118,6 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
     sortState.asc = sortState.index === colIndex ? !sortState.asc : true;
     sortTableByColumn(colIndex);
   });
+	});
 });
 
 function loadInventoryRecords() {
@@ -227,6 +228,7 @@ function sortTableByColumn(index) {
     th.textContent = th.textContent.replace(/[\u25B2\u25BC]/g, "");
     th.textContent += i === index ? (sortState.asc ? " 🔼" : " 🔽") : " 🔽";
   });
+
 }
 
 function applyTableFilters() {
