@@ -220,11 +220,14 @@ function sortTableByColumn(index) {
   tableBody.innerHTML = "";
   rowsArray.forEach(row => tableBody.appendChild(row));
   sortState.index = index;
-
-  document.querySelectorAll("th.sortable").forEach(th => {
+  
+document.querySelectorAll("th.sortable").forEach(th => {
   const i = parseInt(th.dataset.index);
   const baseText = th.getAttribute("data-label") || th.textContent.replace(/[\u25B2\u25BC]/g, "").trim();
-  th.textContent = baseText + (i === index ? (sortState.asc ? " 🔼" : " 🔽") : "");
+  th.innerHTML = baseText + (i === index
+    ? ` <span class="sort-icon">${sortState.asc ? "🔼" : "🔽"}</span>`
+    : ""
+  );
 });
 
 
