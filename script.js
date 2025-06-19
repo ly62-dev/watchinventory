@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             console.log("Watch added successfully!", data);
-            //return loadInventoryRecords(); // ✅ Ensure new records load immediately after adding
+            return loadInventoryRecords(); // ✅ Ensure new records load immediately after adding
             console.log("Received Data: " + data);
         })
         .catch(error => {
