@@ -98,38 +98,51 @@
   <h3>📊 Database Stats</h3>
   <div id="recordCount">📦 Total Records: 0</div>
   <div id="brandCount">🧮 Total Brands: 0</div>
-  <div id="lowStockCount">🚨 Out of Stock: 0</div>
+  <div id="statusCounts"></div>
   <button id="refreshBtn" style="margin-top: 10px;">🔄 Refresh Data</button>
 </div>
 
   </div>
-
+  
   <section class="table-section">
-    <h3>📋 Inventory Summary</h3>
-    <div id="tableContainer" class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Watch ID</th>
-            <th>Status</th>
-            <th>Brand</th>
-            <th>Model</th>
-            <th>Movement</th>
-            <th>Quantity</th>
-            <th>Bought Price</th>
-            <th>Bought Date</th>
-            <th>Selling Price</th>
-            <th>Supplier</th>
-            <th>Notes</th>
-            <th>Folder Link</th>
-            <th>Image Link</th>
-            <th>Date Added</th>
-          </tr>
-        </thead>
-        <tbody id="inventoryTableBody"></tbody>
-      </table>
-    </div>
-  </section>
+  <h3>📋 Inventory Summary</h3>
+
+  <!-- 🔍 Search & Filter Controls -->
+  <div class="table-controls" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+    <input type="text" id="searchInput" placeholder="🔍 Search..." style="flex: 1; padding: 8px;" />
+    <select id="statusFilter" style="padding: 8px;">
+      <option value="">All Statuses</option>
+      <option value="For Sale">For Sale</option>
+      <option value="Sold">Sold</option>
+      <option value="Archived">Archived</option>
+    </select>
+  </div>
+
+  <div id="tableContainer" class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Watch ID</th>
+          <th>Status</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Movement</th>
+          <th>Quantity</th>
+          <th>Bought Price</th>
+          <th>Bought Date</th>
+          <th>Selling Price</th>
+          <th>Supplier</th>
+          <th>Notes</th>
+          <th>Folder Link</th>
+          <th>Image Link</th>
+          <th>Date Added</th>
+        </tr>
+      </thead>
+      <tbody id="inventoryTableBody"></tbody>
+    </table>
+  </div>
+</section>
+
 </main>
 
   </div>
