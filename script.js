@@ -275,15 +275,18 @@ function applyTableFilters() {
 }
 
 function exportTableToCSV(filename = "watch-inventory.csv") {
-  console.log("Export button clicked");
-
   const table = document.getElementById("inventoryTable");
-  if (!table) return;
+  const tbody = document.getElementById("inventoryTableBody");
+
+  if (!table || !tbody) {
+    console.warn("Table elements not found");
+    return;
+  }
 
   const headers = Array.from(table.querySelectorAll("thead th"))
-    .map(th => th.textContent.replace(/[\u25B2\u25BC]/g, "").trim());
+    .map(th => th.getAttribute("data-label") || th.textContent.replace(/[\u25B2\u25BC]/g, "").trim());
 
-  const rows = Array.from(document.querySelectorAll("#inventoryTableBody tr"))
+  const rows = Array.from(tbody.querySelectorAll("tr"))
     .filter(row => row.style.display !== "none") // export only visible rows
     .map(row => {
       return Array.from(row.querySelectorAll("td"))
@@ -292,13 +295,15 @@ function exportTableToCSV(filename = "watch-inventory.csv") {
     });
 
   const csvContent = [headers.join(","), ...rows].join("\n");
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
 
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   const link = document.createElement("a");
-  link.href = url;
+  link.href = URL.createObjectURL(blob);
   link.setAttribute("download", filename);
+
+  // Required for Firefox
   document.body.appendChild(link);
+  console.log("Download ready:", link.href);
   link.click();
   document.body.removeChild(link);
 }
