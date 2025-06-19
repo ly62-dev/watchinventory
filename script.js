@@ -42,12 +42,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const addButton = document.querySelector('#inventoryForm button[type="submit"]');
   const originalBtnText = addButton.textContent;
-  
+
   document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     addButton.disabled = true;
     addButton.textContent = "Saving...";
-    
+
     const watchID = document.getElementById('watchID').value;
     const status = statusSelect.value;
     const brand = brandSelect.value;
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Watch added successfully!", data);
         document.getElementById('inventoryForm').reset();
         watchIDField.value = "";
-        updateWatchID(); // Regenerate new ID based on current brand+status
+        updateWatchID();
         renderDashboard();
       })
       .catch(error => {
@@ -96,12 +96,21 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Failed to add watch. Please try again.");
       })
       .finally(() => {
-    addButton.disabled = false;
-    addButton.textContent = originalBtnText;
+        addButton.disabled = false;
+        addButton.textContent = originalBtnText;
+      });
   });
-  });
+
+  // 🔍 Add filters
   document.getElementById('searchInput').addEventListener('input', applyTableFilters);
   document.getElementById('statusFilter').addEventListener('change', applyTableFilters);
+
+  // ❌ Clear filters button
+  document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('statusFilter').value = '';
+    applyTableFilters();
+  });
 });
 
 function loadInventoryRecords() {
@@ -131,7 +140,7 @@ function loadInventoryRecords() {
       });
 
       updateDashboardStats(data);
-      applyTableFilters(); // auto-filter after table loads
+      applyTableFilters();
 
       document.getElementById("loader").style.display = "none";
       document.getElementById("content").style.display = "block";
@@ -203,8 +212,8 @@ function updateDashboardStats(dataRows) {
   const statusMap = {};
 
   records.forEach(row => {
-    const status = row[1]; // Status column
-    const brand = row[2];  // Brand column
+    const status = row[1];
+    const brand = row[2];
 
     if (brand) uniqueBrands.add(brand);
     if (status) {
@@ -222,39 +231,9 @@ function updateDashboardStats(dataRows) {
   document.getElementById('statusCounts').innerHTML = statusDisplay;
 }
 
-
 function loadDropdowns() {
   fetch("watchInventoryDropdown.json")
     .then(response => response.json())
     .then(data => {
       const movementSelect = document.getElementById("movement");
       const statusSelect = document.getElementById("status");
-      const brandSelect = document.getElementById("brand");
-
-      movementSelect.innerHTML = `<option value="" selected disabled>Select movement...</option>`;
-      statusSelect.innerHTML = `<option value="" selected disabled>Select status...</option>`;
-      brandSelect.innerHTML = `<option value="" selected disabled>Select brand...</option>`;
-
-      data.movements.forEach(m => {
-        const option = document.createElement("option");
-        option.value = m;
-        option.textContent = m;
-        movementSelect.appendChild(option);
-      });
-
-      data.statuses.forEach(s => {
-        const option = document.createElement("option");
-        option.value = s;
-        option.textContent = s;
-        statusSelect.appendChild(option);
-      });
-
-      data.brands.forEach(b => {
-        const option = document.createElement("option");
-        option.value = b;
-        option.textContent = b;
-        brandSelect.appendChild(option);
-      });
-    })
-    .catch(error => console.error("Dropdown Fetch Error:", error));
-}
