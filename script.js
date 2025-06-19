@@ -1,6 +1,7 @@
 function generateWatchID() {
     return 'WID-' + Date.now(); // Uses timestamp for uniqueness
 }
+//------------------------------------------------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function() {
     console.log("Script Loaded!");  
 
@@ -61,10 +62,11 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("Fetch Error:", error);
             alert("Failed to add watch. Please try again." + body);
         });
+        console.log("Received Data: " + JSON.stringify(data)+ JSON.stringify(body));
     });
 });
 
-// ✅ Load Inventory Records Function
+// ✅ Load Inventory Records Function//------------------------------------------------------------------------------------------------------------------
 function loadInventoryRecords() {
     fetch('https://script.google.com/macros/s/AKfycbz2cel9Dqg5SYps0qwEGu1K8DU4qCU2_DTAk_07wuMxy9lte8lQXSsQIf69wlG_HmJt/exec')
     .then(response => response.json())
@@ -131,6 +133,7 @@ function loadInventoryRecords() {
         alert("Failed to load inventory records.");
     });
 }
+//------------------------------------------------------------------------------------------------------------------
 function loadDropdowns() {
 fetch("watchInventoryDropdown.json")
 .then(response => response.json())
