@@ -222,7 +222,25 @@ tr:hover {
     background: #D1E7D1; /* ✅ Light hunter green tint */
     cursor: pointer;
 }
+.dashboard-top {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
 
+.form-pane {
+    flex: 2;
+}
+
+.stats-pane {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
 /* Responsive Mobile View */
 @media screen and (max-width: 768px) {
     .content-grid {
@@ -231,6 +249,9 @@ tr:hover {
 
     .sidebar, .inventory-section {
         max-width: 100%;
+    }
+    .dashboard-top {
+        flex-direction: column;
     }
 
     form {
