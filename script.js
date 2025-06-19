@@ -197,8 +197,6 @@ function createTableRow(row) {
   return tr;
 }
 
-// ⬆️ Sorting State
-let sortState = { index: null, asc: true };
 
 function sortTableByColumn(index) {
   const tableBody = document.getElementById("inventoryTableBody");
