@@ -8,7 +8,7 @@ body, html {
 .custom-tab-bar {
   display: flex;
   border-bottom: 2px solid #ccc;
-  background: transparent;
+  background: #355E3B;
 }
 
 .custom-tab {
