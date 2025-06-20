@@ -7,11 +7,11 @@ body, html {
 }
 
 /* Navbar */
-.navbar {
+/*.navbar {
     position: fixed;
     top: 0;
-    z-index: 1000; /* Ensures it stays above other elements */
-    background:#355E3B; /* ✅ Hunter Green */
+    z-index: 1000;
+    background:#355E3B; 
     padding: 12px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -37,7 +37,7 @@ body, html {
 }
 
 .nav-tabs .tablink:hover {
-  color: #355E3B; /* Hunter green hover */
+  color: #355E3B;
 }
 
 .nav-tabs .tablink.active {
@@ -52,9 +52,9 @@ body, html {
     cursor: pointer;
     color: white;
     font-size: 16px;
-}
+}*/
 
-.dropdown-menu {
+/*.dropdown-menu {
     display: none;
     position: absolute;
     background: white;
@@ -75,8 +75,48 @@ body, html {
 
 .dropdown-menu a:hover {
     background: #f8f9fa;
+}*/
+.custom-tab-bar {
+  display: flex;
+  background-color: #355E3B; /* Hunter Green */
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+  margin-bottom: 1rem;
 }
 
+.custom-tab {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.custom-tab:hover {
+  background-color: #2c4d32; /* Slightly darker green on hover */
+}
+
+.custom-tab.active {
+  background-color: #D1E7D1; /* Light hunter green tint */
+  color: #355E3B; /* Hunter Green text */
+  border-bottom: 3px solid #D1E7D1;
+}
+
+.tab-content {
+  display: none;
+  background-color: #ffffff;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+}
+
+.tab-content.active-tab {
+  display: block;
+}
 /* Page layout */
 .page-container {
     max-width: 1500px;
@@ -89,7 +129,7 @@ body, html {
   transition: transform 0.2s ease;
 }
 
-.profile-card {
+/*.profile-card {
     background: white;
     padding: 20px;
     border-radius: 8px;
