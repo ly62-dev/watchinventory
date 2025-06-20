@@ -14,11 +14,15 @@ body, html {
     background:#355E3B; /* ✅ Hunter Green */
     padding: 12px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-bottom: 1rem;
 }
 .nav-tabs {
-  display: flex;
-  border-bottom: 2px solid #ccc;
-  gap: 0;
+    display: flex;
+    border-bottom: 2px solid #ccc;
+    gap: 0;
+    padding-left: 0.5rem;
+    ustify-content: flex-start;
 }
 
 .nav-tabs .tablink {
@@ -41,30 +45,6 @@ body, html {
   color: #355E3B;
 }
 
-/*.nav-container {*/
-    /*display: flex;*/
-    /*justify-content: space-between;*/
-    /*align-items: center;*/
-    /*max-width: 1500px;*/
-    /*margin: auto;*/
-/*}*/
-
-/*.nav-item {*/
-    /*color: white;*/
-    /*text-decoration: none;*/
-    /*padding: 10px 16px;*/
-    /*font-size: 16px;*/
-/*}
-
-/*.nav-item:hover {*/
-    /*background: #2E4D2D; /* ✅ Darker hunter green for hover */
-    /*border-radius: 6px;*/
-/*}*/
-
-/* Dropdown */
-/*.nav-dropdown {*/
-    /*position: relative;*/
-/*}*/
 
 .dropdown-toggle {
     background: transparent;
@@ -73,14 +53,6 @@ body, html {
     color: white;
     font-size: 16px;
 }
-
-/*.badge {*/
-    /*background: #28a745;*/
-    /*color: white;*/
-    /*padding: 4px 8px;*/
-    /*border-radius: 12px;*/
-    /*font-size: 12px;*/
-/*}*/
 
 .dropdown-menu {
     display: none;
