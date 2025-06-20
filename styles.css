@@ -17,7 +17,7 @@ body, html {
   font-weight: bold;
   cursor: pointer;
   color: #333;
-  border-bottom: 3px solid transparent;
+  /*border-bottom: 3px solid transparent;*/
   transition: color 0.3s, border-color 0.3s;
 }
 
@@ -31,49 +31,6 @@ body, html {
   background-color: #D1E7D1;
 }
 
-/*.custom-tab-bar {
-  display: flex;
-  background-color: #355E3B;
-  border-radius: 6px 6px 0 0;
-  overflow: hidden;
-  margin-bottom: 1rem;
-}
-
-.custom-tab {
-  flex: 1;
-  padding: 10px 16px;
-  border: none;
-  background: transparent;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 0;
-}
-
-
-.custom-tab:hover {
-  background-color: #2c4d32;
-}
-
-.custom-tab.active {
-  background-color: #D1E7D1; 
-  color: #355E3B; 
-  border-bottom: 3px solid #D1E7D1;
-}
-
-.tab-content {
-  display: none;
-  background-color: #ffffff;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-top: none;
-  border-radius: 0 0 6px 6px;
-}
-
-.tab-content.active-tab {
-  display: block;
-}*/
 /* Page layout */
 .page-container {
     max-width: 1500px;
