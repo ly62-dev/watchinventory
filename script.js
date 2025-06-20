@@ -356,16 +356,10 @@ function loadDropdowns() {
     .catch(error => console.error("Dropdown Fetch Error:", error));
 }
 
-function openLink(evt, linkName) {
-  var i, x, tablinks;
-  x = document.getElementsByClassName("myLink");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < x.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
-  }
-  document.getElementById(linkName).style.display = "block";
-  evt.currentTarget.className += " w3-red";
+function openTab(evt, tabId) {
+  document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active-tab"));
+  document.querySelectorAll(".custom-tab").forEach(btn => btn.classList.remove("active"));
+
+  document.getElementById(tabId).classList.add("active-tab");
+  evt.currentTarget.classList.add("active");
 }
