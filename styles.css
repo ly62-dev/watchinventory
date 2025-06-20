@@ -6,76 +6,6 @@ body, html {
     padding: 0;
 }
 
-/* Navbar */
-/*.navbar {
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-    background:#355E3B; 
-    padding: 12px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    margin-bottom: 1rem;
-}
-.nav-tabs {
-    display: flex;
-    border-bottom: 2px solid #ccc;
-    gap: 0;
-    padding-left: 0.5rem;
-    ustify-content: flex-start;
-}
-
-.nav-tabs .tablink {
-  background-color: white;
-  border: none;
-  border-bottom: 3px solid transparent;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #333;
-  transition: border-bottom 0.2s, color 0.2s;
-}
-
-.nav-tabs .tablink:hover {
-  color: #355E3B;
-}
-
-.nav-tabs .tablink.active {
-  border-bottom: 3px solid #355E3B;
-  color: #355E3B;
-}
-
-
-.dropdown-toggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: white;
-    font-size: 16px;
-}*/
-
-/*.dropdown-menu {
-    display: none;
-    position: absolute;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    width: 200px;
-    right: 0;
-    top: 40px;
-    border-radius: 6px;
-    overflow: hidden;
-}
-
-.dropdown-menu a {
-    display: block;
-    padding: 10px;
-    color: black;
-    text-decoration: none;
-}
-
-.dropdown-menu a:hover {
-    background: #f8f9fa;
-}*/
 .custom-tab-bar {
   display: flex;
   background-color: #355E3B; /* Hunter Green */
@@ -93,7 +23,9 @@ body, html {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 0; /* 💥 This removes the rounded corners */
 }
+
 
 .custom-tab:hover {
   background-color: #2c4d32; /* Slightly darker green on hover */
@@ -127,20 +59,6 @@ body, html {
   color:  #D1E7D1; /* ✅ Light hunter green tint */
   font-weight: bold;
   transition: transform 0.2s ease;
-}
-
-/*.profile-card {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.profile-image {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
 }
 
 /* Form container */
