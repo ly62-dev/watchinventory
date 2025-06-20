@@ -121,9 +121,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.getElementById("exportCSVBtn").addEventListener("click", () => {
-  exportTableToCSV();
+    exportTableToCSV();
 });
 
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".custom-tab").click();
+});
 
     // 🔃 Default sort: Date Added descending on load (column index 13)
     sortState.index = 13;
@@ -357,9 +360,19 @@ function loadDropdowns() {
 }
 
 function openTab(evt, tabId) {
-  document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active-tab"));
-  document.querySelectorAll(".custom-tab").forEach(btn => btn.classList.remove("active"));
+  // Hide all tab content
+  document.querySelectorAll(".tab-content").forEach(tab => {
+    tab.style.display = "none";
+  });
 
-  document.getElementById(tabId).classList.add("active-tab");
+  // Remove 'active' class from all tabs
+  document.querySelectorAll(".custom-tab").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  // Show the selected tab content
+  document.getElementById(tabId).style.display = "block";
+
+  // Mark this tab as active
   evt.currentTarget.classList.add("active");
 }
