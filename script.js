@@ -43,6 +43,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  const cancelButton = document.getElementById('cancelWatchBtn');
+  const originalCancelText = cancelButton.textContent;
+
+  cancelButton.addEventListener('click', () => {
+    if (confirm("Discard this watch entry?")) {
+      cancelButton.disabled = true;
+      cancelButton.textContent = "Clearing...";
+
+      document.getElementById('inventoryForm').reset();
+      watchIDField.value = "";
+      updateWatchID();
+
+      setTimeout(() => {
+        cancelButton.disabled = false;
+        cancelButton.textContent = originalCancelText;
+      }, 600); // slight UX delay to match button vibe
+    }
+  });
+
   const addButton = document.querySelector('#inventoryForm button[type="submit"]');
   const originalBtnText = addButton.textContent;
 
