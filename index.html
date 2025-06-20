@@ -34,13 +34,13 @@
   <div class="dashboard-top">
     <div class="form-pane">
       <div class="form-container">
-     <div class="navbar">
-      <div class="nav-tabs">
-        <button class="tablink" style="flex: 1; margin: 0;" onclick="openLink(event, 'AddWatch');">➕ Add Watch</button>
-        <button class="tablink" style="flex: 1; margin: 0;" onclick="openLink(event, 'EditWatch');">✏️ Edit Watch</button>
-        <button class="tablink" style="flex: 1; margin: 0;" onclick="openLink(event, 'DeleteWatch');">🗑️ Delete Watch</button>
-      </div>
-    </div>
+        
+        <div class="custom-tab-bar">
+          <button class="custom-tab active" onclick="openTab(event, 'AddWatch')">➕ Add Watch</button>
+          <button class="custom-tab" onclick="openTab(event, 'EditWatch')">✏️ Edit Watch</button>
+          <button class="custom-tab" onclick="openTab(event, 'DeleteWatch')">🗑️ Delete Watch</button>
+        </div>
+        
         <h3>Add a New Watch ⌚️</h3>
             <form id="inventoryForm">
               <label for="watchID">Watch ID</label>
