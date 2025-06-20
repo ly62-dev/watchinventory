@@ -8,7 +8,7 @@ body, html {
 
 /* Navbar */
 .navbar {
-    position: sticky; /* ✅ Moves with page */
+    position: fixed;
     top: 0;
     z-index: 1000; /* Ensures it stays above other elements */
     background:#355E3B; /* ✅ Hunter Green */
