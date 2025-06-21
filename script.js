@@ -429,19 +429,29 @@ function openTab(evt, tabId) {
 }
 
 function deleteWatchByID() {
-  console.log("delete watch record!");
   const watchID = document.getElementById('deleteWatchID').value.trim();
   const statusDiv = document.getElementById('deleteStatus');
-  console.log("delete watch record!" + watchID);
+
+  console.log("🛠 Attempting delete for:", watchID);
+
   if (!watchID) {
-    statusDiv.textContent = "⚠️ Please enter a Watch ID.";
+    statusDiv.textContent = "⚠️ Please enter a Watch ID before deleting.";
     statusDiv.style.color = "orange";
     return;
   }
 
-  // ✅ Pre-validate Watch ID existence
-  if (!window.cachedWatchIDs || !window.cachedWatchIDs.includes(watchID)) {
-    statusDiv.textContent = `❌ Watch ID "${watchID}" not found in inventory.`;
+  // 🔍 Check if cached list is ready
+  if (!window.cachedWatchIDs || !Array.isArray(window.cachedWatchIDs)) {
+    statusDiv.textContent = "⚠️ Inventory not loaded yet. Try refreshing.";
+    statusDiv.style.color = "orange";
+    return;
+  }
+
+  // ❌ Check for case-sensitive exact match
+  const match = window.cachedWatchIDs.includes(watchID);
+
+  if (!match) {
+    statusDiv.innerHTML = `❌ Watch ID "<strong>${watchID}</strong>" not found.<br>Please make sure it matches exactly, including capitalization.`;
     statusDiv.style.color = "red";
     return;
   }
@@ -462,15 +472,16 @@ function deleteWatchByID() {
         statusDiv.textContent = `✅ Watch ${watchID} deleted successfully.`;
         statusDiv.style.color = "green";
         document.getElementById('deleteWatchID').value = "";
-        renderDashboard(); // refreshes data
+        renderDashboard();
       } else {
-        statusDiv.textContent = `❌ Watch ${watchID} could not be deleted.`;
+        statusDiv.textContent = `❌ Could not delete Watch ID "${watchID}".`;
         statusDiv.style.color = "red";
       }
     })
     .catch(error => {
       console.error("Deletion error:", error);
-      statusDiv.textContent = "❌ Something went wrong.";
+      statusDiv.textContent = "❌ Something went wrong. Please try again.";
       statusDiv.style.color = "red";
     });
 }
+
