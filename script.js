@@ -34,6 +34,15 @@ document.addEventListener("DOMContentLoaded", function () {
   brandSelect.addEventListener('change', updateWatchID);
   statusSelect.addEventListener('change', updateWatchID);
 
+  const deleteInput = document.getElementById('deleteWatchID');
+  const deleteBtn = document.getElementById('deleteWatchBtn');
+
+  deleteInput.addEventListener('input', () => {
+    const inputID = deleteInput.value.trim();
+    const isValid = window.cachedWatchIDs && window.cachedWatchIDs.includes(inputID);
+    deleteBtn.disabled = !isValid;
+  });
+
   const refreshBtn = document.getElementById('refreshBtn');
   if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
@@ -178,9 +187,11 @@ function loadInventoryRecords() {
         const tr = createTableRow(row);
         tableBody.appendChild(tr);
       });
-
+      
       updateDashboardStats(data);
+      window.cachedWatchIDs = data.slice(1).map(row => row[0]); // assuming Watch ID is in column 0
       applyTableFilters();
+      
 
       document.getElementById("loader").style.display = "none";
       document.getElementById("content").style.display = "block";
@@ -225,7 +236,18 @@ function createTableRow(row) {
 
     tr.appendChild(td);
   });
+  //added for delete row
+  tr.setAttribute("data-watchid", row[0]); // assuming Watch ID is in the first column
+  tr.addEventListener("click", function () {
+  const watchID = this.getAttribute("data-watchid");
+  document.getElementById("deleteWatchID").value = watchID;
 
+  // Switch to the Delete tab
+  const deleteTabButton = [...document.querySelectorAll(".custom-tab")]
+    .find(btn => btn.textContent.includes("Delete"));
+  if (deleteTabButton) deleteTabButton.click();
+  });
+  //-------------------
   return tr;
 }
 
@@ -394,4 +416,50 @@ function openTab(evt, tabId) {
 
   // Mark this tab as active
   evt.currentTarget.classList.add("active");
+}
+
+function deleteWatchByID() {
+  const watchID = document.getElementById('deleteWatchID').value.trim();
+  const statusDiv = document.getElementById('deleteStatus');
+
+  if (!watchID) {
+    statusDiv.textContent = "⚠️ Please enter a Watch ID.";
+    statusDiv.style.color = "orange";
+    return;
+  }
+
+  // ✅ Pre-validate Watch ID existence
+  if (!window.cachedWatchIDs || !window.cachedWatchIDs.includes(watchID)) {
+    statusDiv.textContent = `❌ Watch ID "${watchID}" not found in inventory.`;
+    statusDiv.style.color = "red";
+    return;
+  }
+
+  if (!confirm(`Are you sure you want to delete Watch ID: ${watchID}?`)) return;
+
+  statusDiv.textContent = "Deleting...";
+  statusDiv.style.color = "#355E3B";
+
+  fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ action: 'delete', watchID })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        statusDiv.textContent = `✅ Watch ${watchID} deleted successfully.`;
+        statusDiv.style.color = "green";
+        document.getElementById('deleteWatchID').value = "";
+        renderDashboard(); // refreshes data
+      } else {
+        statusDiv.textContent = `❌ Watch ${watchID} could not be deleted.`;
+        statusDiv.style.color = "red";
+      }
+    })
+    .catch(error => {
+      console.error("Deletion error:", error);
+      statusDiv.textContent = "❌ Something went wrong.";
+      statusDiv.style.color = "red";
+    });
 }
