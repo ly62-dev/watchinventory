@@ -196,12 +196,11 @@ function loadInventoryRecords() {
       });
       
       updateDashboardStats(data);
-      window.cachedWatchIDs = data.slice(1).map(row => row[0]);
+      window.cachedWatchIDs = data.slice(1).map(row => row[0].trim().toLowerCase());
       console.log("✅ cachedWatchIDs:", window.cachedWatchIDs);
 
       applyTableFilters();
       
-
       document.getElementById("loader").style.display = "none";
       document.getElementById("content").style.display = "block";
     })
@@ -429,7 +428,7 @@ function openTab(evt, tabId) {
 }
 
 function deleteWatchByID() {
-  const watchID = document.getElementById('deleteWatchID').value.trim();
+  const watchID = document.getElementById('deleteWatchID').value.trim().toLowerCase();
   const statusDiv = document.getElementById('deleteStatus');
 
   console.log("🛠 Attempting delete for:", watchID);
