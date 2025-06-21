@@ -93,7 +93,14 @@
           <h3>Edit a New Watch ⌚️</h3>
         </div>
         <div id="DeleteWatch" class="tab-content">
-          <!-- Car Rental form fields -->
+          <h3>Delete a Watch ⌚️</h3>
+            <div style="margin-bottom: 1rem;">
+            <label for="deleteWatchID">Enter Watch ID</label>
+            <input type="text" id="deleteWatchID" placeholder="e.g. FS-CASI123" />
+          </div>
+          <button onclick="deleteWatchByID()">Delete Watch</button>
+          <div id="deleteStatus" style="margin-top: 1rem; font-weight: bold;"></div>
+
         </div>
         
       </div>
