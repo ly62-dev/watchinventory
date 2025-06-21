@@ -419,9 +419,10 @@ function openTab(evt, tabId) {
 }
 
 function deleteWatchByID() {
+  console.log("delete watch record!");
   const watchID = document.getElementById('deleteWatchID').value.trim();
   const statusDiv = document.getElementById('deleteStatus');
-
+  console.log("delete watch record!" + watchID);
   if (!watchID) {
     statusDiv.textContent = "⚠️ Please enter a Watch ID.";
     statusDiv.style.color = "orange";
