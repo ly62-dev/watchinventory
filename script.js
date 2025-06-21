@@ -428,20 +428,19 @@ function openTab(evt, tabId) {
 }
 
 function deleteWatchByID() {
-  const watchIDInput = document.getElementById('deleteWatchID');
+  console.log("delete watch record!");
+  const watchID = document.getElementById('deleteWatchID').value.trim().toLowerCase();
   const statusDiv = document.getElementById('deleteStatus');
-  const watchID = watchIDInput.value.trim();
-
-  console.log("🛠 Attempting delete for:", watchID);
-
+  console.log("delete watch record!" + watchID);
   if (!watchID) {
     statusDiv.textContent = "⚠️ Please enter a Watch ID.";
     statusDiv.style.color = "orange";
     return;
   }
 
+  // ✅ Pre-validate Watch ID existence
   if (!window.cachedWatchIDs || !window.cachedWatchIDs.includes(watchID)) {
-    statusDiv.textContent = `❌ Watch ID "${watchID}" not found in inventory. Please type it exactly as it appears in the table (case-sensitive).`;
+    statusDiv.textContent = `❌ Watch ID "${watchID}" not found in inventory.`;
     statusDiv.style.color = "red";
     return;
   }
@@ -461,16 +460,16 @@ function deleteWatchByID() {
       if (data.success) {
         statusDiv.textContent = `✅ Watch ${watchID} deleted successfully.`;
         statusDiv.style.color = "green";
-        watchIDInput.value = "";
-        renderDashboard();
+        document.getElementById('deleteWatchID').value = "";
+        renderDashboard(); // refreshes data
       } else {
-        statusDiv.textContent = `❌ Could not delete Watch ID "${watchID}".`;
+        statusDiv.textContent = `❌ Watch ${watchID} could not be deleted.`;
         statusDiv.style.color = "red";
       }
     })
     .catch(error => {
       console.error("Deletion error:", error);
-      statusDiv.textContent = "❌ Something went wrong. Please try again.";
+      statusDiv.textContent = "❌ Something went wrong.";
       statusDiv.style.color = "red";
     });
 }
