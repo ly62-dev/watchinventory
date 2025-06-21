@@ -163,6 +163,9 @@ document.addEventListener("DOMContentLoaded", function () {
     sortTableByColumn(13);
 });
 
+window.deleteWatchByID = deleteWatchByID;
+
+
 function loadInventoryRecords() {
   console.log("fetching table!");
 
