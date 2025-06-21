@@ -196,7 +196,9 @@ function loadInventoryRecords() {
       });
       
       updateDashboardStats(data);
-      window.cachedWatchIDs = data.slice(1).map(row => row[0]); // assuming Watch ID is in column 0
+      window.cachedWatchIDs = data.slice(1).map(row => row[0]);
+      console.log("✅ cachedWatchIDs:", window.cachedWatchIDs);
+
       applyTableFilters();
       
 
