@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
       imagesData.push(await readFile(file));
     }
 
-    fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec', {
       method: 'POST',
       mode: 'cors',
       redirect: "follow",
@@ -172,7 +172,7 @@ window.deleteWatchByID = deleteWatchByID;
 function loadInventoryRecords() {
   console.log("fetching table!");
 
-  fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec')
+  fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec')
     .then(response => response.json())
     .then(data => {
       console.log("Fetched Data:", data);
@@ -451,7 +451,7 @@ function deleteWatchByID() {
   statusDiv.textContent = "Deleting...";
   statusDiv.style.color = "#355E3B";
 
-  fetch('https://script.google.com/macros/s/AKfycbwlF1K3yWaVKcMu_sb7DDgjm5LQmF1n0BiQgacJSkvlastNSU0DCVMAnLaxE_phiyfu/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({ action: 'delete', watchID })
