@@ -5,6 +5,14 @@ body, html {
     margin: 0;
     padding: 0;
 }
+.tab-content {
+  display: none;
+}
+
+.tab-content.active-tab {
+  display: block;
+}
+
 .custom-tab-bar {
   display: flex;
   border-bottom: 2px solid #ccc;
