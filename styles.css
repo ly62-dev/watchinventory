@@ -1,4 +1,9 @@
 /* General page styling */
+#addWatchBtn,
+#cancelWatchBtn {
+  grid-column: span 1 !important;
+}
+
 body, html {
     font-family: 'Poppins', sans-serif;
     background-color: #f4f4f9;
