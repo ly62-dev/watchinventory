@@ -245,11 +245,12 @@ function createTableRow(row) {
 
     tr.appendChild(td);
   });
-  //added for delete row
+  //----added for delete row
   tr.setAttribute("data-watchid", row[0]); // assuming Watch ID is in the first column
   tr.addEventListener("click", function () {
   const watchID = this.getAttribute("data-watchid");
   document.getElementById("deleteWatchID").value = watchID;
+  document.getElementById('deleteWatchID').dispatchEvent(new Event('input'));
 
   // Switch to the Delete tab
   const deleteTabButton = [...document.querySelectorAll(".custom-tab")]
