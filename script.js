@@ -36,7 +36,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const deleteInput = document.getElementById('deleteWatchID');
   const deleteBtn = document.getElementById('deleteWatchBtn');
-  deleteBtn.addEventListener('click', deleteWatchByID);
+  console.log("Delete button found?", deleteBtn);
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', deleteWatchByID);
+    }
 
   deleteInput.addEventListener('input', () => {
     const inputID = deleteInput.value.trim();
