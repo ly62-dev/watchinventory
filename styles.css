@@ -87,7 +87,7 @@ label {
 /* Button */
 button {
     grid-column: span 2;
-    padding: 12px;
+    /* padding: 12px;*/
     font-size: 16px;
     border-radius: 8px;
     background-color: #355E3B; /* ✅ Hunter Green */
@@ -95,6 +95,11 @@ button {
     border: none;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 1rem;
 }
 
 button:hover {
