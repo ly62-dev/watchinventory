@@ -161,16 +161,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const deleteInput = document.getElementById('deleteWatchID');
   const deleteBtn = document.getElementById('deleteWatchBtn');
-  console.log("Delete button found?", deleteBtn);
-    if (deleteBtn) {
-      deleteBtn.addEventListener('click', handleDeleteWatch);
-    }
-
+  
   deleteInput.addEventListener('input', () => {
     const inputID = deleteInput.value.trim();
     const isValid = window.cachedWatchIDs && window.cachedWatchIDs.includes(inputID);
     deleteBtn.disabled = !isValid;
   });
+  
+  console.log("Delete button found?", deleteBtn);
+    if (deleteBtn) {
+      //deleteBtn.addEventListener('click', handleDeleteWatch);
+      deleteInput.addEventListener('input', () => {
+      const inputID = deleteInput.value.trim();
+      deleteBtn.disabled = inputID.length !== 12;
+      });
+    }
 
   const refreshBtn = document.getElementById('refreshBtn');
   if (refreshBtn) {
