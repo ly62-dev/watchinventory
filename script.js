@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("Delete button found?", deleteBtn);
     if (deleteBtn) {
       deleteBtn.addEventListener('click', handleDeleteWatch);
-      });
+      }
     
 
   const refreshBtn = document.getElementById('refreshBtn');
