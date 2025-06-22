@@ -87,7 +87,7 @@ async function handleDeleteWatch(e) {
   const watchID = deleteInput.value.trim();
   const statusDiv = document.getElementById('deleteStatus');
 
-  deleteBtn.disabled = true;
+  //deleteBtn.disabled = true;
   deleteBtn.textContent = "Deleting...";
 
   if (!watchID) {
@@ -169,6 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //const isValid = window.cachedWatchIDs && window.cachedWatchIDs.includes(inputID);
     //deleteBtn.disabled = !isValid;
     deleteBtn.disabled = inputID.length !== 21;
+    console.log("char" + inputID.length);
     });
 
   console.log("Delete button found?", deleteBtn);
