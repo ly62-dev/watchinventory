@@ -6,7 +6,17 @@ function generateWatchID(status, brand) {
   const brandCode = brand ? brand.substring(0, 3).toUpperCase() : "XXX";
   return `${statusCode}-${brandCode}-${Date.now()}`;
 }
+function updateWatchID() {
+  const status = document.getElementById('status').value;
+  const brand = document.getElementById('brand').value;
+  const watchIDField = document.getElementById('watchID');
 
+  if (status && brand) {
+    watchIDField.value = generateWatchID(status, brand);
+  } else {
+    watchIDField.value = "";
+  }
+}
 function renderDashboard() {
   loadInventoryRecords();
 }
@@ -19,16 +29,15 @@ document.addEventListener("DOMContentLoaded", function () {
   loadDropdowns();
   renderDashboard();
 
-  const updateWatchID = () => {
-    const status = statusSelect.value;
-    const brand = brandSelect.value;
-    if (status && brand) {
-      watchIDField.value = generateWatchID(status, brand);
-    } else {
-      watchIDField.value = "";
-    }
-  };
-
+  //const updateWatchID = () => {
+    //const status = statusSelect.value;
+    //const brand = brandSelect.value;
+    //if (status && brand) {
+      //watchIDField.value = generateWatchID(status, brand);
+    //} else {
+      //watchIDField.value = "";
+    //}
+  //};
   brandSelect.addEventListener('change', updateWatchID);
   statusSelect.addEventListener('change', updateWatchID);
 
