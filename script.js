@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (deleteBtn) {
       deleteBtn.addEventListener('click', handleDeleteWatch);
       });
-    }
+    
 
   const refreshBtn = document.getElementById('refreshBtn');
   if (refreshBtn) {
