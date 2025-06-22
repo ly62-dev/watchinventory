@@ -12,8 +12,6 @@ function renderDashboard() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("Script Loaded!");
-
   const watchIDField = document.getElementById('watchID');
   const brandSelect = document.getElementById('brand');
   const statusSelect = document.getElementById('status');
@@ -167,11 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //window.deleteWatchByID = deleteWatchByID;
-
-
 function loadInventoryRecords() {
-  console.log("fetching table!");
-
   fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec')
     .then(response => response.json())
     .then(data => {
@@ -327,6 +321,53 @@ function applyTableFilters() {
   }
 }
 
+function deleteWatchByID() {
+  console.log("delete watch record!");
+  const watchID = document.getElementById('deleteWatchID').value.trim();
+  const statusDiv = document.getElementById('deleteStatus');
+  console.log("delete watch record!" + watchID);
+  if (!watchID) {
+    statusDiv.textContent = "⚠️ Please enter a Watch ID.";
+    statusDiv.style.color = "orange";
+    return;
+  }
+
+  // ✅ Pre-validate Watch ID existence
+  if (!window.cachedWatchIDs || !window.cachedWatchIDs.includes(watchID)) {
+    statusDiv.textContent = `❌ Watch ID "${watchID}" not found in inventory.`;
+    statusDiv.style.color = "red";
+    return;
+  }
+
+  if (!confirm(`Are you sure you want to delete Watch ID: ${watchID}?`)) return;
+  deleteBtn.disabled = true;
+  statusDiv.textContent = "Deleting...";
+  statusDiv.style.color = "#355E3B";
+  fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ action: 'delete', watchID })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        statusDiv.textContent = `✅ Watch ${watchID} deleted successfully.`;
+        statusDiv.style.color = "green";
+        document.getElementById('deleteWatchID').value = "";
+        deleteBtn.disabled = false;
+        renderDashboard(); // refreshes data
+      } else {
+        statusDiv.textContent = `❌ Watch ${watchID} could not be deleted.`;
+        statusDiv.style.color = "red";
+      }
+    })
+    .catch(error => {
+      console.error("Deletion error:", error);
+      statusDiv.textContent = "❌ Something went wrong.";
+      statusDiv.style.color = "red";
+    });
+}
+
 function exportTableToCSV(filename = "watch-inventory.csv") {
   const table = document.getElementById("inventoryTable");
   const tbody = document.getElementById("inventoryTableBody");
@@ -426,51 +467,3 @@ function openTab(evt, tabId) {
   // Mark this tab as active
   evt.currentTarget.classList.add("active");
 }
-
-function deleteWatchByID() {
-  console.log("delete watch record!");
-  const watchID = document.getElementById('deleteWatchID').value.trim();
-  const statusDiv = document.getElementById('deleteStatus');
-  console.log("delete watch record!" + watchID);
-  if (!watchID) {
-    statusDiv.textContent = "⚠️ Please enter a Watch ID.";
-    statusDiv.style.color = "orange";
-    return;
-  }
-
-  // ✅ Pre-validate Watch ID existence
-  if (!window.cachedWatchIDs || !window.cachedWatchIDs.includes(watchID)) {
-    statusDiv.textContent = `❌ Watch ID "${watchID}" not found in inventory.`;
-    statusDiv.style.color = "red";
-    return;
-  }
-
-  if (!confirm(`Are you sure you want to delete Watch ID: ${watchID}?`)) return;
-  deleteBtn.disabled = true;
-  statusDiv.textContent = "Deleting...";
-  statusDiv.style.color = "#355E3B";
-  fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec', {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ action: 'delete', watchID })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        statusDiv.textContent = `✅ Watch ${watchID} deleted successfully.`;
-        statusDiv.style.color = "green";
-        document.getElementById('deleteWatchID').value = "";
-        deleteBtn.disabled = false;
-        renderDashboard(); // refreshes data
-      } else {
-        statusDiv.textContent = `❌ Watch ${watchID} could not be deleted.`;
-        statusDiv.style.color = "red";
-      }
-    })
-    .catch(error => {
-      console.error("Deletion error:", error);
-      statusDiv.textContent = "❌ Something went wrong.";
-      statusDiv.style.color = "red";
-    });
-}
-
