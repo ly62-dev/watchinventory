@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
     sortTableByColumn(13);
 });
 
-window.deleteWatchByID = deleteWatchByID;
+//window.deleteWatchByID = deleteWatchByID;
 
 
 function loadInventoryRecords() {
@@ -196,7 +196,7 @@ function loadInventoryRecords() {
       });
       
       updateDashboardStats(data);
-      window.cachedWatchIDs = data.slice(1).map(row => row[0].trim().toLowerCase());
+      window.cachedWatchIDs = data.slice(1).map(row => row[0].trim());
       console.log("✅ cachedWatchIDs:", window.cachedWatchIDs);
 
       applyTableFilters();
@@ -429,7 +429,7 @@ function openTab(evt, tabId) {
 
 function deleteWatchByID() {
   console.log("delete watch record!");
-  const watchID = document.getElementById('deleteWatchID').value.trim().toLowerCase();
+  const watchID = document.getElementById('deleteWatchID').value.trim();
   const statusDiv = document.getElementById('deleteStatus');
   console.log("delete watch record!" + watchID);
   if (!watchID) {
@@ -446,10 +446,9 @@ function deleteWatchByID() {
   }
 
   if (!confirm(`Are you sure you want to delete Watch ID: ${watchID}?`)) return;
-
+  deleteBtn.disabled = true;
   statusDiv.textContent = "Deleting...";
   statusDiv.style.color = "#355E3B";
-
   fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
@@ -461,6 +460,7 @@ function deleteWatchByID() {
         statusDiv.textContent = `✅ Watch ${watchID} deleted successfully.`;
         statusDiv.style.color = "green";
         document.getElementById('deleteWatchID').value = "";
+        deleteBtn.disabled = false;
         renderDashboard(); // refreshes data
       } else {
         statusDiv.textContent = `❌ Watch ${watchID} could not be deleted.`;
