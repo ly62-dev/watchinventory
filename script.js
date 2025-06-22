@@ -161,19 +161,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const deleteInput = document.getElementById('deleteWatchID');
   const deleteBtn = document.getElementById('deleteWatchBtn');
-  
+
+  // Disable button on load
+  deleteBtn.disabled = true;
   deleteInput.addEventListener('input', () => {
     const inputID = deleteInput.value.trim();
-    const isValid = window.cachedWatchIDs && window.cachedWatchIDs.includes(inputID);
-    deleteBtn.disabled = !isValid;
-  });
-  
+    //const isValid = window.cachedWatchIDs && window.cachedWatchIDs.includes(inputID);
+    //deleteBtn.disabled = !isValid;
+    deleteBtn.disabled = inputID.length !== 21;
+    });
+
   console.log("Delete button found?", deleteBtn);
     if (deleteBtn) {
-      //deleteBtn.addEventListener('click', handleDeleteWatch);
-      deleteInput.addEventListener('input', () => {
-      const inputID = deleteInput.value.trim();
-      deleteBtn.disabled = inputID.length !== 12;
+      deleteBtn.addEventListener('click', handleDeleteWatch);
       });
     }
 
