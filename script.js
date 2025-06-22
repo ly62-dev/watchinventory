@@ -78,6 +78,72 @@ async function handleAddWatch(e) {
       addButton.textContent = originalBtnText;
     });
 }//------------------End add watch-----------------------------
+//-------------------Delete watch------------------------------
+async function handleDeleteWatch(e) {
+  e.preventDefault();
+
+  const deleteBtn = document.getElementById('deleteWatchBtn');
+  const deleteInput = document.getElementById('deleteWatchID');
+  const watchID = deleteInput.value.trim();
+  const statusDiv = document.getElementById('deleteStatus');
+
+  deleteBtn.disabled = true;
+  deleteBtn.textContent = "Deleting...";
+
+  if (!watchID) {
+    statusDiv.textContent = "⚠️ Please enter a Watch ID.";
+    statusDiv.style.color = "orange";
+    resetDeleteBtn();
+    return;
+  }
+
+  if (!window.cachedWatchIDs || !window.cachedWatchIDs.includes(watchID)) {
+    statusDiv.textContent = `❌ Watch ID "${watchID}" not found in inventory.`;
+    statusDiv.style.color = "red";
+    resetDeleteBtn();
+    return;
+  }
+
+  const confirmed = confirm(`Are you sure you want to delete Watch ID: ${watchID}?`);
+  if (!confirmed) {
+    resetDeleteBtn();
+    return;
+  }
+
+  try {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'delete', watchID })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      statusDiv.textContent = `✅ Watch ${watchID} deleted successfully.`;
+      statusDiv.style.color = "green";
+      deleteInput.value = "";
+      renderDashboard();
+    } else {
+      statusDiv.textContent = `❌ Could not delete Watch ID "${watchID}".`;
+      statusDiv.style.color = "red";
+    }
+  } catch (error) {
+    console.error("Deletion error:", error);
+    statusDiv.textContent = "❌ Something went wrong. Please try again.";
+    statusDiv.style.color = "red";
+  } finally {
+    resetDeleteBtn();
+  }
+}
+
+// ✨ Utility to restore button state
+function resetDeleteBtn() {
+  const deleteBtn = document.getElementById('deleteWatchBtn');
+  deleteBtn.disabled = false;
+  deleteBtn.textContent = "Delete";
+}
+//-------------------End delete watch--------------------------
 function renderDashboard() {
   loadInventoryRecords();
 }
@@ -90,15 +156,6 @@ document.addEventListener("DOMContentLoaded", function () {
   loadDropdowns();
   renderDashboard();
 
-  //const updateWatchID = () => {
-    //const status = statusSelect.value;
-    //const brand = brandSelect.value;
-    //if (status && brand) {
-      //watchIDField.value = generateWatchID(status, brand);
-    //} else {
-      //watchIDField.value = "";
-    //}
-  //};
   brandSelect.addEventListener('change', updateWatchID);
   statusSelect.addEventListener('change', updateWatchID);
 
@@ -106,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const deleteBtn = document.getElementById('deleteWatchBtn');
   console.log("Delete button found?", deleteBtn);
     if (deleteBtn) {
-      deleteBtn.addEventListener('click', deleteWatchByID);
+      deleteBtn.addEventListener('click', handleDeleteWatch);
     }
 
   deleteInput.addEventListener('input', () => {
@@ -143,63 +200,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  //const addButton = document.querySelector('#inventoryForm button[type="submit"]');
-  //const originalBtnText = addButton.textContent;
-  //document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
-    //e.preventDefault();
-    //addButton.disabled = true;
-    //addButton.textContent = "Saving...";
-    //const watchID = document.getElementById('watchID').value;
-    //const status = statusSelect.value;
-    //const brand = brandSelect.value;
-    //const model = document.getElementById('model').value;
-    //const movement = document.getElementById('movement').value;
-    //const qty = document.getElementById('qty').value;
-    //const boughtPrice = document.getElementById('boughtPrice').value;
-    //const boughtDate = document.getElementById('boughtDate').value;
-    //const sellingPrice = document.getElementById('sellingPrice').value;
-    //const supplier = document.getElementById('supplier').value;
-    //const notes = document.getElementById('notes').value;
-    //const imageFiles = document.getElementById('images').files;
-    //let imagesData = [];
-    //const readFile = (file) => new Promise((resolve) => {
-      //const reader = new FileReader();
-      //reader.readAsDataURL(file);
-      //reader.onload = () => resolve(reader.result.split(",")[1]);
-    //});
-    //for (let file of imageFiles) {
-      //imagesData.push(await readFile(file));
-    //}
-
-    //fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec', {
-      //method: 'POST',
-      //mode: 'cors',
-      //redirect: "follow",
-      //headers: { "Content-Type": "text/plain" },
-      //body: JSON.stringify({
-        //watchID, status, brand, model, movement, qty,
-        //boughtPrice, boughtDate, sellingPrice, supplier, notes,
-        //images: imagesData
-      //})
-    //})
-      //.then(response => response.json())
-      //.then(data => {
-        //console.log("Watch added successfully!", data);
-        //document.getElementById('inventoryForm').reset();
-        //watchIDField.value = "";
-        //updateWatchID();
-        //renderDashboard();
-      //})
-      //.catch(error => {
-        //console.error("Fetch Error:", error);
-        //alert("Failed to add watch. Please try again.");
-      //})
-      //.finally(() => {
-        //addButton.disabled = false;
-        //addButton.textContent = originalBtnText;
-      //});
-  //}); //end of form
-
     document.getElementById('inventoryForm').addEventListener('submit', handleAddWatch);
     document.getElementById('searchInput').addEventListener('input', applyTableFilters);
     document.getElementById('statusFilter').addEventListener('change', applyTableFilters);
@@ -231,7 +231,6 @@ document.addEventListener("DOMContentLoaded", function () {
     sortTableByColumn(13);
 });
 
-//window.deleteWatchByID = deleteWatchByID;
 function loadInventoryRecords() {
   fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec')
     .then(response => response.json())
@@ -386,53 +385,6 @@ function applyTableFilters() {
   if (counter) {
     counter.textContent = `🔎 ${matchCount} result${matchCount !== 1 ? 's' : ''} found`;
   }
-}
-
-function deleteWatchByID() {
-  console.log("delete watch record!");
-  const watchID = document.getElementById('deleteWatchID').value.trim();
-  const statusDiv = document.getElementById('deleteStatus');
-  console.log("delete watch record!" + watchID);
-  if (!watchID) {
-    statusDiv.textContent = "⚠️ Please enter a Watch ID.";
-    statusDiv.style.color = "orange";
-    return;
-  }
-
-  // ✅ Pre-validate Watch ID existence
-  if (!window.cachedWatchIDs || !window.cachedWatchIDs.includes(watchID)) {
-    statusDiv.textContent = `❌ Watch ID "${watchID}" not found in inventory.`;
-    statusDiv.style.color = "red";
-    return;
-  }
-
-  if (!confirm(`Are you sure you want to delete Watch ID: ${watchID}?`)) return;
-  deleteBtn.disabled = true;
-  statusDiv.textContent = "Deleting...";
-  statusDiv.style.color = "#355E3B";
-  fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec', {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ action: 'delete', watchID })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        statusDiv.textContent = `✅ Watch ${watchID} deleted successfully.`;
-        statusDiv.style.color = "green";
-        document.getElementById('deleteWatchID').value = "";
-        deleteBtn.disabled = false;
-        renderDashboard(); // refreshes data
-      } else {
-        statusDiv.textContent = `❌ Watch ${watchID} could not be deleted.`;
-        statusDiv.style.color = "red";
-      }
-    })
-    .catch(error => {
-      console.error("Deletion error:", error);
-      statusDiv.textContent = "❌ Something went wrong.";
-      statusDiv.style.color = "red";
-    });
 }
 
 function exportTableToCSV(filename = "watch-inventory.csv") {
