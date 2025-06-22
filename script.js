@@ -17,6 +17,67 @@ function updateWatchID() {
     watchIDField.value = "";
   }
 }
+//------------------Add watch---------------------------------
+async function handleAddWatch(e) {
+  e.preventDefault();
+
+  const addButton = document.querySelector('#inventoryForm button[type="submit"]');
+  const originalBtnText = addButton.textContent;
+  addButton.disabled = true;
+  addButton.textContent = "Saving...";
+
+  const watchID = document.getElementById('watchID').value;
+  const status = document.getElementById('status').value;
+  const brand = document.getElementById('brand').value;
+  const model = document.getElementById('model').value;
+  const movement = document.getElementById('movement').value;
+  const qty = document.getElementById('qty').value;
+  const boughtPrice = document.getElementById('boughtPrice').value;
+  const boughtDate = document.getElementById('boughtDate').value;
+  const sellingPrice = document.getElementById('sellingPrice').value;
+  const supplier = document.getElementById('supplier').value;
+  const notes = document.getElementById('notes').value;
+  const imageFiles = document.getElementById('images').files;
+
+  const imagesData = [];
+  const readFile = (file) => new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.split(",")[1]);
+  });
+
+  for (let file of imageFiles) {
+    imagesData.push(await readFile(file));
+  }
+
+  fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec', {
+    method: 'POST',
+    mode: 'cors',
+    redirect: "follow",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify({
+      watchID, status, brand, model, movement, qty,
+      boughtPrice, boughtDate, sellingPrice, supplier, notes,
+      images: imagesData
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Watch added successfully!", data);
+      document.getElementById('inventoryForm').reset();
+      document.getElementById('watchID').value = "";
+      updateWatchID(); // This should be globally accessible
+      renderDashboard();
+    })
+    .catch(error => {
+      console.error("Fetch Error:", error);
+      alert("Failed to add watch. Please try again.");
+    })
+    .finally(() => {
+      addButton.disabled = false;
+      addButton.textContent = originalBtnText;
+    });
+}//------------------End add watch-----------------------------
 function renderDashboard() {
   loadInventoryRecords();
 }
@@ -169,67 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
     sortState.asc = false;
     sortTableByColumn(13);
 });
-//------------------Add watch---------------------------------
-async function handleAddWatch(e) {
-  e.preventDefault();
 
-  const addButton = document.querySelector('#inventoryForm button[type="submit"]');
-  const originalBtnText = addButton.textContent;
-  addButton.disabled = true;
-  addButton.textContent = "Saving...";
-
-  const watchID = document.getElementById('watchID').value;
-  const status = document.getElementById('status').value;
-  const brand = document.getElementById('brand').value;
-  const model = document.getElementById('model').value;
-  const movement = document.getElementById('movement').value;
-  const qty = document.getElementById('qty').value;
-  const boughtPrice = document.getElementById('boughtPrice').value;
-  const boughtDate = document.getElementById('boughtDate').value;
-  const sellingPrice = document.getElementById('sellingPrice').value;
-  const supplier = document.getElementById('supplier').value;
-  const notes = document.getElementById('notes').value;
-  const imageFiles = document.getElementById('images').files;
-
-  const imagesData = [];
-  const readFile = (file) => new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result.split(",")[1]);
-  });
-
-  for (let file of imageFiles) {
-    imagesData.push(await readFile(file));
-  }
-
-  fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec', {
-    method: 'POST',
-    mode: 'cors',
-    redirect: "follow",
-    headers: { "Content-Type": "text/plain" },
-    body: JSON.stringify({
-      watchID, status, brand, model, movement, qty,
-      boughtPrice, boughtDate, sellingPrice, supplier, notes,
-      images: imagesData
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log("Watch added successfully!", data);
-      document.getElementById('inventoryForm').reset();
-      document.getElementById('watchID').value = "";
-      updateWatchID(); // This should be globally accessible
-      renderDashboard();
-    })
-    .catch(error => {
-      console.error("Fetch Error:", error);
-      alert("Failed to add watch. Please try again.");
-    })
-    .finally(() => {
-      addButton.disabled = false;
-      addButton.textContent = originalBtnText;
-    });
-}//------------------End add watch-----------------------------
 //window.deleteWatchByID = deleteWatchByID;
 function loadInventoryRecords() {
   fetch('https://script.google.com/macros/s/AKfycbwOVHVKknEYM6VdZTcWe_Ap17dB2isN4vpcpFlB1nuf9Hmx52nc-BZ9MZcOjOIHje-V/exec')
