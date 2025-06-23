@@ -203,21 +203,22 @@ function handleEditWatch() {
   const previewContainer = document.getElementById('editImagePreview');
   previewContainer.innerHTML = "";
 
-  if (imageField) {
-    const urls = imageField
-      .split(", ")
-      .map(url => url.trim())
-      .filter(Boolean);
+    if (imageField) {
+      const urls = imageField
+        .split(",")
+        .map(url => url.trim())
+        .filter(url => url.startsWith("http")); // extra safety
 
     urls.forEach((src, index) => {
       const link = document.createElement("a");
       link.href = src;
       link.textContent = `📎 Image ${index + 1}`;
       link.target = "_blank";
-      link.style.display = "block"; // so each link is on its own line
+      link.style.display = "block";
       previewContainer.appendChild(link);
     });
   }
+
 
   Object.entries(valueMap).forEach(([id, val]) => {
     const el = document.getElementById(id);
