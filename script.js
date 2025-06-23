@@ -67,7 +67,7 @@ async function handleAddWatch(e) {
     .then(response => response.json())
     .then(data => {
       console.log("Watch added successfully!", data);
-      document.getElementById('inventoryForm').reset();
+      document.getElementById('addForm').reset();
       document.getElementById('watchID').value = "";
       updateWatchID(); // This should be globally accessible
       renderDashboard();
@@ -260,7 +260,7 @@ async function handleEditSubmit(e) {
     .then(response => response.json())
     .then(data => {
       console.log("✅ Edit success", data);
-      document.getElementById('inventoryForm').reset();
+      document.getElementById('editForm').reset();
       document.getElementById('editFormWrapper').style.display = "none";
       
       document.getElementById('newwatchID').value = "";
