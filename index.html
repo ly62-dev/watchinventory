@@ -91,8 +91,9 @@
         
         <div id="EditWatch" class="tab-content">
           <h3>Edit a New Watch ⌚️</h3>
-          <input type="text" id="editWatchID" placeholder="Enter Watch ID to edit" />
-            <button id="editWatchBtn" disabled>Edit</button>
+          <label for="editWatchID">Enter Watch ID</label>
+          <input type="text" id="editWatchID" placeholder="e.g. PER-REG-175032381XXXX" />
+            <button id="editWatchBtn" disabled>Submit</button>
           <div id="editStatus"></div>
           
           <div id="editFormWrapper" style="display: none;">
@@ -106,8 +107,8 @@
               <label for="brand">Brand</label>
               <select id="brand"><option value="">Loading brands...</option></select>
 
-              <label for="model">Model*</label>
-              <input type="text" id="model" required />
+              <label for="model">Model</label>
+              <input type="text" id="model"/>
 
               <label for="movement">Movement</label>
               <select id="movement"><option value="">Loading movements...</option></select>
@@ -134,7 +135,7 @@
               <input type="file" id="images" accept="image/*" multiple />
               
               <input type="hidden" id="editMode" value="false" />
-              <button type="submit" id="submitBtn">Add Watch</button>
+              <button type="submit" id="submitBtn">Edit Watch</button>
 
           </form>
           </div>
