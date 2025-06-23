@@ -285,7 +285,9 @@ async function handleEditSubmit(e) {
       document.getElementById('editForm').reset();
       document.getElementById('editFormWrapper').style.display = "none";
       document.getElementById('editwatchID').value = ""; // 🧼 Clear watch ID input
-      document.getElementById('statDiv').innerHTML = ""; // 🧽 Clear statDiv content
+      const statDiv = document.getElementById('statDiv');
+      if (statDiv) statDiv.innerHTML = "";
+
 
       document.getElementById('neweditwatchID').value = "";
       updateWatchID(); // Refreshes Watch ID input
@@ -730,4 +732,16 @@ function openTab(evt, tabId) {
 
   // Mark this tab as active
   evt.currentTarget.classList.add("active");
+
+  // ✨ Ensure correct form visibility per tab
+  if (tabId === "AddWatch") {
+    document.getElementById("addFormWrapper").style.display = "block";
+    document.getElementById("editFormWrapper").style.display = "none";
+  } else if (tabId === "EditWatch") {
+    document.getElementById("editFormWrapper").style.display = "block";
+    document.getElementById("addFormWrapper").style.display = "none";
+  } else if (tabId === "DeleteWatch") {
+    document.getElementById("editFormWrapper").style.display = "none";
+    document.getElementById("addFormWrapper").style.display = "none";
+  }
 }
