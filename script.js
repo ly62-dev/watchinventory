@@ -215,10 +215,9 @@ function handleEditWatch() {
   statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
   statusDiv.style.color = "green";
   formWrapper.style.display = "block";
-
-  // Attach onsubmit handler inside Edit
-document.getElementById("inventoryForm").onsubmit = null;
-document.getElementById("inventoryForm").onsubmit = function (e) {
+}
+//-------------------End edit watch----------------------------
+function handleEditSubmit(e) {
   e.preventDefault();
 
   const updatedData = {
@@ -238,16 +237,13 @@ document.getElementById("inventoryForm").onsubmit = function (e) {
   google.script.run
     .withSuccessHandler(() => {
       alert(`✅ Watch "${updatedData.watchID}" updated successfully!`);
-      formWrapper.style.display = "none";
+      document.getElementById("editFormWrapper").style.display = "none";
     })
     .withFailureHandler(err => {
       alert("❌ Failed to update: " + err.message);
     })
     .updateWatchRecord(updatedData);
-};
-
 }
-//-------------------End edit watch----------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
   const watchIDField = document.getElementById('watchID');
@@ -312,7 +308,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 600); // slight UX delay to match button vibe
     }
   });
-
+  
+    document.getElementById('inventoryForm').addEventListener('submit', handleEditSubmit);
     document.getElementById('inventoryForm').addEventListener('submit', handleAddWatch);
     document.getElementById('searchInput').addEventListener('input', applyTableFilters);
     document.getElementById('statusFilter').addEventListener('change', applyTableFilters);
