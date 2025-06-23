@@ -185,11 +185,7 @@ function handleEditWatch() {
   editnotes:        match[10]
 };
 
-Object.entries(valueMap).forEach(([id, val]) => {
-  const el = document.getElementById(id);
-  if (el) el.value = val || '';
-});
-
+  
 const imageField = match[12]; // ImageLink
 const previewContainer = document.getElementById('editImagePreview');
 previewContainer.innerHTML = "";
@@ -201,6 +197,21 @@ if (imageField && imageField.includes("drive.google.com")) {
   link.target = "_blank";
   previewContainer.appendChild(link);
 }
+  
+//Object.entries(valueMap).forEach(([id, val]) => {
+  //const el = document.getElementById(id);
+  //if (el) el.value = val || '';
+//});
+Object.entries(valueMap).forEach(([id, val]) => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.value = val || '';
+    console.log(`✅ Set ${id} = ${val}`);
+  } else {
+    console.warn(`⛔️ No element found for ${id}`);
+  }
+});
+
 
   statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
   statusDiv.style.color = "green";
