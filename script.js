@@ -182,7 +182,7 @@ function handleEditWatch() {
   editboughtDate:   match[7]?.split("T")[0],
   editsellingPrice: match[8],
   editsupplier:     match[9],
-  editnotes:        match[10]
+  editnotes:        match[10],
   editimagefolder:  match[11]
 };
 
