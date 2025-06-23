@@ -217,6 +217,7 @@ function handleEditWatch() {
   formWrapper.style.display = "block";
 
   // Attach onsubmit handler inside Edit
+document.getElementById("inventoryForm").onsubmit = null;
 document.getElementById("inventoryForm").onsubmit = function (e) {
   e.preventDefault();
 
