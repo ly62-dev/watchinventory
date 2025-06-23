@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function () {
   //Edit tab submit button
   const editInput = document.getElementById('editWatchID');
   const submitBtn = document.getElementById('submitWatchBtn');
-
+  if (!editInput || !submitBtn) return;
   submitBtn.disabled = true;
   editInput.addEventListener('input', () => {
     const inputID = editInput.value.trim();
