@@ -172,17 +172,17 @@ function handleEditWatch() {
   }
 
   const valueMap = {
-  editwatchID: match[0],
-  editstatus: match[1],
-  editbrand: match[2],
-  editmodel: match[3],
-  editmovement: match[4],
-  editqty: match[6],
-  editboughtPrice: match[7],
-  editboughtDate: match[8],
-  editsellingPrice: match[9],
-  editsupplier: match[10],
-  editnotes: match[11],
+  editwatchID:      match[0],
+  editstatus:       match[1],
+  editbrand:        match[2],
+  editmodel:        match[3],
+  editmovement:     match[4],
+  editqty:          match[5],
+  editboughtPrice:  match[6],
+  editboughtDate:   match[7],
+  editsellingPrice: match[8],
+  editsupplier:     match[9],
+  editnotes:        match[10]
 };
 
 Object.entries(valueMap).forEach(([id, val]) => {
@@ -190,29 +190,17 @@ Object.entries(valueMap).forEach(([id, val]) => {
   if (el) el.value = val || '';
 });
 
-
-const imageField = match[12]; // example: Google Drive folder or comma-separated image links
+const imageField = match[12]; // ImageLink
 const previewContainer = document.getElementById('editImagePreview');
-previewContainer.innerHTML = ""; // Clear previous images
+previewContainer.innerHTML = "";
 
 if (imageField && imageField.includes("drive.google.com")) {
-  // Embed folder link as clickable or use a fallback image
   const link = document.createElement('a');
   link.href = imageField;
-  link.textContent = "📁 Open Image Folder";
+  link.textContent = "📸 View Image";
   link.target = "_blank";
   previewContainer.appendChild(link);
-} else if (imageField && imageField.includes("http")) {
-  // If multiple image URLs are separated by commas
-  const urls = imageField.split(",").map(url => url.trim());
-  urls.forEach(src => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = "Watch Image";
-    previewContainer.appendChild(img);
-  });
 }
-
 
   statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
   statusDiv.style.color = "green";
