@@ -53,7 +53,7 @@ async function handleAddWatch(e) {
     imagesData.push(await readFile(file));
   }
 
-  fetch('https://script.google.com/macros/s/AKfycbz5JuqZjZnaVAmcryzU5l8E8e238qDGwXSBFUnDIGg4t90jcTntvsrcDt4ruMdmcc_m/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyVqWelqM24MaaoDRTr7YO38g_yv1sxiC5LgYc5fVU_G_yyXJ40F8-aIjo7LYAHZJTL/exec', {
     method: 'POST',
     mode: 'cors',
     redirect: "follow",
@@ -114,7 +114,7 @@ async function handleDeleteWatch(e) {
   }
 
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbz5JuqZjZnaVAmcryzU5l8E8e238qDGwXSBFUnDIGg4t90jcTntvsrcDt4ruMdmcc_m/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbyVqWelqM24MaaoDRTr7YO38g_yv1sxiC5LgYc5fVU_G_yyXJ40F8-aIjo7LYAHZJTL/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ action: 'delete', watchID })
@@ -220,41 +220,41 @@ async function handleEditSubmit(e) {
   editButton.disabled = true;
   editButton.textContent = "Updating...";
 
-  const watchID = document.getElementById('editwatchID').value;
-  const newwatchID = document.getElementById('neweditwatchID').value;
-  const status = document.getElementById('editstatus').value;
-  const brand = document.getElementById('editbrand').value;
-  const model = document.getElementById('editmodel').value;
-  const movement = document.getElementById('editmovement').value;
-  const qty = document.getElementById('editqty').value;
-  const boughtPrice = document.getElementById('editboughtPrice').value;
-  const boughtDate = document.getElementById('editboughtDate').value;
-  const sellingPrice = document.getElementById('editsellingPrice').value;
-  const supplier = document.getElementById('editsupplier').value;
-  const notes = document.getElementById('editnotes').value;
-  const imageFiles = document.getElementById('editimages').files;
+  const editwatchID = document.getElementById('editwatchID').value;
+  const neweditwatchID = document.getElementById('neweditwatchID').value;
+  const editstatus = document.getElementById('editstatus').value;
+  const editbrand = document.getElementById('editbrand').value;
+  const editmodel = document.getElementById('editmodel').value;
+  const editmovement = document.getElementById('editmovement').value;
+  const editqty = document.getElementById('editqty').value;
+  const editboughtPrice = document.getElementById('editboughtPrice').value;
+  const editboughtDate = document.getElementById('editboughtDate').value;
+  const editsellingPrice = document.getElementById('editsellingPrice').value;
+  const editsupplier = document.getElementById('editsupplier').value;
+  const editnotes = document.getElementById('editnotes').value;
+  const editimageFiles = document.getElementById('editimages').files;
 
-  const imagesData = [];
+  const editimagesData = [];
   const readFile = (file) => new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result.split(",")[1]);
   });
 
-  for (let file of imageFiles) {
-    imagesData.push(await readFile(file));
+  for (let file of editimageFiles) {
+    editimagesData.push(await readFile(file));
   }
 
-  fetch('https://script.google.com/macros/s/AKfycbz5JuqZjZnaVAmcryzU5l8E8e238qDGwXSBFUnDIGg4t90jcTntvsrcDt4ruMdmcc_m/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyVqWelqM24MaaoDRTr7YO38g_yv1sxiC5LgYc5fVU_G_yyXJ40F8-aIjo7LYAHZJTL/exec', {
     method: 'POST',
     mode: 'cors',
     redirect: "follow",
     headers: { "Content-Type": "text/plain" },
     body: JSON.stringify({
       mode: "edit",
-      watchID, status, brand, model, movement, qty,
-      boughtPrice, boughtDate, sellingPrice, supplier, notes,
-      images: imagesData, newwatchID
+      editwatchID, editstatus, editbrand, editmodel, editmovement, editqty,
+      editboughtPrice, editboughtDate, editsellingPrice, editsupplier, editnotes,
+      editimages: editimagesData, neweditwatchID
     })
   })
     .then(response => response.json())
@@ -263,7 +263,7 @@ async function handleEditSubmit(e) {
       document.getElementById('editForm').reset();
       document.getElementById('editFormWrapper').style.display = "none";
       
-      document.getElementById('newwatchID').value = "";
+      document.getElementById('neweditwatchID').value = "";
       updateWatchID(); // This should be globally accessible
       renderDashboard(); // Refresh display
     })
@@ -387,7 +387,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadInventoryRecords() {
-  fetch('https://script.google.com/macros/s/AKfycbz5JuqZjZnaVAmcryzU5l8E8e238qDGwXSBFUnDIGg4t90jcTntvsrcDt4ruMdmcc_m/exec')
+  fetch('https://script.google.com/macros/s/AKfycbyVqWelqM24MaaoDRTr7YO38g_yv1sxiC5LgYc5fVU_G_yyXJ40F8-aIjo7LYAHZJTL/exec')
     .then(response => response.json())
     .then(data => {
       console.log("Fetched Data:", data);
