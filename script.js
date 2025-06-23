@@ -18,17 +18,16 @@ function updateWatchID() {
   }
 }
 function updateEditWatchID() {
-  const status = document.getElementById("editstatus").value;
-  const brand = document.getElementById("editbrand").value;
+  const status = document.getElementById("editstatus").value.trim();
+  const brand = document.getElementById("editbrand").value.trim();
 
-  if (!status || !brand) return;
+  const statusCode = status ? status.substring(0, 3).toUpperCase() : "XXX";
+  const brandCode = brand ? brand.substring(0, 3).toUpperCase() : "XXX";
+  const timestamp = Date.now();
 
-  const timestamp = new Date().getTime().toString().slice(-6); // last 6 digits for uniqueness
-  const watchID = `${status}-${brand}-${timestamp}`;
-
-  document.getElementById("neweditwatchID").value = watchID;
+  const newID = `${statusCode}-${brandCode}-${timestamp}`;
+  document.getElementById("neweditwatchID").value = newID;
 }
-
 function renderDashboard() {
   loadInventoryRecords();
 }
