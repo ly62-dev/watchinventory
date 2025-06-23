@@ -179,12 +179,6 @@ function handleEditWatch() {
     if (el) el.value = match[i] || '';
   });
 
-  //statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
-  //statusDiv.style.color = "green";
-  //formWrapper.style.display = "block";
-
-  //const formTab = [...document.querySelectorAll('.custom-tab')].find(tab => tab.textContent.includes("Add") || tab.textContent.includes("Inventory"));
-  //if (formTab) formTab.click();
   statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
   statusDiv.style.color = "green";
   formWrapper.style.display = "block";
@@ -315,8 +309,6 @@ function loadInventoryRecords() {
       window.cachedWatchIDs = data.slice(1).map(row => row[0].trim());
       window.cachedRecords = data.slice(1); // Stores full rows for edit lookup
 
-      //console.log("✅ cachedWatchIDs:", window.cachedWatchIDs);
-
       applyTableFilters();
       
       document.getElementById("loader").style.display = "none";
@@ -362,19 +354,7 @@ function createTableRow(row) {
 
     tr.appendChild(td);
   });
-  //----added for delete row
-  //tr.setAttribute("data-watchid", row[0]); // assuming Watch ID is in the first column
-  //tr.addEventListener("click", function () {
-  //const watchID = this.getAttribute("data-watchid");
-  //document.getElementById("deleteWatchID").value = watchID;
-  //document.getElementById('deleteWatchID').dispatchEvent(new Event('input'));
-
-  // Switch to the Delete tab
-  //const deleteTabButton = [...document.querySelectorAll(".custom-tab")]
-    //.find(btn => btn.textContent.includes("Delete"));
-  //if (deleteTabButton) deleteTabButton.click();
-  //});
-
+  //----added for delete/edit row
   tr.setAttribute("data-watchid", row[0]);
 
   tr.addEventListener("click", function () {
@@ -387,6 +367,8 @@ function createTableRow(row) {
       const editInput = document.getElementById("editWatchID");
       editInput.value = watchID;
       editInput.dispatchEvent(new Event("input"));
+      // Auto-trigger the edit flow
+      handleEditWatch();
     } else if (activeTab.includes("Delete")) {
     // ➖ Fill Delete field and keep you in Delete tab
       const deleteInput = document.getElementById("deleteWatchID");
@@ -396,7 +378,6 @@ function createTableRow(row) {
       console.log("Row clicked outside Edit/Delete context.");
     }
   });
-
   //-------------------
   return tr;
 }
