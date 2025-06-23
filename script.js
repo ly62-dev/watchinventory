@@ -178,17 +178,17 @@ function handleEditWatch() {
     //'supplier', 'notes'];
 
   const valueMap = {
-  watchID: match[0],
-  status: match[1],
-  brand: match[2],
-  model: match[3],
-  movement: match[4],
-  qty: match[6],
-  boughtPrice: match[7],
-  boughtDate: match[8],
-  sellingPrice: match[9],
-  supplier: match[10],
-  notes: match[12],
+  editwatchID: match[0],
+  editstatus: match[1],
+  editbrand: match[2],
+  editmodel: match[3],
+  editmovement: match[4],
+  editqty: match[6],
+  editboughtPrice: match[7],
+  editboughtDate: match[8],
+  editsellingPrice: match[9],
+  editsupplier: match[10],
+  editnotes: match[12],
 };
 
 Object.entries(valueMap).forEach(([id, val]) => {
