@@ -218,7 +218,7 @@ if (imageField) {
       img.src = src;
       img.alt = "Watch Image";
       img.onerror = () => {
-        img.src = "placeholder.png"; // optional fallback
+        img.src = "https://via.placeholder.com/100x100?text=Image+Not+Found"; // optional fallback
       };
       previewContainer.appendChild(img);
     });
