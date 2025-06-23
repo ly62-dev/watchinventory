@@ -179,12 +179,16 @@ function handleEditWatch() {
     if (el) el.value = match[i] || '';
   });
 
+  //statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
+  //statusDiv.style.color = "green";
+  //formWrapper.style.display = "block";
+
+  //const formTab = [...document.querySelectorAll('.custom-tab')].find(tab => tab.textContent.includes("Add") || tab.textContent.includes("Inventory"));
+  //if (formTab) formTab.click();
   statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
   statusDiv.style.color = "green";
   formWrapper.style.display = "block";
 
-  const formTab = [...document.querySelectorAll('.custom-tab')].find(tab => tab.textContent.includes("Add") || tab.textContent.includes("Inventory"));
-  if (formTab) formTab.click();
 }
 //-------------------End edit watch----------------------------
 
