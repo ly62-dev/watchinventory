@@ -148,67 +148,6 @@ function resetDeleteBtn() {
 }
 //-------------------End delete watch--------------------------
 //-------------------Edit watch--------------------------------
-async function handleEditSubmit(e) {
-  e.preventDefault();
-
-  const editButton = document.querySelector('#inventoryForm button[type="submit"]');
-  const originalBtnText = editButton.textContent;
-  editButton.disabled = true;
-  editButton.textContent = "Updating...";
-
-  const watchID = document.getElementById('editwatchID').value;
-  const status = document.getElementById('editstatus').value;
-  const brand = document.getElementById('editbrand').value;
-  const model = document.getElementById('editmodel').value;
-  const movement = document.getElementById('editmovement').value;
-  const qty = document.getElementById('editqty').value;
-  const boughtPrice = document.getElementById('editboughtPrice').value;
-  const boughtDate = document.getElementById('editboughtDate').value;
-  const sellingPrice = document.getElementById('editsellingPrice').value;
-  const supplier = document.getElementById('editsupplier').value;
-  const notes = document.getElementById('editnotes').value;
-  const imageFiles = document.getElementById('editimages').files;
-
-  const imagesData = [];
-  const readFile = (file) => new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result.split(",")[1]);
-  });
-
-  for (let file of imageFiles) {
-    imagesData.push(await readFile(file));
-  }
-
-  fetch('https://script.google.com/macros/s/AKfycbz5JuqZjZnaVAmcryzU5l8E8e238qDGwXSBFUnDIGg4t90jcTntvsrcDt4ruMdmcc_m/exec', {
-    method: 'POST',
-    mode: 'cors',
-    redirect: "follow",
-    headers: { "Content-Type": "text/plain" },
-    body: JSON.stringify({
-      mode: "edit",
-      watchID, status, brand, model, movement, qty,
-      boughtPrice, boughtDate, sellingPrice, supplier, notes,
-      images: imagesData
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log("✅ Edit success", data);
-      document.getElementById('inventoryForm').reset();
-      document.getElementById('editFormWrapper').style.display = "none";
-      renderDashboard(); // Refresh display
-    })
-    .catch(err => {
-      console.error("Edit failed:", err);
-      alert("Failed to update. Please try again.");
-    })
-    .finally(() => {
-      editButton.disabled = false;
-      editButton.textContent = originalBtnText;
-    });
-}
-
 function handleEditWatch(optionalWatchID) {
   const watchID = optionalWatchID || document.getElementById('editWatchID').value.trim();
   const statusDiv = document.getElementById('editStatus');
@@ -272,6 +211,67 @@ function handleEditWatch(optionalWatchID) {
   statusDiv.style.color = "green";
   formWrapper.style.display = "block";
 }
+
+async function handleEditSubmit(e) {
+  e.preventDefault();
+
+  const editButton = document.querySelector('#inventoryForm button[type="submit"]');
+  const originalBtnText = editButton.textContent;
+  editButton.disabled = true;
+  editButton.textContent = "Updating...";
+
+  const watchID = document.getElementById('editwatchID').value;
+  const status = document.getElementById('editstatus').value;
+  const brand = document.getElementById('editbrand').value;
+  const model = document.getElementById('editmodel').value;
+  const movement = document.getElementById('editmovement').value;
+  const qty = document.getElementById('editqty').value;
+  const boughtPrice = document.getElementById('editboughtPrice').value;
+  const boughtDate = document.getElementById('editboughtDate').value;
+  const sellingPrice = document.getElementById('editsellingPrice').value;
+  const supplier = document.getElementById('editsupplier').value;
+  const notes = document.getElementById('editnotes').value;
+  const imageFiles = document.getElementById('editimages').files;
+
+  const imagesData = [];
+  const readFile = (file) => new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.split(",")[1]);
+  });
+
+  for (let file of imageFiles) {
+    imagesData.push(await readFile(file));
+  }
+
+  fetch('https://script.google.com/macros/s/AKfycbz5JuqZjZnaVAmcryzU5l8E8e238qDGwXSBFUnDIGg4t90jcTntvsrcDt4ruMdmcc_m/exec', {
+    method: 'POST',
+    mode: 'cors',
+    redirect: "follow",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify({
+      mode: "edit",
+      watchID, status, brand, model, movement, qty,
+      boughtPrice, boughtDate, sellingPrice, supplier, notes,
+      images: imagesData
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log("✅ Edit success", data);
+      document.getElementById('inventoryForm').reset();
+      document.getElementById('editFormWrapper').style.display = "none";
+      renderDashboard(); // Refresh display
+    })
+    .catch(err => {
+      console.error("Edit failed:", err);
+      alert("Failed to update. Please try again.");
+    })
+    .finally(() => {
+      editButton.disabled = false;
+      editButton.textContent = originalBtnText;
+    });
+}
 //-------------------End edit watch----------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -299,22 +299,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     deleteBtn.addEventListener('click', handleDeleteWatch);
   
-  //Edit button
+  //Edit tab submit button
   const editInput = document.getElementById('editWatchID');
-  const editBtn = document.getElementById('editWatchBtn');
+  const submitBtn = document.getElementById('submitWatchBtn');
 
-  editBtn.disabled = true;
+  submitBtn.disabled = true;
   editInput.addEventListener('input', () => {
     const inputID = editInput.value.trim();
-    editBtn.disabled = inputID.length !== 21;
+    submitBtn.disabled = inputID.length !== 21;
   });
 
-  editBtn.addEventListener('click', () => {
+  submitBtn.addEventListener('click', () => {
     const inputID = document.getElementById('editWatchID').value.trim();
     handleEditWatch(inputID);
+
+    // 🔄 Toggle form visibility
+    document.getElementById("addFormWrapper").style.display = "none";
+    document.getElementById("editFormWrapper").style.display = "block";
   });
 
-  document.getElementById('inventoryForm').addEventListener('submit', handleEditSubmit);
+  
   const refreshBtn = document.getElementById('refreshBtn');
   if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
@@ -332,7 +336,10 @@ document.addEventListener("DOMContentLoaded", function () {
       cancelButton.disabled = true;
       cancelButton.textContent = "Clearing...";
 
-      document.getElementById('inventoryForm').reset();
+      document.getElementById('addForm').reset();
+      document.getElementById('editForm').reset();
+      document.getElementById('editFormWrapper').style.display = "none";
+      document.getElementById('addFormWrapper').style.display = "block";
       watchIDField.value = "";
       updateWatchID();
 
@@ -343,8 +350,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
   
-    
-    document.getElementById('inventoryForm').addEventListener('submit', handleAddWatch);
+    document.getElementById('editForm').addEventListener('submit', handleEditSubmit);
+    document.getElementById('addForm').addEventListener('submit', handleAddWatch);
     document.getElementById('searchInput').addEventListener('input', applyTableFilters);
     document.getElementById('statusFilter').addEventListener('change', applyTableFilters);
     document.getElementById('clearFiltersBtn').addEventListener('click', () => {
@@ -463,11 +470,19 @@ function createTableRow(row) {
       editInput.dispatchEvent(new Event("input"));
       // Auto-trigger the edit flow
       handleEditWatch(watchID);
+      // 🔄 Toggle form visibility
+      document.getElementById("addFormWrapper").style.display = "none";
+      document.getElementById("editFormWrapper").style.display = "block";
     } else if (activeTab.includes("Delete")) {
     // ➖ Fill Delete field and keep you in Delete tab
       const deleteInput = document.getElementById("deleteWatchID");
       deleteInput.value = watchID;
       deleteInput.dispatchEvent(new Event("input"));
+    // 🔄 Toggle form visibility
+      document.getElementById("addFormWrapper").style.display = "none";
+      document.getElementById("editFormWrapper").style.display = "none";
+
+      document.getElementById("editImagePreview").innerHTML = "";
     } else {
       console.log("Row clicked outside Edit/Delete context.");
     }
