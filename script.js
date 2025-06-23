@@ -18,14 +18,14 @@ function updateWatchID() {
   }
 }
 function updateEditWatchID() {
-  const status = document.getElementById("editstatus").value.trim();
-  const brand = document.getElementById("editbrand").value.trim();
+  const editstatus = document.getElementById("editstatus").value.trim();
+  const editbrand = document.getElementById("editbrand").value.trim();
 
-  const statusCode = status ? status.substring(0, 3).toUpperCase() : "XXX";
-  const brandCode = brand ? brand.substring(0, 3).toUpperCase() : "XXX";
-  const timestamp = Date.now();
+  const editstatusCode = editstatus ? editstatus.substring(0, 3).toUpperCase() : "XXX";
+  const editbrandCode = editbrand ? editbrand.substring(0, 3).toUpperCase() : "XXX";
+  const edittimestamp = Date.now();
 
-  const newID = `${statusCode}-${brandCode}-${timestamp}`;
+  const newID = `${editstatusCode}-${editbrandCode}-${edittimestamp}`;
   document.getElementById("neweditwatchID").value = newID;
 }
 function renderDashboard() {
