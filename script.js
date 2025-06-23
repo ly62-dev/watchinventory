@@ -172,11 +172,31 @@ function handleEditWatch() {
     return;
   }
 
-  const fieldMap = [
+  //const fieldMap = [
     'watchID', 'status', 'brand', 'model', 'movement',
     'qty', 'boughtPrice', 'boughtDate', 'sellingPrice',
     'supplier', 'notes'
   ];
+
+  const valueMap = {
+  watchID: match[0],
+  status: match[1],
+  brand: match[2],
+  model: match[3],
+  movement: match[4],
+  qty: match[6],
+  boughtPrice: match[7],
+  boughtDate: match[8],
+  sellingPrice: match[9],
+  supplier: match[10],
+  notes: match[12],
+};
+
+Object.entries(valueMap).forEach(([id, val]) => {
+  const el = document.getElementById(id);
+  if (el) el.value = val || '';
+});
+
 
   fieldMap.forEach((id, i) => {
     const el = document.getElementById(id);
