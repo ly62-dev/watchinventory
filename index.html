@@ -92,7 +92,7 @@
         </div>
         
         <div id="EditWatch" class="tab-content">
-          <h3>Edit a New Watch ⌚️</h3>
+          <h3>Edit a Watch ⌚️</h3>
           <label for="editWatchID">Enter Watch ID</label>
           <input type="text" id="editWatchID" placeholder="e.g. PER-REG-175032381XXXX" />
             <button id="submitWatchBtn" disabled>Search</button>
@@ -100,46 +100,46 @@
           
           <div id="editFormWrapper" style="display: none;">
             <form id="editForm">
-              <label for="watchID">Watch ID</label>
+              <label for="editwatchID">Watch ID</label>
               <input type="text" id="editwatchID" readonly/>
 
-              <label for="newwatchID">New Watch ID</label>
+              <label for="neweditwatchID">New Watch ID</label>
               <input type="text" id="neweditwatchID" readonly/>
 
-              <label for="status">Status</label>
+              <label for="editstatus">Status</label>
               <select id="editstatus"><option value="">Loading statuses...</option></select>
 
-              <label for="brand">Brand</label>
+              <label for="editbrand">Brand</label>
               <select id="editbrand"><option value="">Loading brands...</option></select>
 
-              <label for="model">Model</label>
+              <label for="editmodel">Model</label>
               <input type="text" id="editmodel"/>
 
-              <label for="movement">Movement</label>
+              <label for="editmovement">Movement</label>
               <select id="editmovement"><option value="">Loading movements...</option></select>
 
-              <label for="qty">Quantity</label>
+              <label for="editqty">Quantity</label>
               <input type="number" id="editqty" />
 
-              <label for="boughtPrice">Bought Price</label>
+              <label for="editboughtPrice">Bought Price</label>
               <input type="number" id="editboughtPrice" step="0.01" />
 
-              <label for="boughtDate">Bought Date</label>
+              <label for="editboughtDate">Bought Date</label>
               <input type="date" id="editboughtDate" />
 
-              <label for="sellingPrice">Selling Price</label>
+              <label for="editsellingPrice">Selling Price</label>
               <input type="number" id="editsellingPrice" step="0.01" />
 
-              <label for="supplier">Supplier</label>
+              <label for="editsupplier">Supplier</label>
               <input type="text" id="editsupplier" />
 
-              <label for="notes">Additional Notes</label>
+              <label for="editnotes">Additional Notes</label>
               <textarea id="editnotes" rows="4"></textarea>
 
-              <label for="model">Image Folder</label>
+              <label for="editimagefolder">Image Folder</label>
               <input type="text" id="editimagefolder" readonly/>
               
-              <label for="images">Upload Images</label>
+              <label for="editimages">Upload Images</label>
               <input type="file" id="editimages" accept="image/*" multiple />
               <div id="editImagePreview" class="image-preview-container"></div>
               
