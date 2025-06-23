@@ -204,7 +204,7 @@ const previewContainer = document.getElementById('editImagePreview');
 previewContainer.innerHTML = "";
 
 if (imageField) {
-  const urls = imageField.split(",").map(url => url.trim()).filter(Boolean);
+  const urls = imageField.split(", ").map(url => url.trim()).filter(Boolean);
 
   if (urls.length === 1 && urls[0].includes("drive.google.com")) {
     const link = document.createElement('a');
