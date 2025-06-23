@@ -17,6 +17,18 @@ function updateWatchID() {
     watchIDField.value = "";
   }
 }
+function updateEditWatchID() {
+  const status = document.getElementById("editstatus").value;
+  const brand = document.getElementById("editbrand").value;
+
+  if (!status || !brand) return;
+
+  const timestamp = new Date().getTime().toString().slice(-6); // last 6 digits for uniqueness
+  const watchID = `${status}-${brand}-${timestamp}`;
+
+  document.getElementById("neweditwatchID").value = watchID;
+}
+
 function renderDashboard() {
   loadInventoryRecords();
 }
@@ -180,7 +192,8 @@ function handleEditWatch(optionalWatchID) {
     editsellingPrice: match[8],
     editsupplier:     match[9],
     editnotes:        match[10],
-    editimagefolder:  match[11]
+    editimagefolder:  match[11],
+    neweditwatchid:  match[14]
   };
 
   Object.entries(valueMap).forEach(([id, val]) => {
@@ -272,6 +285,9 @@ async function handleEditSubmit(e) {
       console.log("✅ Edit success", data);
       document.getElementById('editForm').reset();
       document.getElementById('editFormWrapper').style.display = "none";
+      document.getElementById('editwatchID').value = ""; // 🧼 Clear watch ID input
+      document.getElementById('statDiv').innerHTML = ""; // 🧽 Clear statDiv content
+
       document.getElementById('neweditwatchID').value = "";
       updateWatchID(); // Refreshes Watch ID input
       renderDashboard(); // Refresh dashboard data
@@ -298,6 +314,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   brandSelect.addEventListener('change', updateWatchID);
   statusSelect.addEventListener('change', updateWatchID);
+
+  document.getElementById("editstatus").addEventListener("change", updateEditWatchID);
+  document.getElementById("editbrand").addEventListener("change", updateEditWatchID);
 
   const deleteInput = document.getElementById('deleteWatchID');
   const deleteBtn = document.getElementById('deleteWatchBtn');
@@ -636,23 +655,6 @@ function updateDashboardStats(dataRows) {
   document.getElementById('statusCounts').innerHTML = statusDisplay;
 }
 
-//function loadDropdowns() {
-  //fetch("watchInventoryDropdown.json")
-    //.then(response => response.json())
-    //.then(data => {
-      //const movementSelect = document.getElementById("movement");
-      //const statusSelect = document.getElementById("status");
-      //const brandSelect = document.getElementById("brand");
-
-      //movementSelect.innerHTML = `<option value="" selected disabled>Select movement...</option>`;
-            //statusSelect.innerHTML = `<option value="" selected disabled>Select status...</option>`;
-            //brandSelect.innerHTML = `<option value="" selected disabled>Select brand...</option>`;
-      //data.movements.forEach(m => { const option = document.createElement("option"); option.value = m; option.textContent = m; movementSelect.appendChild(option); });
-      //data.statuses.forEach(s => { const option = document.createElement("option"); option.value = s; option.textContent = s; statusSelect.appendChild(option); });
-      //data.brands.forEach(b => { const option = document.createElement("option"); option.value = b; option.textContent = b; brandSelect.appendChild(option); });
-    //})
-    //.catch(error => console.error("Dropdown Fetch Error:", error));
-//}
 function loadDropdowns() {
   fetch("watchInventoryDropdown.json")
     .then(response => response.json())
