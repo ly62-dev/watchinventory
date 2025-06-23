@@ -44,7 +44,8 @@
         <!-- Tab content containers -->
         <div id="AddWatch" class="tab-content active-tab">
           <h3>Add a New Watch ⌚️</h3>
-            <form id="inventoryForm">
+          <div id="addFormWrapper">
+            <form id="addForm">
               <label for="watchID">Watch ID</label>
               <input type="text" id="watchID" readonly required />
 
@@ -88,6 +89,7 @@
 
           </form>
         </div>
+        </div>
         
         <div id="EditWatch" class="tab-content">
           <h3>Edit a New Watch ⌚️</h3>
@@ -97,7 +99,7 @@
           <div id="editStatus"></div>
           
           <div id="editFormWrapper" style="display: none;">
-            <form id="inventoryForm">
+            <form id="editForm">
               <label for="watchID">Watch ID</label>
               <input type="text" id="editwatchID" readonly/>
 
@@ -138,7 +140,10 @@
               <input type="file" id="editimages" accept="image/*" multiple />
               <div id="editImagePreview" class="image-preview-container"></div>
               
-              <button type="submit" id="editWatchBtn">Edit Watch</button>
+               <div style="grid-column: span 2; display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                <button id="editWatchBtn" type="submit" style="width: 150px; height: 40px; display: flex; align-items: center; justify-content: center;">Edit Watch</button>
+                <button id="cancelWatchBtn" type="button" style="width: 150px; height: 40px; display: flex; align-items: center; justify-content: center;">🗑️ Cancel</button>
+              </div>
 
           </form>
           </div>
