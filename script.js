@@ -173,10 +173,9 @@ function handleEditWatch() {
   }
 
   //const fieldMap = [
-    'watchID', 'status', 'brand', 'model', 'movement',
-    'qty', 'boughtPrice', 'boughtDate', 'sellingPrice',
-    'supplier', 'notes'
-  ];
+    //'watchID', 'status', 'brand', 'model', 'movement',
+    //'qty', 'boughtPrice', 'boughtDate', 'sellingPrice',
+    //'supplier', 'notes'];
 
   const valueMap = {
   watchID: match[0],
