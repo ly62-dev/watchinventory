@@ -252,9 +252,19 @@ async function handleEditSubmit(e) {
     headers: { "Content-Type": "text/plain" },
     body: JSON.stringify({
       mode: "edit",
-      editwatchID, editstatus, editbrand, editmodel, editmovement, editqty,
-      editboughtPrice, editboughtDate, editsellingPrice, editsupplier, editnotes,
-      editimages: editimagesData, neweditwatchID
+      editwatchID: editwatchID,
+      editstatus: editstatus,
+      editbrand: editbrand,
+      editmodel: editmodel,
+      editmovement: editmovement,
+      editqty: editqty,
+      editboughtPrice: editboughtPrice,
+      editboughtDate: editboughtDate,
+      editsellingPrice: editsellingPrice,
+      editsupplier: editsupplier,
+      editnotes: editnotes,
+      editimages: editimagesData,
+      newwatchID: neweditwatchID // ✅ key now matches what the backend expects
     })
   })
     .then(response => response.json())
@@ -262,10 +272,9 @@ async function handleEditSubmit(e) {
       console.log("✅ Edit success", data);
       document.getElementById('editForm').reset();
       document.getElementById('editFormWrapper').style.display = "none";
-      
       document.getElementById('neweditwatchID').value = "";
-      updateWatchID(); // This should be globally accessible
-      renderDashboard(); // Refresh display
+      updateWatchID(); // Refreshes Watch ID input
+      renderDashboard(); // Refresh dashboard data
     })
     .catch(err => {
       console.error("Edit failed:", err);
@@ -276,6 +285,7 @@ async function handleEditSubmit(e) {
       editButton.textContent = originalBtnText;
     });
 }
+
 //-------------------End edit watch----------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
