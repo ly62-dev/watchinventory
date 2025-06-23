@@ -200,34 +200,29 @@ function handleEditWatch() {
 //}
 
   const imageField = match[12];
-const previewContainer = document.getElementById('editImagePreview');
-previewContainer.innerHTML = "";
+  const previewContainer = document.getElementById('editImagePreview');
+  previewContainer.innerHTML = "";
 
-if (imageField) {
-  const urls = imageField
-    .split(", ")
-    .map(url => url.trim())
-    .filter(Boolean)
-    .map(url => {
-      const match = url.match(/\/file\/d\/(.*?)\//);
-      return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : url;
+  if (imageField) {
+    const urls = imageField
+      .split(", ")
+      .map(url => url.trim())
+      .filter(Boolean);
+
+    urls.forEach((src, index) => {
+      const link = document.createElement("a");
+      link.href = src;
+      link.textContent = `📎 Image ${index + 1}`;
+      link.target = "_blank";
+      link.style.display = "block"; // so each link is on its own line
+      previewContainer.appendChild(link);
     });
+  }
 
-  urls.forEach(src => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = "Watch Image";
-    img.onerror = () => img.remove();
-    previewContainer.appendChild(img);
+  Object.entries(valueMap).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val || '';
   });
-}
-
-
-  
-Object.entries(valueMap).forEach(([id, val]) => {
-  const el = document.getElementById(id);
-  if (el) el.value = val || '';
-});
 //Object.entries(valueMap).forEach(([id, val]) => {
   //const el = document.getElementById(id);
   //if (el) {
