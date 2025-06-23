@@ -24,7 +24,7 @@ function renderDashboard() {
 async function handleAddWatch(e) {
   e.preventDefault();
 
-  const addButton = document.querySelector('#inventoryForm button[type="submit"]');
+  const addButton = document.querySelector('#addForm button[type="submit"]');
   const originalBtnText = addButton.textContent;
   addButton.disabled = true;
   addButton.textContent = "Saving...";
@@ -215,7 +215,7 @@ function handleEditWatch(optionalWatchID) {
 async function handleEditSubmit(e) {
   e.preventDefault();
 
-  const editButton = document.querySelector('#inventoryForm button[type="submit"]');
+  const editButton = document.querySelector('#editForm button[type="submit"]');
   const originalBtnText = editButton.textContent;
   editButton.disabled = true;
   editButton.textContent = "Updating...";
