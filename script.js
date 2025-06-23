@@ -160,7 +160,6 @@ function handleEditWatch() {
     return;
   }
 
-  //const match = window.cachedRecords.find(row => row[0] === watchID);
   const match = window.cachedRecords.find(row => row[0].trim() === watchID.trim());
   console.log("Looking for:", watchID);
   console.log("Matched row:", match);
@@ -171,11 +170,6 @@ function handleEditWatch() {
     formWrapper.style.display = "none";
     return;
   }
-
-  //const fieldMap = [
-    //'watchID', 'status', 'brand', 'model', 'movement',
-    //'qty', 'boughtPrice', 'boughtDate', 'sellingPrice',
-    //'supplier', 'notes'];
 
   const valueMap = {
   editwatchID: match[0],
@@ -188,7 +182,7 @@ function handleEditWatch() {
   editboughtDate: match[8],
   editsellingPrice: match[9],
   editsupplier: match[10],
-  editnotes: match[12],
+  editnotes: match[11],
 };
 
 Object.entries(valueMap).forEach(([id, val]) => {
@@ -197,10 +191,28 @@ Object.entries(valueMap).forEach(([id, val]) => {
 });
 
 
-  //fieldMap.forEach((id, i) => {
-    //const el = document.getElementById(id);
-    //if (el) el.value = match[i] || '';
-  //});
+const imageField = match[12]; // example: Google Drive folder or comma-separated image links
+const previewContainer = document.getElementById('editImagePreview');
+previewContainer.innerHTML = ""; // Clear previous images
+
+if (imageField && imageField.includes("drive.google.com")) {
+  // Embed folder link as clickable or use a fallback image
+  const link = document.createElement('a');
+  link.href = imageField;
+  link.textContent = "📁 Open Image Folder";
+  link.target = "_blank";
+  previewContainer.appendChild(link);
+} else if (imageField && imageField.includes("http")) {
+  // If multiple image URLs are separated by commas
+  const urls = imageField.split(",").map(url => url.trim());
+  urls.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "Watch Image";
+    previewContainer.appendChild(img);
+  });
+}
+
 
   statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
   statusDiv.style.color = "green";
