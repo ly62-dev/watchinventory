@@ -99,40 +99,40 @@
           <div id="editFormWrapper" style="display: none;">
             <form id="inventoryForm">
               <label for="watchID">Watch ID</label>
-              <input type="text" id="watchID" readonly/>
+              <input type="text" id="editwatchID" readonly/>
 
               <label for="status">Status</label>
-              <select id="status"><option value="">Loading statuses...</option></select>
+              <select id="editstatus"><option value="">Loading statuses...</option></select>
 
               <label for="brand">Brand</label>
-              <select id="brand"><option value="">Loading brands...</option></select>
+              <select id="editbrand"><option value="">Loading brands...</option></select>
 
               <label for="model">Model</label>
-              <input type="text" id="model"/>
+              <input type="text" id="editmodel"/>
 
               <label for="movement">Movement</label>
-              <select id="movement"><option value="">Loading movements...</option></select>
+              <select id="editmovement"><option value="">Loading movements...</option></select>
 
               <label for="qty">Quantity</label>
-              <input type="number" id="qty" />
+              <input type="number" id="editqty" />
 
               <label for="boughtPrice">Bought Price</label>
-              <input type="number" id="boughtPrice" step="0.01" />
+              <input type="number" id="editboughtPrice" step="0.01" />
 
               <label for="boughtDate">Bought Date</label>
-              <input type="date" id="boughtDate" />
+              <input type="date" id="editboughtDate" />
 
               <label for="sellingPrice">Selling Price</label>
-              <input type="number" id="sellingPrice" step="0.01" />
+              <input type="number" id="editsellingPrice" step="0.01" />
 
               <label for="supplier">Supplier</label>
-              <input type="text" id="supplier" />
+              <input type="text" id="editsupplier" />
 
               <label for="notes">Additional Notes</label>
-              <textarea id="notes" rows="4"></textarea>
+              <textarea id="editnotes" rows="4"></textarea>
 
               <label for="images">Upload Images</label>
-              <input type="file" id="images" accept="image/*" multiple />
+              <input type="file" id="editimages" accept="image/*" multiple />
               
               <input type="hidden" id="editMode" value="false" />
               <button type="submit" id="submitBtn">Edit Watch</button>
