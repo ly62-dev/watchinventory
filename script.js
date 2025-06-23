@@ -179,24 +179,52 @@ function handleEditWatch() {
   editmovement:     match[4],
   editqty:          match[5],
   editboughtPrice:  match[6],
-  editboughtDate: match[7]?.split("T")[0],
+  editboughtDate:   match[7]?.split("T")[0],
   editsellingPrice: match[8],
   editsupplier:     match[9],
   editnotes:        match[10]
+  editimagefolder:  match[11]
 };
 
   
-const imageField = match[12]; // ImageLink
+//const imageField = match[12]; // ImageLink
+//const previewContainer = document.getElementById('editImagePreview');
+//previewContainer.innerHTML = "";
+
+//if (imageField && imageField.includes("drive.google.com")) {
+  //const link = document.createElement('a');
+  //link.href = imageField;
+  //link.textContent = "📸 View Image";
+  //link.target = "_blank";
+  //previewContainer.appendChild(link);
+//}
+
+  const imageField = match[12];
 const previewContainer = document.getElementById('editImagePreview');
 previewContainer.innerHTML = "";
 
-if (imageField && imageField.includes("drive.google.com")) {
-  const link = document.createElement('a');
-  link.href = imageField;
-  link.textContent = "📸 View Image";
-  link.target = "_blank";
-  previewContainer.appendChild(link);
+if (imageField) {
+  const urls = imageField.split(",").map(url => url.trim()).filter(Boolean);
+
+  if (urls.length === 1 && urls[0].includes("drive.google.com")) {
+    const link = document.createElement('a');
+    link.href = urls[0];
+    link.textContent = "📸 View Image";
+    link.target = "_blank";
+    previewContainer.appendChild(link);
+  } else {
+    urls.forEach(src => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = "Watch Image";
+      img.onerror = () => {
+        img.src = "placeholder.png"; // optional fallback
+      };
+      previewContainer.appendChild(img);
+    });
+  }
 }
+
   
 Object.entries(valueMap).forEach(([id, val]) => {
   const el = document.getElementById(id);
