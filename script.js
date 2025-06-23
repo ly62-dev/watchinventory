@@ -205,7 +205,7 @@ previewContainer.innerHTML = "";
 
 if (imageField) {
   const urls = imageField
-    .split(",")
+    .split(", ")
     .map(url => url.trim())
     .filter(Boolean)
     .map(url => {
