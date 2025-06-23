@@ -359,17 +359,40 @@ function createTableRow(row) {
     tr.appendChild(td);
   });
   //----added for delete row
-  tr.setAttribute("data-watchid", row[0]); // assuming Watch ID is in the first column
-  tr.addEventListener("click", function () {
-  const watchID = this.getAttribute("data-watchid");
-  document.getElementById("deleteWatchID").value = watchID;
-  document.getElementById('deleteWatchID').dispatchEvent(new Event('input'));
+  //tr.setAttribute("data-watchid", row[0]); // assuming Watch ID is in the first column
+  //tr.addEventListener("click", function () {
+  //const watchID = this.getAttribute("data-watchid");
+  //document.getElementById("deleteWatchID").value = watchID;
+  //document.getElementById('deleteWatchID').dispatchEvent(new Event('input'));
 
   // Switch to the Delete tab
-  const deleteTabButton = [...document.querySelectorAll(".custom-tab")]
-    .find(btn => btn.textContent.includes("Delete"));
-  if (deleteTabButton) deleteTabButton.click();
+  //const deleteTabButton = [...document.querySelectorAll(".custom-tab")]
+    //.find(btn => btn.textContent.includes("Delete"));
+  //if (deleteTabButton) deleteTabButton.click();
+  //});
+
+  tr.setAttribute("data-watchid", row[0]);
+
+  tr.addEventListener("click", function () {
+    const watchID = this.getAttribute("data-watchid");
+
+    const activeTab = document.querySelector(".custom-tab.active")?.textContent || "";
+
+    if (activeTab.includes("Edit")) {
+    // ➕ Fill Edit field and keep you in Edit tab
+      const editInput = document.getElementById("editWatchID");
+      editInput.value = watchID;
+      editInput.dispatchEvent(new Event("input"));
+    } else if (activeTab.includes("Delete")) {
+    // ➖ Fill Delete field and keep you in Delete tab
+      const deleteInput = document.getElementById("deleteWatchID");
+      deleteInput.value = watchID;
+      deleteInput.dispatchEvent(new Event("input"));
+    } else {
+      console.log("Row clicked outside Edit/Delete context.");
+    }
   });
+
   //-------------------
   return tr;
 }
