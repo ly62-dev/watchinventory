@@ -179,7 +179,7 @@ function handleEditWatch() {
   editmovement:     match[4],
   editqty:          match[5],
   editboughtPrice:  match[6],
-  editboughtDate:   match[7],
+  editboughtDate: match[7]?.split("T")[0],
   editsellingPrice: match[8],
   editsupplier:     match[9],
   editnotes:        match[10]
@@ -198,19 +198,19 @@ if (imageField && imageField.includes("drive.google.com")) {
   previewContainer.appendChild(link);
 }
   
-//Object.entries(valueMap).forEach(([id, val]) => {
-  //const el = document.getElementById(id);
-  //if (el) el.value = val || '';
-//});
 Object.entries(valueMap).forEach(([id, val]) => {
   const el = document.getElementById(id);
-  if (el) {
-    el.value = val || '';
-    console.log(`✅ Set ${id} = ${val}`);
-  } else {
-    console.warn(`⛔️ No element found for ${id}`);
-  }
+  if (el) el.value = val || '';
 });
+//Object.entries(valueMap).forEach(([id, val]) => {
+  //const el = document.getElementById(id);
+  //if (el) {
+    //el.value = val || '';
+    //console.log(`✅ Set ${id} = ${val}`);
+  //} else {
+    //console.warn(`⛔️ No element found for ${id}`);
+  //}
+//});
 
 
   statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
