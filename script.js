@@ -160,7 +160,11 @@ function handleEditWatch() {
     return;
   }
 
-  const match = window.cachedRecords.find(row => row[0] === watchID);
+  //const match = window.cachedRecords.find(row => row[0] === watchID);
+  const match = window.cachedRecords.find(row => row[0].trim() === watchID.trim());
+  console.log("Looking for:", watchID);
+  console.log("Matched row:", match);
+
   if (!match) {
     statusDiv.textContent = `❌ Watch ID "${watchID}" not found.`;
     statusDiv.style.color = "red";
