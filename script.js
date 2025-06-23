@@ -186,19 +186,6 @@ function handleEditWatch() {
   editimagefolder:  match[11]
 };
 
-  
-//const imageField = match[12]; // ImageLink
-//const previewContainer = document.getElementById('editImagePreview');
-//previewContainer.innerHTML = "";
-
-//if (imageField && imageField.includes("drive.google.com")) {
-  //const link = document.createElement('a');
-  //link.href = imageField;
-  //link.textContent = "📸 View Image";
-  //link.target = "_blank";
-  //previewContainer.appendChild(link);
-//}
-
   const imageField = match[12];
   const previewContainer = document.getElementById('editImagePreview');
   previewContainer.innerHTML = "";
@@ -224,20 +211,39 @@ function handleEditWatch() {
     const el = document.getElementById(id);
     if (el) el.value = val || '';
   });
-//Object.entries(valueMap).forEach(([id, val]) => {
-  //const el = document.getElementById(id);
-  //if (el) {
-    //el.value = val || '';
-    //console.log(`✅ Set ${id} = ${val}`);
-  //} else {
-    //console.warn(`⛔️ No element found for ${id}`);
-  //}
-//});
-
 
   statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
   statusDiv.style.color = "green";
   formWrapper.style.display = "block";
+
+  // Attach onsubmit handler inside Edit
+document.getElementById("inventoryForm").onsubmit = function (e) {
+  e.preventDefault();
+
+  const updatedData = {
+    watchID:       document.getElementById("editwatchID").value.trim(),
+    status:        document.getElementById("editstatus").value,
+    brand:         document.getElementById("editbrand").value,
+    model:         document.getElementById("editmodel").value,
+    movement:      document.getElementById("editmovement").value,
+    qty:           document.getElementById("editqty").value,
+    boughtPrice:   document.getElementById("editboughtPrice").value,
+    boughtDate:    document.getElementById("editboughtDate").value,
+    sellingPrice:  document.getElementById("editsellingPrice").value,
+    supplier:      document.getElementById("editsupplier").value,
+    notes:         document.getElementById("editnotes").value
+  };
+
+  google.script.run
+    .withSuccessHandler(() => {
+      alert(`✅ Watch "${updatedData.watchID}" updated successfully!`);
+      formWrapper.style.display = "none";
+    })
+    .withFailureHandler(err => {
+      alert("❌ Failed to update: " + err.message);
+    })
+    .updateWatchRecord(updatedData);
+};
 
 }
 //-------------------End edit watch----------------------------
