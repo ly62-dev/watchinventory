@@ -197,10 +197,10 @@ Object.entries(valueMap).forEach(([id, val]) => {
 });
 
 
-  fieldMap.forEach((id, i) => {
-    const el = document.getElementById(id);
-    if (el) el.value = match[i] || '';
-  });
+  //fieldMap.forEach((id, i) => {
+    //const el = document.getElementById(id);
+    //if (el) el.value = match[i] || '';
+  //});
 
   statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
   statusDiv.style.color = "green";
