@@ -221,6 +221,7 @@ async function handleEditSubmit(e) {
   editButton.textContent = "Updating...";
 
   const watchID = document.getElementById('editwatchID').value;
+  const newwatchID = document.getElementById('neweditwatchID').value;
   const status = document.getElementById('editstatus').value;
   const brand = document.getElementById('editbrand').value;
   const model = document.getElementById('editmodel').value;
@@ -253,7 +254,7 @@ async function handleEditSubmit(e) {
       mode: "edit",
       watchID, status, brand, model, movement, qty,
       boughtPrice, boughtDate, sellingPrice, supplier, notes,
-      images: imagesData
+      images: imagesData, newwatchID
     })
   })
     .then(response => response.json())
@@ -261,6 +262,9 @@ async function handleEditSubmit(e) {
       console.log("✅ Edit success", data);
       document.getElementById('inventoryForm').reset();
       document.getElementById('editFormWrapper').style.display = "none";
+      
+      document.getElementById('newwatchID').value = "";
+      updateWatchID(); // This should be globally accessible
       renderDashboard(); // Refresh display
     })
     .catch(err => {
