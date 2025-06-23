@@ -536,20 +536,79 @@ function updateDashboardStats(dataRows) {
   document.getElementById('statusCounts').innerHTML = statusDisplay;
 }
 
+//function loadDropdowns() {
+  //fetch("watchInventoryDropdown.json")
+    //.then(response => response.json())
+    //.then(data => {
+      //const movementSelect = document.getElementById("movement");
+      //const statusSelect = document.getElementById("status");
+      //const brandSelect = document.getElementById("brand");
+
+      //movementSelect.innerHTML = `<option value="" selected disabled>Select movement...</option>`;
+            //statusSelect.innerHTML = `<option value="" selected disabled>Select status...</option>`;
+            //brandSelect.innerHTML = `<option value="" selected disabled>Select brand...</option>`;
+      //data.movements.forEach(m => { const option = document.createElement("option"); option.value = m; option.textContent = m; movementSelect.appendChild(option); });
+      //data.statuses.forEach(s => { const option = document.createElement("option"); option.value = s; option.textContent = s; statusSelect.appendChild(option); });
+      //data.brands.forEach(b => { const option = document.createElement("option"); option.value = b; option.textContent = b; brandSelect.appendChild(option); });
+    //})
+    //.catch(error => console.error("Dropdown Fetch Error:", error));
+//}
 function loadDropdowns() {
   fetch("watchInventoryDropdown.json")
     .then(response => response.json())
     .then(data => {
-      const movementSelect = document.getElementById("movement");
-      const statusSelect = document.getElementById("status");
-      const brandSelect = document.getElementById("brand");
+      // Define all dropdowns for Add and Edit tabs
+      const movementSelects = [
+        document.getElementById("movement"),
+        document.getElementById("editmovement")
+      ];
+      const statusSelects = [
+        document.getElementById("status"),
+        document.getElementById("editstatus")
+      ];
+      const brandSelects = [
+        document.getElementById("brand"),
+        document.getElementById("editbrand")
+      ];
 
-      movementSelect.innerHTML = `<option value="" selected disabled>Select movement...</option>`;
-            statusSelect.innerHTML = `<option value="" selected disabled>Select status...</option>`;
-            brandSelect.innerHTML = `<option value="" selected disabled>Select brand...</option>`;
-      data.movements.forEach(m => { const option = document.createElement("option"); option.value = m; option.textContent = m; movementSelect.appendChild(option); });
-      data.statuses.forEach(s => { const option = document.createElement("option"); option.value = s; option.textContent = s; statusSelect.appendChild(option); });
-      data.brands.forEach(b => { const option = document.createElement("option"); option.value = b; option.textContent = b; brandSelect.appendChild(option); });
+      // Reset and populate Movement dropdowns
+      movementSelects.forEach(select => {
+        if (select) {
+          select.innerHTML = `<option value="" selected disabled>Select movement...</option>`;
+          data.movements.forEach(m => {
+            const option = document.createElement("option");
+            option.value = m;
+            option.textContent = m;
+            select.appendChild(option);
+          });
+        }
+      });
+
+      // Reset and populate Status dropdowns
+      statusSelects.forEach(select => {
+        if (select) {
+          select.innerHTML = `<option value="" selected disabled>Select status...</option>`;
+          data.statuses.forEach(s => {
+            const option = document.createElement("option");
+            option.value = s;
+            option.textContent = s;
+            select.appendChild(option);
+          });
+        }
+      });
+
+      // Reset and populate Brand dropdowns
+      brandSelects.forEach(select => {
+        if (select) {
+          select.innerHTML = `<option value="" selected disabled>Select brand...</option>`;
+          data.brands.forEach(b => {
+            const option = document.createElement("option");
+            option.value = b;
+            option.textContent = b;
+            select.appendChild(option);
+          });
+        }
+      });
     })
     .catch(error => console.error("Dropdown Fetch Error:", error));
 }
