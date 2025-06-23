@@ -17,6 +17,9 @@ function updateWatchID() {
     watchIDField.value = "";
   }
 }
+function renderDashboard() {
+  loadInventoryRecords();
+}
 //------------------Add watch---------------------------------
 async function handleAddWatch(e) {
   e.preventDefault();
@@ -144,9 +147,46 @@ function resetDeleteBtn() {
   deleteBtn.textContent = "Delete";
 }
 //-------------------End delete watch--------------------------
-function renderDashboard() {
-  loadInventoryRecords();
+//-------------------Edit watch--------------------------------
+function handleEditWatch() {
+  const watchID = document.getElementById('editWatchID').value.trim();
+  const statusDiv = document.getElementById('editStatus');
+  const formWrapper = document.getElementById('editFormWrapper');
+
+  if (!window.cachedRecords || !Array.isArray(window.cachedRecords)) {
+    statusDiv.textContent = "⚠️ Inventory not loaded. Try refreshing.";
+    statusDiv.style.color = "orange";
+    formWrapper.style.display = "none";
+    return;
+  }
+
+  const match = window.cachedRecords.find(row => row[0] === watchID);
+  if (!match) {
+    statusDiv.textContent = `❌ Watch ID "${watchID}" not found.`;
+    statusDiv.style.color = "red";
+    formWrapper.style.display = "none";
+    return;
+  }
+
+  const fieldMap = [
+    'watchID', 'status', 'brand', 'model', 'movement',
+    'qty', 'boughtPrice', 'boughtDate', 'sellingPrice',
+    'supplier', 'notes'
+  ];
+
+  fieldMap.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.value = match[i] || '';
+  });
+
+  statusDiv.textContent = `✅ Loaded Watch ${watchID} for editing.`;
+  statusDiv.style.color = "green";
+  formWrapper.style.display = "block";
+
+  const formTab = [...document.querySelectorAll('.custom-tab')].find(tab => tab.textContent.includes("Add") || tab.textContent.includes("Inventory"));
+  if (formTab) formTab.click();
 }
+//-------------------End edit watch----------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
   const watchIDField = document.getElementById('watchID');
@@ -162,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const deleteInput = document.getElementById('deleteWatchID');
   const deleteBtn = document.getElementById('deleteWatchBtn');
 
-  // Disable button on load
+  // Delete button
   deleteBtn.disabled = true;
   deleteInput.addEventListener('input', () => {
     const inputID = deleteInput.value.trim();
@@ -171,12 +211,18 @@ document.addEventListener("DOMContentLoaded", function () {
     deleteBtn.disabled = inputID.length !== 21;
     console.log("char" + inputID.length);
     });
+    deleteBtn.addEventListener('click', handleDeleteWatch);
+  
+  //Edit button
+  const editInput = document.getElementById('editWatchID');
+  const editBtn = document.getElementById('editWatchBtn');
 
-  console.log("Delete button found?", deleteBtn);
-    if (deleteBtn) {
-      deleteBtn.addEventListener('click', handleDeleteWatch);
-      }
-    
+  editBtn.disabled = true;
+  editInput.addEventListener('input', () => {
+    const inputID = editInput.value.trim();
+    editBtn.disabled = inputID.length !== 21; // adjust length to your real ID format
+  });
+  editBtn.addEventListener('click', handleEditWatch);
 
   const refreshBtn = document.getElementById('refreshBtn');
   if (refreshBtn) {
@@ -263,7 +309,9 @@ function loadInventoryRecords() {
       
       updateDashboardStats(data);
       window.cachedWatchIDs = data.slice(1).map(row => row[0].trim());
-      console.log("✅ cachedWatchIDs:", window.cachedWatchIDs);
+      window.cachedRecords = data.slice(1); // Stores full rows for edit lookup
+
+      //console.log("✅ cachedWatchIDs:", window.cachedWatchIDs);
 
       applyTableFilters();
       
