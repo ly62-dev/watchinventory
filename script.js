@@ -466,7 +466,12 @@ function createTableRow(row) {
     const isDateAdded = i === row.length - 1;
 
     if ((isBoughtDate || isDateAdded) && cell) {
-      td.textContent = new Date(cell).toISOString().split("T")[0];
+      const parsedDate = new Date(cell);
+    if (!isNaN(parsedDate.getTime())) {
+      td.textContent = parsedDate.toISOString().split("T")[0];
+    } else {
+      td.textContent = ""; // or a fallback like "Invalid Date"
+      }
     } else if (isFolderLink && cell.startsWith("https")) {
       const link = document.createElement("a");
       link.href = cell;
