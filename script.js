@@ -806,4 +806,8 @@ function convertDriveLink(link) {
   }
 
   return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : '';
+
+  console.log("convertDriveLink input:", link);
+  console.log("→ fileId extracted:", fileId);
+
 }
