@@ -28,6 +28,12 @@ function updateEditWatchID() {
   const newID = `${editstatusCode}-${editbrandCode}-${edittimestamp}`;
   document.getElementById("neweditwatchID").value = newID;
 }
+function showTableLoader(show) {
+    const loader = document.getElementById("tableLoader");
+    const table = document.getElementById("inventoryTable");
+    loader.style.display = show ? "block" : "none";
+    table.style.opacity = show ? 0.5 : 1;
+}
 function renderDashboard() {
   loadInventoryRecords();
 }
