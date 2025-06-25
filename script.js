@@ -45,7 +45,7 @@ async function handleAddWatch(e) {
   const originalBtnText = addButton.textContent;
   addButton.disabled = true;
   addButton.textContent = "Saving...";
-
+  
   const watchID = document.getElementById('watchID').value;
   const status = document.getElementById('status').value;
   const brand = document.getElementById('brand').value;
@@ -69,7 +69,7 @@ async function handleAddWatch(e) {
   for (let file of imageFiles) {
     imagesData.push(await readFile(file));
   }
-
+  showTableLoader(true);
   fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec', {
     method: 'POST',
     mode: 'cors',
@@ -96,6 +96,7 @@ async function handleAddWatch(e) {
     .finally(() => {
       addButton.disabled = false;
       addButton.textContent = originalBtnText;
+      showTableLoader(false);
     });
 }//------------------End add watch-----------------------------
 //-------------------Delete watch------------------------------
@@ -129,7 +130,7 @@ async function handleDeleteWatch(e) {
     resetDeleteBtn();
     return;
   }
-
+  showTableLoader(true);
   try {
     const response = await fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec', {
       method: 'POST',
@@ -154,6 +155,7 @@ async function handleDeleteWatch(e) {
     statusDiv.style.color = "red";
   } finally {
     resetDeleteBtn();
+    showTableLoader(false);
   }
 }
 
@@ -262,7 +264,7 @@ async function handleEditSubmit(e) {
   for (let file of editimageFiles) {
     editimagesData.push(await readFile(file));
   }
-
+  showTableLoader(true);
   fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec', {
     method: 'POST',
     mode: 'cors',
@@ -306,6 +308,7 @@ async function handleEditSubmit(e) {
     .finally(() => {
       editButton.disabled = false;
       editButton.textContent = originalBtnText;
+      showTableLoader(false);
     });
 }
 
