@@ -769,21 +769,31 @@ function renderImageGallery(records) {
   const gallery = document.getElementById("imageGallery");
   gallery.innerHTML = '<h3>🖼️ Images</h3>';
 
-  records.slice(1).forEach(row => {
+  records.slice(1).forEach((row, rowIndex) => {
     const rawLinks = row[12]; // Column 12 = ImageLink
+    console.log(`Row ${rowIndex + 1} rawLinks:`, rawLinks);
+
     if (rawLinks) {
-      const links = rawLinks.split(',').map(link => link.trim()); // Handle multiple URLs
-      links.forEach(link => {
+      const links = rawLinks
+        .split(',')
+        .map(link => link.trim().replace(/^"|"$/g, '')); // Trim + remove leading/trailing quotes
+      links.forEach((link, linkIndex) => {
         const imageURL = convertDriveLink(link);
+        console.log(`→ Processed Link ${linkIndex + 1}:`, link);
+        console.log(`→ Converted Image URL:`, imageURL);
+
         const img = document.createElement("img");
         img.src = imageURL;
         img.alt = `Image for ${row[0]}`;
         img.title = row[0];
+        img.onerror = () => console.warn(`❌ Failed to load image for ${row[0]}: ${imageURL}`);
+        img.onload = () => console.info(`✅ Loaded image for ${row[0]}: ${imageURL}`);
         gallery.appendChild(img);
       });
     }
   });
 }
+
 function convertDriveLink(link) {
   let fileId = null;
   const dMatch = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
