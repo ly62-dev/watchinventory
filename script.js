@@ -779,21 +779,24 @@ function renderImageGallery(records) {
       links.forEach(link => {
         const fileId = extractDriveId(link);
         if (fileId) {
-          const iframe = document.createElement("iframe");
-          iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
-          iframe.width = "300";
-          iframe.height = "200";
-          iframe.style.border = "none";
-          iframe.loading = "lazy";
-          gallery.appendChild(iframe);
-        } else {
-          console.warn("Could not extract file ID from link:", link);
+          const anchor = document.createElement("a");
+          anchor.href = `https://drive.google.com/file/d/${fileId}/view`;
+          anchor.target = "_blank";
+          anchor.title = `Open Image: ${row[0]}`;
+
+          const thumbnail = document.createElement("img");
+          thumbnail.src = "https://via.placeholder.com/300x200.png?text=View+Image"; // Customize this!
+          thumbnail.alt = `Thumbnail for ${row[0]}`;
+          thumbnail.style.margin = "5px";
+          thumbnail.style.border = "1px solid #ccc";
+
+          anchor.appendChild(thumbnail);
+          gallery.appendChild(anchor);
         }
       });
     }
   });
 }
-
 function extractDriveId(link) {
   const dMatch = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
   const idMatch = link.match(/id=([a-zA-Z0-9_-]+)/);
