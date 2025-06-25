@@ -785,6 +785,15 @@ function renderImageGallery(records) {
   });
 }
 function convertDriveLink(link) {
-  const match = link.match(/\/d\/([a-zA-Z0-9_-]+)\//);
-  return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : '';
+  let fileId = null;
+  const dMatch = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  const idMatch = link.match(/id=([a-zA-Z0-9_-]+)/);
+
+  if (dMatch) {
+    fileId = dMatch[1];
+  } else if (idMatch) {
+    fileId = idMatch[1];
+  }
+
+  return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : '';
 }
