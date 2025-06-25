@@ -525,6 +525,7 @@ try {
     })
     .finally(() => {
       tableLoader.style.display = "none";          // ✅ Hide loader whether success or fail
+      console.log("FINALLY tableLoader")
     });
 }
 
