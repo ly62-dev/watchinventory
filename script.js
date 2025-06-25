@@ -480,11 +480,22 @@ function loadInventoryRecords() {
       }
 
       // 🧩 Populate table body with rows, skipping header
-      data.forEach((row, index) => {
-        if (index === 0) return;                   // 🔽 Skip header row (assumed index 0)
-        const tr = createTableRow(row);            // 🏗️ Construct row from data
-        tableBody.appendChild(tr);                 // 🧷 Attach row to table
-      });
+     // data.forEach((row, index) => {
+       // if (index === 0) return;                   // 🔽 Skip header row (assumed index 0)
+       // const tr = createTableRow(row);            // 🏗️ Construct row from data
+      //  tableBody.appendChild(tr);                 // 🧷 Attach row to table
+    //  });
+        data.forEach((row, index) => {
+          if (index === 0) return;
+          console.log("Row length:", row.length);
+
+          try {
+            const tr = createTableRow(row);
+            document.getElementById("inventoryTableBody").appendChild(tr);
+          } catch (err) {
+            console.error("Row render failed:", row, err);
+          }
+        });
 
       // 📊 Refresh dashboard stats and cache watch IDs
       updateDashboardStats(data);
