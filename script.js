@@ -774,32 +774,46 @@ function renderImageGallery(records) {
     if (rawLinks) {
       const links = rawLinks
         .split(',')
-        .map(link => link.trim().replace(/^"|"$/g, ''));
+        .map(link => link.trim().replace(/^"|"$/g, '')); // Strip quotes
 
       links.forEach(link => {
         const fileId = extractDriveId(link);
         if (fileId) {
-          const anchor = document.createElement("a");
-          anchor.href = `https://drive.google.com/file/d/${fileId}/view`;
-          anchor.target = "_blank";
-          anchor.title = `Open Image: ${row[0]}`;
+          const wrapper = document.createElement("div");
+          wrapper.style.margin = "10px";
+          wrapper.style.display = "inline-block";
+          wrapper.style.textAlign = "center";
 
-          const thumbnail = document.createElement("img");
-          thumbnail.src = "https://via.placeholder.com/300x200.png?text=View+Image"; // Customize this!
-          thumbnail.alt = `Thumbnail for ${row[0]}`;
-          thumbnail.style.margin = "5px";
-          thumbnail.style.border = "1px solid #ccc";
+          const iframe = document.createElement("iframe");
+          iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
+          iframe.width = "300";
+          iframe.height = "200";
+          iframe.style.border = "1px solid #ccc";
+          iframe.loading = "lazy";
+          iframe.allowFullscreen = true;
 
-          anchor.appendChild(thumbnail);
-          gallery.appendChild(anchor);
+          const viewLink = document.createElement("a");
+          viewLink.href = `https://drive.google.com/file/d/${fileId}/view`;
+          viewLink.target = "_blank";
+          viewLink.textContent = "View Fullscreen";
+
+          wrapper.appendChild(iframe);
+          wrapper.appendChild(document.createElement("br"));
+          wrapper.appendChild(viewLink);
+
+          gallery.appendChild(wrapper);
+        } else {
+          console.warn("❗ Could not extract file ID from:", link);
         }
       });
     }
   });
 }
+
 function extractDriveId(link) {
   const dMatch = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
   const idMatch = link.match(/id=([a-zA-Z0-9_-]+)/);
   return dMatch ? dMatch[1] : idMatch ? idMatch[1] : '';
 }
+
 
