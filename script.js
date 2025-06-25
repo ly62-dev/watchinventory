@@ -767,16 +767,22 @@ function openTab(evt, tabId) {
 
 function renderImageGallery(records) {
   const gallery = document.getElementById("imageGallery");
-  gallery.innerHTML = '<h3>🖼️ Images</h3>'; // Reset and keep the title
+  gallery.innerHTML = '<h3>🖼️ Images</h3>';
 
   records.slice(1).forEach(row => {
-    const imageURL = row[12]; // Assuming index 13 is the imagelink column
-    if (imageURL) {
+    const rawURL = row[13]; // replace with correct column index
+    if (rawURL) {
+      const imageURL = convertDriveLink(rawURL);
       const img = document.createElement("img");
       img.src = imageURL;
       img.alt = `Watch image`;
-      img.title = row[0]; // Watch ID for tooltip
+      img.title = row[0];
       gallery.appendChild(img);
     }
   });
+}
+
+function convertDriveLink(link) {
+  const match = link.match(/\/d\/(.+?)\//);
+  return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : link;
 }
