@@ -292,9 +292,9 @@ async function handleEditSubmit(e) {
       console.log("✅ Edit success", data);
       document.getElementById('editForm').reset();
       document.getElementById('editFormWrapper').style.display = "none";
-      document.getElementById('editwatchID').value = ""; // 🧼 Clear watch ID input
-      const statDiv = document.getElementById('statDiv');
-      if (statDiv) statDiv.innerHTML = "";
+      //document.getElementById('editwatchID').value = ""; // 🧼 Clear watch ID input
+      //const statDiv = document.getElementById('statDiv');
+      //if (statDiv) statDiv.innerHTML = "";
 
 
       document.getElementById('neweditwatchID').value = "";
@@ -309,6 +309,9 @@ async function handleEditSubmit(e) {
       editButton.disabled = false;
       editButton.textContent = originalBtnText;
       showTableLoader(false);
+      document.getElementById('editwatchID').value = ""; // 🧼 Clear watch ID input
+      const statDiv = document.getElementById('statDiv');
+      if (statDiv) statDiv.innerHTML = "";
     });
 }
 
