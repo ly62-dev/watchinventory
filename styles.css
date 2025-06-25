@@ -68,6 +68,12 @@ body, html {
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+.stats-gallery-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 
 /* Form container */
 .form-container {
@@ -174,6 +180,7 @@ tr:hover {
     gap: 20px;
     align-items: flex-start;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
 }
 
 .form-pane {
