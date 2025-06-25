@@ -453,6 +453,7 @@ function loadInventoryRecords() {
       });
       
       updateDashboardStats(data);
+      renderImageGallery(data);
       window.cachedWatchIDs = data.slice(1).map(row => row[0].trim());
       window.cachedRecords = data.slice(1); // Stores full rows for edit lookup
 
@@ -472,10 +473,6 @@ function createTableRow(row) {
 
   row.forEach((cell, i) => {
     const td = document.createElement("td");
-    //const isBoughtDate = i === row.length - 7;
-    //const isFolderLink = i === row.length - 3;
-    //const isImageLink = i === row.length - 2;
-    //const isDateAdded = i === row.length - 1;
     const isBoughtDate = i === 7;     // Bought Date
     const isFolderLink = i === 11;    // Folder Link
     const isImageLink = i === 12;     // Image Link
@@ -766,4 +763,20 @@ function openTab(evt, tabId) {
     document.getElementById("editFormWrapper").style.display = "none";
     document.getElementById("addFormWrapper").style.display = "none";
   }
+}
+
+function renderImageGallery(records) {
+  const gallery = document.getElementById("imageGallery");
+  gallery.innerHTML = '<h3>🖼️ Images</h3>'; // Reset and keep the title
+
+  records.slice(1).forEach(row => {
+    const imageURL = row[12]; // Assuming index 13 is the imagelink column
+    if (imageURL) {
+      const img = document.createElement("img");
+      img.src = imageURL;
+      img.alt = `Watch image`;
+      img.title = row[0]; // Watch ID for tooltip
+      gallery.appendChild(img);
+    }
+  });
 }
