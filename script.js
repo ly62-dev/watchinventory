@@ -769,51 +769,34 @@ function renderImageGallery(records) {
   const gallery = document.getElementById("imageGallery");
   gallery.innerHTML = '<h3>🖼️ Images</h3>';
 
-  records.slice(1).forEach((row, rowIndex) => {
-    const rawLinks = row[12]; // Column 12 = ImageLink
-    console.log(`Row ${rowIndex + 1} rawLinks:`, rawLinks);
-
+  records.slice(1).forEach(row => {
+    const rawLinks = row[12];
     if (rawLinks) {
       const links = rawLinks
         .split(',')
-        .map(link => link.trim().replace(/^"|"$/g, '')); // Trim + remove leading/trailing quotes
-      links.forEach((link, linkIndex) => {
-        const imageURL = convertDriveLink(link);
-        console.log(`→ Processed Link ${linkIndex + 1}:`, link);
-        console.log(`→ Converted Image URL:`, imageURL);
+        .map(link => link.trim().replace(/^"|"$/g, ''));
 
-        const img = document.createElement("img");
-        img.src = "https://drive.usercontent.google.com/download?id=1CKK67YadRWI3J_PxHr_ppDla-gIsjYcW&export=view";
-        gallery.appendChild(img);
-
-        
-      //  const img = document.createElement("img");
-       // img.src = imageURL;
-        //img.alt = `Image for ${row[0]}`;
-        //img.title = row[0];
-        img.onerror = () => console.warn(`❌ Failed to load image for ${row[0]}: ${imageURL}`);
-        img.onload = () => console.info(`✅ Loaded image for ${row[0]}: ${imageURL}`);
-        //gallery.appendChild(img);
+      links.forEach(link => {
+        const fileId = extractDriveId(link);
+        if (fileId) {
+          const iframe = document.createElement("iframe");
+          iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
+          iframe.width = "300";
+          iframe.height = "200";
+          iframe.style.border = "none";
+          iframe.loading = "lazy";
+          gallery.appendChild(iframe);
+        } else {
+          console.warn("Could not extract file ID from link:", link);
+        }
       });
     }
   });
 }
 
-function convertDriveLink(link) {
-  let fileId = null;
+function extractDriveId(link) {
   const dMatch = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
   const idMatch = link.match(/id=([a-zA-Z0-9_-]+)/);
-
-  if (dMatch) {
-    fileId = dMatch[1];
-  } else if (idMatch) {
-    fileId = idMatch[1];
-  }
-
- // return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : '';
-return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
-
-  console.log("convertDriveLink input:", link);
-  console.log("→ fileId extracted:", fileId);
-
+  return dMatch ? dMatch[1] : idMatch ? idMatch[1] : '';
 }
+
