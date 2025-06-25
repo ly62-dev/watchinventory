@@ -416,42 +416,90 @@ document.addEventListener("DOMContentLoaded", function () {
     sortTableByColumn(13);
 });
 
+//function loadInventoryRecords() {
+  //fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec')
+    //.then(response => response.json())
+    //.then(data => {
+      //console.log("Fetched Data:", data);
+      //const tableContainer = document.getElementById("tableContainer");
+      //const tableBody = document.getElementById("inventoryTableBody");
+
+      //if (!data || data.length === 0) {
+        //tableContainer.style.display = "none";
+        //console.warn("No valid inventory data received.");
+        //return;
+      //} else {
+        //tableContainer.style.display = "block";
+      //}
+
+      //tableBody.textContent = "";
+
+      //data.forEach((row, index) => {
+        //if (index === 0) return;
+        //const tr = createTableRow(row);
+        //tableBody.appendChild(tr);
+      //});
+      
+      //updateDashboardStats(data);
+      //window.cachedWatchIDs = data.slice(1).map(row => row[0].trim());
+     // window.cachedRecords = data.slice(1); // Stores full rows for edit lookup
+
+      //applyTableFilters();
+      
+      //document.getElementById("loader").style.display = "none";
+      //document.getElementById("content").style.display = "block";
+    //})
+    //.catch(error => {
+     // console.error("Table Fetch Error:", error);
+    //  alert("Failed to load inventory records.");
+    //});
+//}
+
 function loadInventoryRecords() {
+  // 🔄 Show the table-specific loader at the start
+  const tableLoader = document.getElementById("tableLoader");
+  const tableContainer = document.getElementById("tableContainer");
+  const tableBody = document.getElementById("inventoryTableBody");
+
+  tableLoader.style.display = "block";         // ⏳ Show loading spinner
+  tableBody.textContent = "";                  // 🧼 Clear any existing table rows
+
+  // 🚀 Begin fetching inventory data from Apps Script Web App
   fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec')
     .then(response => response.json())
     .then(data => {
       console.log("Fetched Data:", data);
-      const tableContainer = document.getElementById("tableContainer");
-      const tableBody = document.getElementById("inventoryTableBody");
 
+      // 🧱 Check for valid response data
       if (!data || data.length === 0) {
-        tableContainer.style.display = "none";
+        tableContainer.style.display = "none";     // ⛔ Hide table if no data
         console.warn("No valid inventory data received.");
         return;
       } else {
-        tableContainer.style.display = "block";
+        tableContainer.style.display = "block";    // ✅ Ensure table is visible
       }
 
-      tableBody.textContent = "";
-
+      // 🧩 Populate table body with rows, skipping header
       data.forEach((row, index) => {
-        if (index === 0) return;
-        const tr = createTableRow(row);
-        tableBody.appendChild(tr);
+        if (index === 0) return;                   // 🔽 Skip header row (assumed index 0)
+        const tr = createTableRow(row);            // 🏗️ Construct row from data
+        tableBody.appendChild(tr);                 // 🧷 Attach row to table
       });
-      
+
+      // 📊 Refresh dashboard stats and cache watch IDs
       updateDashboardStats(data);
       window.cachedWatchIDs = data.slice(1).map(row => row[0].trim());
-      window.cachedRecords = data.slice(1); // Stores full rows for edit lookup
+      window.cachedRecords = data.slice(1);        // 🧠 Store for edit workflows
 
+      // 🧼 Re-apply filters in case they were active
       applyTableFilters();
-      
-      document.getElementById("loader").style.display = "none";
-      document.getElementById("content").style.display = "block";
     })
     .catch(error => {
-      console.error("Table Fetch Error:", error);
-      alert("Failed to load inventory records.");
+      console.error("Table Fetch Error:", error);  // 🐛 Log error if fetch fails
+      alert("Failed to load inventory records.");  // 🔔 Notify user
+    })
+    .finally(() => {
+      tableLoader.style.display = "none";          // ✅ Hide loader whether success or fail
     });
 }
 
@@ -460,11 +508,15 @@ function createTableRow(row) {
 
   row.forEach((cell, i) => {
     const td = document.createElement("td");
-    const isBoughtDate = i === row.length - 7;
-    const isFolderLink = i === row.length - 3;
-    const isImageLink = i === row.length - 2;
-    const isDateAdded = i === row.length - 1;
-
+    //const isBoughtDate = i === row.length - 7;
+    //const isFolderLink = i === row.length - 3;
+    //const isImageLink = i === row.length - 2;
+    //const isDateAdded = i === row.length - 1;
+    const isBoughtDate = i === 7;     // Bought Date
+    const isFolderLink = i === 11;    // Folder Link
+    const isImageLink = i === 12;     // Image Link
+    const isDateAdded = i === 13;     // Date Added
+    
     if ((isBoughtDate || isDateAdded) && cell) {
       const parsedDate = new Date(cell);
     if (cell && !isNaN(parsedDate.getTime())) {
@@ -472,23 +524,36 @@ function createTableRow(row) {
     } else {
       td.textContent = ""; // Graceful fallback for bad/missing date
       }
-    } else if (isFolderLink && cell.startsWith("https")) {
+    } else if (isFolderLink && cell.startsWith("http")) {
       const link = document.createElement("a");
       link.href = cell;
       link.textContent = "[View Folder]";
       link.target = "_blank";
       link.title = cell;
       td.appendChild(link);
-    } else if (isImageLink && cell.includes(",")) {
-      td.textContent = "Multiple Images";
-    } else if (isImageLink && cell.startsWith("https")) {
-      const imageLink = document.createElement("a");
-      imageLink.href = cell;
-      imageLink.textContent = "[View Image]";
-      imageLink.target = "_blank";
-      imageLink.title = cell;
-      td.appendChild(imageLink);
-    } else {
+    } //else if (isImageLink && cell.includes(",")) {
+      //td.textContent = "Multiple Images";
+    //} else if (isImageLink && cell.startsWith("http")) {
+      //const imageLink = document.createElement("a");
+      //imageLink.href = cell;
+      //imageLink.textContent = "[View Image]";
+      //imageLink.target = "_blank";
+      //imageLink.title = cell;
+      //td.appendChild(imageLink);
+    //} // 👇 Image Link column
+        else if (isImageLink) {
+          if (!cell || cell.trim() === "") {
+            td.textContent = "No Image";
+        } else if (cell.includes(",")) {
+            td.textContent = "Multiple Images";
+        } else if (cell.startsWith("http")) {
+          const imageLink = document.createElement("a");
+          imageLink.href = cell;
+          imageLink.textContent = "[View Image]";
+          imageLink.target = "_blank";
+          imageLink.title = cell;
+          td.appendChild(imageLink);
+        } else {
       td.textContent = cell;
     }
 
