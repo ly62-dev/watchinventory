@@ -581,7 +581,8 @@ function createTableRow(row) {
 
     tr.appendChild(td);
   });
- 
+}); // 🔁 This properly closes the row.forEach loop
+
   //----added for delete/edit row
   tr.setAttribute("data-watchid", row[0]);
 
