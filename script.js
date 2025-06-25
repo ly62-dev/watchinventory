@@ -498,12 +498,24 @@ function loadInventoryRecords() {
         });
 
       // 📊 Refresh dashboard stats and cache watch IDs
-      updateDashboardStats(data);
+     // updateDashboardStats(data);
+      try {
+  updateDashboardStats(data);
+} catch (err) {
+  console.error("updateDashboardStats failed:", err);
+}
+
+
       window.cachedWatchIDs = data.slice(1).map(row => row[0].trim());
       window.cachedRecords = data.slice(1);        // 🧠 Store for edit workflows
 
+try {
+  applyTableFilters();
+} catch (err) {
+  console.error("applyTableFilters failed:", err);
+}
       // 🧼 Re-apply filters in case they were active
-      applyTableFilters();
+     // applyTableFilters();
     })
     .catch(error => {
       console.error("Table Fetch Error:", error);  // 🐛 Log error if fetch fails
