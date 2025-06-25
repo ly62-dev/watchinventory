@@ -460,17 +460,22 @@ function createTableRow(row) {
 
   row.forEach((cell, i) => {
     const td = document.createElement("td");
-
-    const isBoughtDate = i === 7;
-    const isFolderLink = i === 11;
-    const isImageLink = i === 12;
-    const isDateAdded = i === 13;
-
+    //const isBoughtDate = i === row.length - 7;
+    //const isFolderLink = i === row.length - 3;
+    //const isImageLink = i === row.length - 2;
+    //const isDateAdded = i === row.length - 1;
+    const isBoughtDate = i === 7;     // Bought Date
+    const isFolderLink = i === 11;    // Folder Link
+    const isImageLink = i === 12;     // Image Link
+    const isDateAdded = i === 13;     // Date Added
+    
     if ((isBoughtDate || isDateAdded) && cell) {
       const parsedDate = new Date(cell);
-      td.textContent = !isNaN(parsedDate.getTime())
-        ? parsedDate.toISOString().split("T")[0]
-        : "";
+    if (cell && !isNaN(parsedDate.getTime())) {
+      td.textContent = parsedDate.toISOString().split("T")[0];
+    } else {
+      td.textContent = ""; // Graceful fallback for bad/missing date
+      }
     } else if (isFolderLink && cell.startsWith("http")) {
       const link = document.createElement("a");
       link.href = cell;
@@ -478,53 +483,55 @@ function createTableRow(row) {
       link.target = "_blank";
       link.title = cell;
       td.appendChild(link);
-    } else if (isImageLink) {
-      if (!cell || cell.trim() === "") {
-        td.textContent = "No Image";
-      } else if (cell.includes(",")) {
-        td.textContent = "Multiple Images";
-      } else if (cell.startsWith("http")) {
-        const imageLink = document.createElement("a");
-        imageLink.href = cell;
-        imageLink.textContent = "[View Image]";
-        imageLink.target = "_blank";
-        imageLink.title = cell;
-        td.appendChild(imageLink);
-      } else {
-        td.textContent = cell;
-      }
-    } else {
-      td.textContent = cell ?? "";
-    }
-
-    tr.appendChild(td);
+    } else if (isImageLink && cell.includes(",")) {
+      td.textContent = "Multiple Images";
+    } else if (isImageLink && cell.startsWith("http")) {
+      const imageLink = document.createElement("a");
+      imageLink.href = cell;
+      imageLink.textContent = "[View Image]";
+      imageLink.target = "_blank";
+      imageLink.title = cell;
+      td.appendChild(imageLink);
+    }  else {
+            td.textContent = cell;
+        }
+   tr.appendChild(td);
+ 
   });
 
+  //----added for delete/edit row
   tr.setAttribute("data-watchid", row[0]);
 
   tr.addEventListener("click", function () {
     const watchID = this.getAttribute("data-watchid");
+
     const activeTab = document.querySelector(".custom-tab.active")?.textContent || "";
 
     if (activeTab.includes("Edit")) {
+    // ➕ Fill Edit field and keep you in Edit tab
       const editInput = document.getElementById("editWatchID");
       editInput.value = watchID;
       editInput.dispatchEvent(new Event("input"));
+      // Auto-trigger the edit flow
       handleEditWatch(watchID);
+      // 🔄 Toggle form visibility
       document.getElementById("addFormWrapper").style.display = "none";
       document.getElementById("editFormWrapper").style.display = "block";
     } else if (activeTab.includes("Delete")) {
+    // ➖ Fill Delete field and keep you in Delete tab
       const deleteInput = document.getElementById("deleteWatchID");
       deleteInput.value = watchID;
       deleteInput.dispatchEvent(new Event("input"));
+    // 🔄 Toggle form visibility
       document.getElementById("addFormWrapper").style.display = "none";
       document.getElementById("editFormWrapper").style.display = "none";
+
       document.getElementById("editImagePreview").innerHTML = "";
     } else {
       console.log("Row clicked outside Edit/Delete context.");
     }
   });
-
+  //-------------------
   return tr;
 }
 
