@@ -517,21 +517,21 @@ function createTableRow(row) {
     const isImageLink = i === 12;     // Image Link
     const isDateAdded = i === 13;     // Date Added
     
-    if ((isBoughtDate || isDateAdded) && cell) {
-      const parsedDate = new Date(cell);
-    if (cell && !isNaN(parsedDate.getTime())) {
-      td.textContent = parsedDate.toISOString().split("T")[0];
-    } else {
-      td.textContent = ""; // Graceful fallback for bad/missing date
-      }
-    } else if (isFolderLink && cell.startsWith("http")) {
-      const link = document.createElement("a");
-      link.href = cell;
-      link.textContent = "[View Folder]";
-      link.target = "_blank";
-      link.title = cell;
-      td.appendChild(link);
-    } //else if (isImageLink && cell.includes(",")) {
+   // if ((isBoughtDate || isDateAdded) && cell) {
+    //  const parsedDate = new Date(cell);
+   // if (cell && !isNaN(parsedDate.getTime())) {
+    //  td.textContent = parsedDate.toISOString().split("T")[0];
+   // } else {
+    //  td.textContent = ""; // Graceful fallback for bad/missing date
+   //   }
+   // } else if (isFolderLink && cell.startsWith("http")) {
+   //   const link = document.createElement("a");
+   //   link.href = cell;
+   //   link.textContent = "[View Folder]";
+   //   link.target = "_blank";
+   //   link.title = cell;
+  //    td.appendChild(link);
+   // } else if (isImageLink && cell.includes(",")) {
       //td.textContent = "Multiple Images";
     //} else if (isImageLink && cell.startsWith("http")) {
       //const imageLink = document.createElement("a");
@@ -540,25 +540,48 @@ function createTableRow(row) {
       //imageLink.target = "_blank";
       //imageLink.title = cell;
       //td.appendChild(imageLink);
-    //} // 👇 Image Link column
-        else if (isImageLink) {
-          if (!cell || cell.trim() === "") {
-            td.textContent = "No Image";
-        } else if (cell.includes(",")) {
-            td.textContent = "Multiple Images";
-        } else if (cell.startsWith("http")) {
-            const imageLink = document.createElement("a");
-            imageLink.href = cell;
-            imageLink.textContent = "[View Image]";
-            imageLink.target = "_blank";
-            imageLink.title = cell;
-            td.appendChild(imageLink);
-        } else {
-            td.textContent = cell;
-        }
+    //}  else {
+        //    td.textContent = cell;
+       // }
+    
+   // tr.appendChild(td);
+// });
+    if ((isBoughtDate || isDateAdded) && cell) {
+      const parsedDate = new Date(cell);
+      if (!isNaN(parsedDate.getTime())) {
+        td.textContent = parsedDate.toISOString().split("T")[0];
+      } else {
+        td.textContent = "";
+      }
+    } else if (isFolderLink && cell.startsWith("http")) {
+      const link = document.createElement("a");
+      link.href = cell;
+      link.textContent = "[View Folder]";
+      link.target = "_blank";
+      link.title = cell;
+      td.appendChild(link);
+    } else if (isImageLink) {
+      if (!cell || cell.trim() === "") {
+        td.textContent = "No Image";
+      } else if (cell.includes(",")) {
+        td.textContent = "Multiple Images";
+      } else if (cell.startsWith("http")) {
+        const imageLink = document.createElement("a");
+        imageLink.href = cell;
+        imageLink.textContent = "[View Image]";
+        imageLink.target = "_blank";
+        imageLink.title = cell;
+        td.appendChild(imageLink);
+      } else {
+        td.textContent = cell;
+      }
+    } else {
+      td.textContent = cell ?? "";
     }
+
     tr.appendChild(td);
   });
+ 
   //----added for delete/edit row
   tr.setAttribute("data-watchid", row[0]);
 
