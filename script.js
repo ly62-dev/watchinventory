@@ -770,19 +770,21 @@ function renderImageGallery(records) {
   gallery.innerHTML = '<h3>🖼️ Images</h3>';
 
   records.slice(1).forEach(row => {
-    const rawURL = row[13]; // replace with correct column index
-    if (rawURL) {
-      const imageURL = convertDriveLink(rawURL);
-      const img = document.createElement("img");
-      img.src = imageURL;
-      img.alt = `Watch image`;
-      img.title = row[0];
-      gallery.appendChild(img);
+    const rawLinks = row[12]; // Column 12 = ImageLink
+    if (rawLinks) {
+      const links = rawLinks.split(',').map(link => link.trim()); // Handle multiple URLs
+      links.forEach(link => {
+        const imageURL = convertDriveLink(link);
+        const img = document.createElement("img");
+        img.src = imageURL;
+        img.alt = `Image for ${row[0]}`;
+        img.title = row[0];
+        gallery.appendChild(img);
+      });
     }
   });
 }
-
 function convertDriveLink(link) {
-  const match = link.match(/\/d\/(.+?)\//);
-  return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : link;
+  const match = link.match(/\/d\/([a-zA-Z0-9_-]+)\//);
+  return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : '';
 }
