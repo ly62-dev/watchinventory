@@ -501,6 +501,7 @@ function loadInventoryRecords() {
      // updateDashboardStats(data);
       try {
   updateDashboardStats(data);
+  console.log("OK updateDashboardStats");
 } catch (err) {
   console.error("updateDashboardStats failed:", err);
 }
@@ -511,6 +512,7 @@ function loadInventoryRecords() {
 
 try {
   applyTableFilters();
+  console.log("OK applyTableFilters");
 } catch (err) {
   console.error("applyTableFilters failed:", err);
 }
