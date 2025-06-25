@@ -783,12 +783,17 @@ function renderImageGallery(records) {
         console.log(`→ Converted Image URL:`, imageURL);
 
         const img = document.createElement("img");
-        img.src = imageURL;
-        img.alt = `Image for ${row[0]}`;
-        img.title = row[0];
+        img.src = "https://drive.usercontent.google.com/download?id=1CKK67YadRWI3J_PxHr_ppDla-gIsjYcW&export=view";
+        gallery.appendChild(img);
+
+        
+      //  const img = document.createElement("img");
+       // img.src = imageURL;
+        //img.alt = `Image for ${row[0]}`;
+        //img.title = row[0];
         img.onerror = () => console.warn(`❌ Failed to load image for ${row[0]}: ${imageURL}`);
         img.onload = () => console.info(`✅ Loaded image for ${row[0]}: ${imageURL}`);
-        gallery.appendChild(img);
+        //gallery.appendChild(img);
       });
     }
   });
