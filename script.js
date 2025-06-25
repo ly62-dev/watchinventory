@@ -416,116 +416,42 @@ document.addEventListener("DOMContentLoaded", function () {
     sortTableByColumn(13);
 });
 
-//function loadInventoryRecords() {
-  //fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec')
-    //.then(response => response.json())
-    //.then(data => {
-      //console.log("Fetched Data:", data);
-      //const tableContainer = document.getElementById("tableContainer");
-      //const tableBody = document.getElementById("inventoryTableBody");
-
-      //if (!data || data.length === 0) {
-        //tableContainer.style.display = "none";
-        //console.warn("No valid inventory data received.");
-        //return;
-      //} else {
-        //tableContainer.style.display = "block";
-      //}
-
-      //tableBody.textContent = "";
-
-      //data.forEach((row, index) => {
-        //if (index === 0) return;
-        //const tr = createTableRow(row);
-        //tableBody.appendChild(tr);
-      //});
-      
-      //updateDashboardStats(data);
-      //window.cachedWatchIDs = data.slice(1).map(row => row[0].trim());
-     // window.cachedRecords = data.slice(1); // Stores full rows for edit lookup
-
-      //applyTableFilters();
-      
-      //document.getElementById("loader").style.display = "none";
-      //document.getElementById("content").style.display = "block";
-    //})
-    //.catch(error => {
-     // console.error("Table Fetch Error:", error);
-    //  alert("Failed to load inventory records.");
-    //});
-//}
-
 function loadInventoryRecords() {
-  // 🔄 Show the table-specific loader at the start
-  const tableLoader = document.getElementById("tableLoader");
-  const tableContainer = document.getElementById("tableContainer");
-  const tableBody = document.getElementById("inventoryTableBody");
-
-  tableLoader.style.display = "block";         // ⏳ Show loading spinner
-  tableBody.textContent = "";                  // 🧼 Clear any existing table rows
-
-  // 🚀 Begin fetching inventory data from Apps Script Web App
   fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec')
     .then(response => response.json())
     .then(data => {
       console.log("Fetched Data:", data);
+      const tableContainer = document.getElementById("tableContainer");
+      const tableBody = document.getElementById("inventoryTableBody");
 
-      // 🧱 Check for valid response data
       if (!data || data.length === 0) {
-        tableContainer.style.display = "none";     // ⛔ Hide table if no data
+        tableContainer.style.display = "none";
         console.warn("No valid inventory data received.");
         return;
       } else {
-        tableContainer.style.display = "block";    // ✅ Ensure table is visible
+        tableContainer.style.display = "block";
       }
 
-      // 🧩 Populate table body with rows, skipping header
-     // data.forEach((row, index) => {
-       // if (index === 0) return;                   // 🔽 Skip header row (assumed index 0)
-       // const tr = createTableRow(row);            // 🏗️ Construct row from data
-      //  tableBody.appendChild(tr);                 // 🧷 Attach row to table
-    //  });
-        data.forEach((row, index) => {
-          if (index === 0) return;
-          console.log("Row length:", row.length);
+      tableBody.textContent = "";
 
-          try {
-            const tr = createTableRow(row);
-            document.getElementById("inventoryTableBody").appendChild(tr);
-          } catch (err) {
-            console.error("Row render failed:", row, err);
-          }
-        });
-
-      // 📊 Refresh dashboard stats and cache watch IDs
-     // updateDashboardStats(data);
-      try {
-  updateDashboardStats(data);
-  console.log("OK updateDashboardStats");
-} catch (err) {
-  console.error("updateDashboardStats failed:", err);
-}
-
-
+      data.forEach((row, index) => {
+        if (index === 0) return;
+        const tr = createTableRow(row);
+        tableBody.appendChild(tr);
+      });
+      
+      updateDashboardStats(data);
       window.cachedWatchIDs = data.slice(1).map(row => row[0].trim());
-      window.cachedRecords = data.slice(1);        // 🧠 Store for edit workflows
+      window.cachedRecords = data.slice(1); // Stores full rows for edit lookup
 
-try {
-  applyTableFilters();
-  console.log("OK applyTableFilters");
-} catch (err) {
-  console.error("applyTableFilters failed:", err);
-}
-      // 🧼 Re-apply filters in case they were active
-     // applyTableFilters();
+      applyTableFilters();
+      
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("content").style.display = "block";
     })
     .catch(error => {
-      console.error("Table Fetch Error:", error);  // 🐛 Log error if fetch fails
-      alert("Failed to load inventory records.");  // 🔔 Notify user
-    })
-    .finally(() => {
-      tableLoader.style.display = "none";          // ✅ Hide loader whether success or fail
-      console.log("FINALLY tableLoader")
+      console.error("Table Fetch Error:", error);
+      alert("Failed to load inventory records.");
     });
 }
 
