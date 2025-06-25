@@ -547,16 +547,16 @@ function createTableRow(row) {
         } else if (cell.includes(",")) {
             td.textContent = "Multiple Images";
         } else if (cell.startsWith("http")) {
-          const imageLink = document.createElement("a");
-          imageLink.href = cell;
-          imageLink.textContent = "[View Image]";
-          imageLink.target = "_blank";
-          imageLink.title = cell;
-          td.appendChild(imageLink);
+            const imageLink = document.createElement("a");
+            imageLink.href = cell;
+            imageLink.textContent = "[View Image]";
+            imageLink.target = "_blank";
+            imageLink.title = cell;
+            td.appendChild(imageLink);
         } else {
-      td.textContent = cell;
+            td.textContent = cell;
+        }
     }
-
     tr.appendChild(td);
   });
   //----added for delete/edit row
