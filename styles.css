@@ -185,7 +185,7 @@ tr:hover {
 
 .form-pane {
     /*flex: 2;*/
-    flex: 1.2;
+    flex: 1;
     min-width: 400px; 
 }
 
