@@ -185,8 +185,9 @@ tr:hover {
 
 .form-pane {
     /*flex: 2;*/
-    flex: 1;
-    min-width: 400px; 
+    flex: 0.9; /* 👈 Reduce width share further */
+    max-width: 500px; /* 👈 Optional: cap its size even on large screens */
+    min-width: 320px; /* ✅ Ensures it stays usable on smaller screens */
 }
 
 .stats-pane {
