@@ -37,6 +37,12 @@ function showTableLoader(show) {
 function renderDashboard() {
   loadInventoryRecords();
 }
+function extractDriveId(link) {
+  const dMatch = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  const idMatch = link.match(/id=([a-zA-Z0-9_-]+)/);
+  return dMatch ? dMatch[1] : idMatch ? idMatch[1] : '';
+}
+
 //------------------Add watch---------------------------------
 async function handleAddWatch(e) {
   e.preventDefault();
