@@ -781,6 +781,11 @@ function openTab(evt, tabId) {
   if (galleryContainer) {
     galleryContainer.innerHTML = ""; // Full reset of gallery content
   }
+  document.getElementById('editwatchID').value = ""; // 🧼 Clear watch ID input
+  const statDiv = document.getElementById('statDiv');
+  if (statDiv) statDiv.innerHTML = "";
+
+  document.getElementById('editForm').reset();
 
   // ✨ Ensure correct form visibility per tab
   if (tabId === "AddWatch") {
