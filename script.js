@@ -70,7 +70,7 @@ async function handleAddWatch(e) {
     imagesData.push(await readFile(file));
   }
   showTableLoader(true);
-  fetch('https://script.google.com/macros/s/AKfycbw2brNwmn2kxGGv5zSJqOjYPyvC2KkQLu-wpl6yZAOjDJ9VlepmEazcNontbWh2w6zV/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbwA86qd3z6XGytauK8-ImOIYHG27hOc75wDTMfM3zWkDmeqmn6HfhTqas8pPYRkXLiD/exec', {
     method: 'POST',
     mode: 'cors',
     redirect: "follow",
@@ -148,7 +148,7 @@ async function handleDeleteWatch(e) {
   }
   showTableLoader(true);
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbw2brNwmn2kxGGv5zSJqOjYPyvC2KkQLu-wpl6yZAOjDJ9VlepmEazcNontbWh2w6zV/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwA86qd3z6XGytauK8-ImOIYHG27hOc75wDTMfM3zWkDmeqmn6HfhTqas8pPYRkXLiD/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ action: 'delete', watchID })
@@ -281,7 +281,7 @@ async function handleEditSubmit(e) {
     editimagesData.push(await readFile(file));
   }
   showTableLoader(true);
-  fetch('https://script.google.com/macros/s/AKfycbw2brNwmn2kxGGv5zSJqOjYPyvC2KkQLu-wpl6yZAOjDJ9VlepmEazcNontbWh2w6zV/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbwA86qd3z6XGytauK8-ImOIYHG27hOc75wDTMfM3zWkDmeqmn6HfhTqas8pPYRkXLiD/exec', {
     method: 'POST',
     mode: 'cors',
     redirect: "follow",
@@ -445,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadInventoryRecords() {
-  fetch('https://script.google.com/macros/s/AKfycbw2brNwmn2kxGGv5zSJqOjYPyvC2KkQLu-wpl6yZAOjDJ9VlepmEazcNontbWh2w6zV/exec')
+  fetch('https://script.google.com/macros/s/AKfycbwA86qd3z6XGytauK8-ImOIYHG27hOc75wDTMfM3zWkDmeqmn6HfhTqas8pPYRkXLiD/exec')
     .then(response => response.json())
     .then(data => {
       console.log("Fetched Data:", data);
