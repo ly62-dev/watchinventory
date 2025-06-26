@@ -539,7 +539,12 @@ function createTableRow(row) {
       editInput.dispatchEvent(new Event("input"));
       // Auto-trigger the edit flow
       handleEditWatch(watchID);
-      renderImageGalleryForRecord(record);
+       const record = records.find(row => row[0] === watchID); // ⬅️ This line finds the exact row
+        if (record) {
+          renderImageGalleryForRecord(record);
+        } else {
+          console.warn("⚠️ Record not found for Watch ID:", watchID);
+        }
       // 🔄 Toggle form visibility
       document.getElementById("addFormWrapper").style.display = "none";
       document.getElementById("editFormWrapper").style.display = "block";
