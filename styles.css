@@ -184,7 +184,9 @@ tr:hover {
 }
 
 .form-pane {
-    flex: 2;
+    /*flex: 2;*/
+    flex: 1.2;
+    min-width: 400px; 
 }
 
 .stats-pane {
