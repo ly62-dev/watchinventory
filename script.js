@@ -534,29 +534,12 @@ function createTableRow(row) {
 
     if (activeTab.includes("Edit")) {
     // ➕ Fill Edit field and keep you in Edit tab
-      // 🖼️ Load images related to the selected record
-        const galleryContainer = document.getElementById("imageGallery");
-          if (galleryContainer) {
-            galleryContainer.innerHTML = ""; // Clear current gallery just to be safe
-
-       // Assuming you have a way to get the image URLs for this watchID
-        const selectedRecord = getWatchRecordById(watchID); // Your own utility function
-           if (selectedRecord && selectedRecord.imageIds) {
-            selectedRecord.imageIds.forEach(id => {
-            const img = document.createElement("img");
-            img.src = `/images/${id}.jpg`;  // Update this path based on your actual file structure
-            img.alt = `Image ${id}`;
-            img.classList.add("gallery-image"); // Optional class for styling
-            galleryContainer.appendChild(img);
-            });
-          }
-        }
-
       const editInput = document.getElementById("editWatchID");
       editInput.value = watchID;
       editInput.dispatchEvent(new Event("input"));
       // Auto-trigger the edit flow
       handleEditWatch(watchID);
+      renderImageGalleryForRecord(record);
       // 🔄 Toggle form visibility
       document.getElementById("addFormWrapper").style.display = "none";
       document.getElementById("editFormWrapper").style.display = "block";
@@ -805,55 +788,38 @@ function openTab(evt, tabId) {
   }
 }
 
-function renderImageGallery(records) {
+function renderImageGalleryForRecord(record) {
   const gallery = document.getElementById("imageGallery");
-  gallery.innerHTML = '<h3>🖼️ Images</h3>';
+  gallery.innerHTML = "<h3>🖼️ Images</h3>"; // Reset header
 
-  records.slice(1).forEach(row => {
-    const rawLinks = row[12];
-    if (rawLinks) {
-      const links = rawLinks
-        .split(',')
-        .map(link => link.trim().replace(/^"|"$/g, '')); // Strip quotes
+  if (!record || !record[12]) {
+    console.warn("⛔ No record selected or no image links found.");
+    return;
+  }
 
-      links.forEach(link => {
-        const fileId = extractDriveId(link);
-        if (fileId) {
-          const wrapper = document.createElement("div");
-          wrapper.style.margin = "10px";
-          wrapper.style.display = "inline-block";
-          wrapper.style.textAlign = "center";
+  const rawLinks = record[12];
 
-          const iframe = document.createElement("iframe");
-          iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
-          iframe.width = "300";
-          iframe.height = "200";
-          iframe.style.border = "1px solid #ccc";
-          iframe.loading = "lazy";
-          iframe.allowFullscreen = true;
+  const links = rawLinks
+    .split(',')
+    .map(link => link.trim().replace(/^"|"$/g, ''));
 
-          const viewLink = document.createElement("a");
-          viewLink.href = `https://drive.google.com/file/d/${fileId}/view`;
-          viewLink.target = "_blank";
-          viewLink.textContent = "View Fullscreen";
+  links.forEach(link => {
+    const fileId = extractDriveId(link);
+    if (fileId) {
+      const img = document.createElement("img");
+      img.src = `https://drive.google.com/thumbnail?id=${fileId}`;
+      img.alt = `Thumbnail ${fileId}`;
+      img.style.width = "120px";
+      img.style.margin = "5px";
+      img.style.borderRadius = "4px";
+      img.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+      img.loading = "lazy";
 
-          wrapper.appendChild(iframe);
-          wrapper.appendChild(document.createElement("br"));
-          wrapper.appendChild(viewLink);
-
-          gallery.appendChild(wrapper);
-        } else {
-          console.warn("❗ Could not extract file ID from:", link);
-        }
-      });
+      gallery.appendChild(img);
+    } else {
+      console.warn("❗ Could not extract file ID from:", link);
     }
   });
-}
-
-function extractDriveId(link) {
-  const dMatch = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  const idMatch = link.match(/id=([a-zA-Z0-9_-]+)/);
-  return dMatch ? dMatch[1] : idMatch ? idMatch[1] : '';
 }
 
 
