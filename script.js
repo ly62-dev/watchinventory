@@ -534,6 +534,24 @@ function createTableRow(row) {
 
     if (activeTab.includes("Edit")) {
     // ➕ Fill Edit field and keep you in Edit tab
+      // 🖼️ Load images related to the selected record
+        const galleryContainer = document.getElementById("imageGallery");
+          if (galleryContainer) {
+            galleryContainer.innerHTML = ""; // Clear current gallery just to be safe
+
+       // Assuming you have a way to get the image URLs for this watchID
+        const selectedRecord = getWatchRecordById(watchID); // Your own utility function
+           if (selectedRecord && selectedRecord.imageIds) {
+            selectedRecord.imageIds.forEach(id => {
+            const img = document.createElement("img");
+            img.src = `/images/${id}.jpg`;  // Update this path based on your actual file structure
+            img.alt = `Image ${id}`;
+            img.classList.add("gallery-image"); // Optional class for styling
+            galleryContainer.appendChild(img);
+            });
+          }
+        }
+
       const editInput = document.getElementById("editWatchID");
       editInput.value = watchID;
       editInput.dispatchEvent(new Event("input"));
@@ -767,6 +785,12 @@ function openTab(evt, tabId) {
 
   // Mark this tab as active
   evt.currentTarget.classList.add("active");
+
+  // ✨ Clear the image gallery immediately on tab change
+  const galleryContainer = document.getElementById("imageGallery");
+  if (galleryContainer) {
+    galleryContainer.innerHTML = ""; // Full reset of gallery content
+  }
 
   // ✨ Ensure correct form visibility per tab
   if (tabId === "AddWatch") {
