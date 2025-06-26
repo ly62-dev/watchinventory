@@ -469,7 +469,7 @@ function loadInventoryRecords() {
       });
       
       updateDashboardStats(data);
-      renderImageGallery(data);
+      //renderImageGallery(data);
       window.cachedWatchIDs = data.slice(1).map(row => row[0].trim());
       window.cachedRecords = data.slice(1); // Stores full rows for edit lookup
 
