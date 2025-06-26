@@ -70,7 +70,7 @@ async function handleAddWatch(e) {
     imagesData.push(await readFile(file));
   }
   showTableLoader(true);
-  fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbw2brNwmn2kxGGv5zSJqOjYPyvC2KkQLu-wpl6yZAOjDJ9VlepmEazcNontbWh2w6zV/exec', {
     method: 'POST',
     mode: 'cors',
     redirect: "follow",
@@ -84,6 +84,22 @@ async function handleAddWatch(e) {
     .then(response => response.json())
     .then(data => {
       console.log("Watch added successfully!", data);
+
+       // 🔽 Inject images into the gallery
+      const gallery = document.getElementById('imageGallery');
+      gallery.innerHTML = "<h3>🖼️ Images</h3>"; // Reset header
+
+      data.imageUrls.forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = "Uploaded watch image";
+      img.style.width = "120px";
+      img.style.margin = "5px";
+      img.style.borderRadius = "4px";
+      img.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+      gallery.appendChild(img);
+      });
+      
       document.getElementById('addForm').reset();
       document.getElementById('watchID').value = "";
       updateWatchID(); // This should be globally accessible
@@ -132,7 +148,7 @@ async function handleDeleteWatch(e) {
   }
   showTableLoader(true);
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbw2brNwmn2kxGGv5zSJqOjYPyvC2KkQLu-wpl6yZAOjDJ9VlepmEazcNontbWh2w6zV/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ action: 'delete', watchID })
@@ -265,7 +281,7 @@ async function handleEditSubmit(e) {
     editimagesData.push(await readFile(file));
   }
   showTableLoader(true);
-  fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbw2brNwmn2kxGGv5zSJqOjYPyvC2KkQLu-wpl6yZAOjDJ9VlepmEazcNontbWh2w6zV/exec', {
     method: 'POST',
     mode: 'cors',
     redirect: "follow",
@@ -429,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadInventoryRecords() {
-  fetch('https://script.google.com/macros/s/AKfycbxM12W0SovQrohJ3eylgj3U3iMutxzSXuj6bMz7EZzpFr5cFdhbMowESe1tWDEPGFE/exec')
+  fetch('https://script.google.com/macros/s/AKfycbw2brNwmn2kxGGv5zSJqOjYPyvC2KkQLu-wpl6yZAOjDJ9VlepmEazcNontbWh2w6zV/exec')
     .then(response => response.json())
     .then(data => {
       console.log("Fetched Data:", data);
